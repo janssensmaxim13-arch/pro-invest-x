@@ -117,3 +117,4 @@ else:
 
 
     st.markdown("<br><hr><center>© 2025 PRO INVEST X | ACCESS GRANTED</center>", unsafe_allow_html=True)
+
