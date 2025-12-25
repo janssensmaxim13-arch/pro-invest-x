@@ -115,4 +115,5 @@ else:
         st.warning("Secure Health Environment Access")
         st.write("Regional Hospital Status: **Optimal**")
 
-    st.markdown("<br><hr><center>© 2025 PRO INVEST X | ACCESS GRANTED</center>", unsafe_allow_html=True)s
+
+    st.markdown("<br><hr><center>© 2025 PRO INVEST X | ACCESS GRANTED</center>", unsafe_allow_html=True)
