@@ -1,4 +1,2 @@
 streamlit
 pandas
-qrcode[pil]
-python-dotenv
