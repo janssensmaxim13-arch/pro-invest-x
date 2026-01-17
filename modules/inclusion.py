@@ -393,17 +393,15 @@ def render_women_hubs(username: str):
     df_hubs = get_data("women_hubs")
     
     if not df_hubs.empty:
-        # Metrics
+        # Metrics - gebruik bestaande kolommen
         total_hubs = len(df_hubs)
-        active_hubs = len(df_hubs[df_hubs['status'] == 'ACTIVE'])
-        total_players = df_hubs['total_players'].sum()
-        total_teams = df_hubs['teams_count'].sum()
+        active_hubs = len(df_hubs[df_hubs['status'] == 'ACTIVE']) if 'status' in df_hubs.columns else total_hubs
+        total_members = df_hubs['member_count'].sum() if 'member_count' in df_hubs.columns else 0
         
         metric_row([
             (" Totaal Hubs", total_hubs),
             (" Actief", active_hubs),
-            (" Speelsters", int(total_players)),
-            (" Teams", int(total_teams)),
+            (" Leden", int(total_members)),
         ])
         
         st.markdown("<br>", unsafe_allow_html=True)
@@ -417,64 +415,41 @@ def render_women_hubs(username: str):
             col = col1 if i % 2 == 0 else col2
             
             with col:
-                status_emoji = "" if hub['status'] == 'ACTIVE' else ""
+                status_val = hub.get('status', 'ACTIVE')
+                status_emoji = "" if status_val == 'ACTIVE' else ""
                 
-                with st.expander(f"{status_emoji} {hub['name']}"):
-                    st.write(f"**Regio:** {hub['region']}")
-                    st.write(f"**Stad:** {hub['city']}")
-                    st.write(f"**Speelsters:** {hub['total_players']}")
-                    st.write(f"**Teams:** {hub['teams_count']}")
-                    
-                    # Faciliteiten
-                    facilities = []
-                    if hub.get('has_accommodation'): facilities.append(" Accommodatie")
-                    if hub.get('has_medical'): facilities.append(" Medisch")
-                    if hub.get('has_education'): facilities.append(" Onderwijs")
-                    
-                    if facilities:
-                        st.write(f"**Faciliteiten:** {', '.join(facilities)}")
-                    
-                    # Update knop
-                    if check_permission(["SuperAdmin", "Academy Admin"], silent=True):
-                        if st.button(f" Bewerk", key=f"edit_hub_{hub['hub_id']}"):
-                            st.session_state['edit_hub'] = hub['hub_id']
+                with st.expander(f"{status_emoji} {hub.get('name', 'Hub')}"):
+                    st.write(f"**Regio:** {hub.get('region', '-')}")
+                    st.write(f"**Stad:** {hub.get('city', '-')}")
+                    st.write(f"**Leden:** {hub.get('member_count', 0)}")
         
-        # Edit hub form
-        if 'edit_hub' in st.session_state:
+        # Simpele actie knoppen voor admins
+        if check_permission(["SuperAdmin", "Academy Admin"], silent=True):
             st.markdown("---")
-            st.write("###  Hub Bewerken")
+            st.write("###  Hub Beheer")
             
-            hub_id = st.session_state['edit_hub']
-            hub_data = df_hubs[df_hubs['hub_id'] == hub_id].iloc[0]
-            
-            with st.form("edit_hub_form"):
-                col1, col2 = st.columns(2)
-                
+            with st.form("add_hub_form"):
+                col1, col2, col3 = st.columns(3)
                 with col1:
-                    capacity = st.number_input("Capaciteit", value=int(hub_data['capacity'] or 0))
-                    has_accommodation = st.checkbox("Heeft accommodatie", value=bool(hub_data['has_accommodation']))
-                    has_medical = st.checkbox("Heeft medische faciliteit", value=bool(hub_data['has_medical']))
-                    has_education = st.checkbox("Heeft onderwijs", value=bool(hub_data['has_education']))
-                
+                    new_name = st.text_input("Naam *")
                 with col2:
-                    director = st.text_input("Directeur", value=hub_data['director_name'] or "")
-                    email = st.text_input("Email", value=hub_data['email'] or "")
-                    phone = st.text_input("Telefoon", value=hub_data['phone'] or "")
+                    new_region = st.text_input("Regio")
+                with col3:
+                    new_city = st.text_input("Stad")
                 
-                if st.form_submit_button(" Opslaan"):
-                    run_query("""
-                        UPDATE women_hubs SET
-                            capacity = ?, has_accommodation = ?, has_medical = ?, has_education = ?,
-                            director_name = ?, email = ?, phone = ?
-                        WHERE hub_id = ?
-                    """, (capacity, int(has_accommodation), int(has_medical), int(has_education),
-                          director, email, phone, hub_id))
-                    
-                    st.success(" Hub bijgewerkt!")
-                    del st.session_state['edit_hub']
-                    st.rerun()
+                if st.form_submit_button(" Nieuwe Hub"):
+                    if new_name:
+                        from utils.helpers import generate_uuid
+                        run_query("""
+                            INSERT INTO women_hubs (hub_id, name, region, city, member_count, status, created_at)
+                            VALUES (?, ?, ?, ?, 0, 'ACTIVE', ?)
+                        """, (generate_uuid("WH"), new_name, new_region, new_city, datetime.now().isoformat()))
+                        st.success(f" Hub '{new_name}' aangemaakt!")
+                        st.rerun()
+                    else:
+                        st.error("Naam is verplicht")
     else:
-        st.warning("Geen hubs gevonden. Database wordt geïnitialiseerd...")
+        st.info("Geen hubs gevonden.")
 
 
 # ============================================================================

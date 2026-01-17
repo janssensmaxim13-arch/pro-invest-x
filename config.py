@@ -167,6 +167,9 @@ class Options:
     
     URGENCY_LEVELS = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
     
+    # === AGE GROUPS (for academy.py) ===
+    AGE_GROUPS = ["U13", "U14", "U15", "U16", "U17", "U18", "U19", "U21", "U23", "Senior"]
+    
     # === POSITIONS ===
     POSITIONS = [
         "Goalkeeper", "Right-Back", "Centre-Back", "Left-Back",

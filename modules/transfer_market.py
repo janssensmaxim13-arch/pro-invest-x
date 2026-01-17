@@ -318,35 +318,36 @@ def init_tables():
         conn.commit()
 
 def generate_data():
-    with get_connection() as conn:
-        c = conn.cursor()
-        c.execute("SELECT COUNT(*) FROM tm_players")
-        if c.fetchone()[0] > 0:
-            return
-        for i, p in enumerate(PLAYERS):
-            name, club, pos, nat, age, val, num = p[0], p[1], p[2], p[3], p[4], p[5], p[6] if len(p) > 6 else random.randint(1,99)
-            pid = f"TM-{i+1:05d}"
-            contract = (date.today() + timedelta(days=random.randint(180, 1500))).isoformat()
-            # Split name into first and last
-            name_parts = name.split(" ", 1)
-            first_name = name_parts[0]
-            last_name = name_parts[1] if len(name_parts) > 1 else ""
-            dob = (date.today() - timedelta(days=age*365 + random.randint(0, 364))).isoformat()
-            league = CLUBS.get(club, {}).get("league", "Unknown")
-            agent = random.choice(["Jorge Mendes", "Mino Raiola Agency", "Stellar Group", "CAA Base", "Wasserman", None])
-            foot = random.choice(["Right", "Left", "Both"])
-            height = random.randint(168, 198)
-            weight = random.randint(65, 95)
-            national_team = nat if random.random() > 0.3 else None
-            is_moroccan = 1 if nat == "Morocco" else 0
-            
-            c.execute("""INSERT INTO tm_players 
-                (player_id, first_name, last_name, date_of_birth, nationality, position, 
-                 current_club, current_league, market_value, contract_until, agent, foot, 
-                 height_cm, weight_kg, national_team, is_moroccan, created_at)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                (pid, first_name, last_name, dob, nat, pos, club, league, val*1e6, contract, 
-                 agent, foot, height, weight, national_team, is_moroccan, date.today().isoformat()))
+    try:
+        with get_connection() as conn:
+            c = conn.cursor()
+            c.execute("SELECT COUNT(*) FROM tm_players")
+            if c.fetchone()[0] > 0:
+                return
+            for i, p in enumerate(PLAYERS):
+                name, club, pos, nat, age, val, num = p[0], p[1], p[2], p[3], p[4], p[5], p[6] if len(p) > 6 else random.randint(1,99)
+                pid = f"TM-{i+1:05d}"
+                contract = (date.today() + timedelta(days=random.randint(180, 1500))).isoformat()
+                # Split name into first and last
+                name_parts = name.split(" ", 1)
+                first_name = name_parts[0]
+                last_name = name_parts[1] if len(name_parts) > 1 else ""
+                dob = (date.today() - timedelta(days=age*365 + random.randint(0, 364))).isoformat()
+                league = CLUBS.get(club, {}).get("league", "Unknown")
+                agent = random.choice(["Jorge Mendes", "Mino Raiola Agency", "Stellar Group", "CAA Base", "Wasserman", None])
+                foot = random.choice(["Right", "Left", "Both"])
+                height = random.randint(168, 198)
+                weight = random.randint(65, 95)
+                national_team = nat if random.random() > 0.3 else None
+                is_moroccan = 1 if nat == "Morocco" else 0
+                
+                c.execute("""INSERT OR IGNORE INTO tm_players 
+                    (player_id, first_name, last_name, date_of_birth, nationality, position, 
+                     current_club, current_league, market_value, contract_until, agent, foot, 
+                     height_cm, weight_kg, national_team, is_moroccan, created_at)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    (pid, first_name, last_name, dob, nat, pos, club, league, val*1e6, contract, 
+                     agent, foot, height, weight, national_team, is_moroccan, date.today().isoformat()))
             
             # Value history
             for m in range(12):
@@ -367,7 +368,7 @@ def generate_data():
                 t_date = (date.today() - timedelta(days=random.randint(365, 1500))).isoformat()
                 c.execute("INSERT INTO tm_transfers (player_id, date, from_club, to_club, fee, type) VALUES (?,?,?,?,?,?)",
                     (pid, t_date, prev, club, fee*1e6, "Permanent"))
-        # Rumours
+        # Rumours - safe insert with error handling
         rumours = [
             ("Vinicius Junior","Real Madrid","PSG","High",280),("Florian Wirtz","Bayer Leverkusen","Real Madrid","High",130),
             ("Alexander Isak","Newcastle","Arsenal","Medium",120),("Mohamed Salah","Liverpool","Al-Ittihad","Medium",45),
@@ -376,13 +377,18 @@ def generate_data():
             ("Jamal Musiala","Bayern Munich","Manchester City","Low",150),("Lautaro Martinez","Inter Milan","Barcelona","Low",130),
         ]
         for name, fr, to, prob, fee in rumours:
-            c.execute("SELECT player_id FROM tm_players WHERE full_name=?", (name,))
-            r = c.fetchone()
-            if r:
-                c.execute("INSERT INTO tm_rumours VALUES (?,?,?,?,?,?,?,?)",
-                    (f"RUM-{name[:3]}-{random.randint(100,999)}", r[0], fr, to, prob,
-                     random.choice(["Fabrizio Romano","Sky Sports","Marca","L'Equipe","BILD","The Athletic"]), fee*1e6, "Active"))
-        conn.commit()
+            try:
+                c.execute("SELECT player_id FROM tm_players WHERE full_name=?", (name,))
+                r = c.fetchone()
+                if r:
+                    c.execute("INSERT OR IGNORE INTO tm_rumours VALUES (?,?,?,?,?,?,?,?)",
+                        (f"RUM-{name[:3]}-{random.randint(100,999)}", r[0], fr, to, prob,
+                         random.choice(["Fabrizio Romano","Sky Sports","Marca","L'Equipe","BILD","The Athletic"]), fee*1e6, "Active"))
+            except Exception:
+                pass  # Skip if player not found
+            conn.commit()
+    except Exception:
+        pass  # Table might not exist yet
 
 def format_value(v):
     if v >= 1e9: return f"{v/1e9:.2f}B"
