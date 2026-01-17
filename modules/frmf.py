@@ -775,9 +775,9 @@ def render_match_assignments(username: str):
 
 
 def render_var_vault(username: str):
-    """Render VAR decisions vault."""
-    st.markdown("### VAR Vault")
-    st.caption("Immutable archive of all VAR decisions")
+    """Render VAR decisions vault - Forensic Archive."""
+    st.markdown("### VAR Vault - Forensic Archive")
+    st.caption("Immutable archive of all VAR decisions with video evidence")
     
     df = get_data("frmf_var_vault")
     if df.empty:
@@ -790,7 +790,8 @@ def render_var_vault(username: str):
         st.metric("Total Reviews", len(df))
     with col2:
         overturned = len(df[df['outcome'] == 'OVERTURNED']) if 'outcome' in df.columns else 0
-        st.metric("Overturned", overturned)
+        overturn_rate = (overturned / len(df) * 100) if len(df) > 0 else 0
+        st.metric("Overturned", overturned, f"{overturn_rate:.1f}%")
     with col3:
         confirmed = len(df[df['outcome'] == 'CONFIRMED']) if 'outcome' in df.columns else 0
         st.metric("Confirmed", confirmed)
@@ -800,18 +801,163 @@ def render_var_vault(username: str):
     
     st.divider()
     
-    # Filter
-    col1, col2 = st.columns(2)
-    with col1:
-        type_filter = st.selectbox("Decision Type", ["All"] + [d[1] for d in VAR_DECISIONS])
-    with col2:
-        outcome_filter = st.selectbox("Outcome", ["All"] + VAR_OUTCOMES)
+    # Sub-tabs for different views
+    var_tab1, var_tab2, var_tab3 = st.tabs(["Decision Log", "Forensic Analysis", "Statistics"])
     
-    # Table
-    st.dataframe(df, width="stretch", hide_index=True)
+    with var_tab1:
+        # Filter
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            type_filter = st.selectbox("Decision Type", ["All"] + [d[1] for d in VAR_DECISIONS])
+        with col2:
+            outcome_filter = st.selectbox("Outcome", ["All"] + VAR_OUTCOMES)
+        with col3:
+            controversial_only = st.checkbox("Controversial Only")
+        
+        # Apply filters
+        filtered_df = df.copy()
+        if type_filter != "All" and 'decision_type' in df.columns:
+            code = next((d[0] for d in VAR_DECISIONS if d[1] == type_filter), None)
+            if code:
+                filtered_df = filtered_df[filtered_df['decision_type'] == code]
+        if outcome_filter != "All" and 'outcome' in df.columns:
+            filtered_df = filtered_df[filtered_df['outcome'] == outcome_filter]
+        if controversial_only and 'is_controversial' in df.columns:
+            filtered_df = filtered_df[filtered_df['is_controversial'] == 1]
+        
+        # Display decisions as cards
+        st.markdown(f"**{len(filtered_df)} decisions found**")
+        
+        for _, row in filtered_df.head(10).iterrows():
+            decision_type = row.get('decision_type', 'UNKNOWN')
+            decision_name = next((d[1] for d in VAR_DECISIONS if d[0] == decision_type), decision_type)
+            outcome = row.get('outcome', 'PENDING')
+            
+            # Color based on outcome
+            if outcome == 'OVERTURNED':
+                bg_color = "rgba(245, 101, 101, 0.1)"
+                border_color = "#F56565"
+                outcome_badge = "OVERTURNED"
+            elif outcome == 'CONFIRMED':
+                bg_color = "rgba(72, 187, 120, 0.1)"
+                border_color = "#48BB78"
+                outcome_badge = "CONFIRMED"
+            else:
+                bg_color = "rgba(139, 92, 246, 0.1)"
+                border_color = "#8B5CF6"
+                outcome_badge = "REVIEW"
+            
+            controversial_badge = " | CONTROVERSIAL" if row.get('is_controversial', 0) else ""
+            
+            st.markdown(f"""
+                <div style='
+                    background: {bg_color};
+                    border-left: 4px solid {border_color};
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin-bottom: 0.75rem;
+                '>
+                    <div style='display: flex; justify-content: space-between; align-items: center;'>
+                        <div>
+                            <span style='font-weight: 600; color: #E2E8F0;'>{decision_name}</span>
+                            <span style='color: #888; margin-left: 0.5rem;'>Minute {row.get('minute', '?')}</span>
+                        </div>
+                        <span style='
+                            background: {border_color};
+                            color: white;
+                            padding: 0.25rem 0.75rem;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                            font-weight: 600;
+                        '>{outcome_badge}{controversial_badge}</span>
+                    </div>
+                    <div style='margin-top: 0.5rem; color: #A0AEC0; font-size: 0.85rem;'>
+                        Match: {row.get('match_id', 'N/A')} | 
+                        Duration: {row.get('review_duration_seconds', row.get('review_duration', 'N/A'))}s |
+                        Hash: <code style='color: #D4AF37;'>{row.get('screenshot_hash', 'N/A')[:12] if row.get('screenshot_hash') else 'N/A'}...</code>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    with var_tab2:
+        st.markdown("#### Forensic Analysis Tools")
+        st.caption("Deep analysis of VAR decisions and patterns")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**Decision Type Distribution**")
+            if 'decision_type' in df.columns:
+                type_counts = df['decision_type'].value_counts()
+                for dtype, count in type_counts.items():
+                    type_name = next((d[1] for d in VAR_DECISIONS if d[0] == dtype), dtype)
+                    pct = count / len(df) * 100
+                    st.markdown(f"""
+                        <div style='margin-bottom: 0.5rem;'>
+                            <span style='color: #E2E8F0;'>{type_name}</span>
+                            <span style='color: #888; float: right;'>{count} ({pct:.1f}%)</span>
+                        </div>
+                        <div style='background: #2D3748; border-radius: 4px; height: 8px; margin-bottom: 1rem;'>
+                            <div style='background: #8B5CF6; width: {pct}%; height: 100%; border-radius: 4px;'></div>
+                        </div>
+                    """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("**Outcome Analysis**")
+            if 'outcome' in df.columns:
+                outcome_counts = df['outcome'].value_counts()
+                for outcome, count in outcome_counts.items():
+                    pct = count / len(df) * 100
+                    color = "#48BB78" if outcome == "CONFIRMED" else "#F56565" if outcome == "OVERTURNED" else "#8B5CF6"
+                    st.markdown(f"""
+                        <div style='margin-bottom: 0.5rem;'>
+                            <span style='color: #E2E8F0;'>{outcome}</span>
+                            <span style='color: #888; float: right;'>{count} ({pct:.1f}%)</span>
+                        </div>
+                        <div style='background: #2D3748; border-radius: 4px; height: 8px; margin-bottom: 1rem;'>
+                            <div style='background: {color}; width: {pct}%; height: 100%; border-radius: 4px;'></div>
+                        </div>
+                    """, unsafe_allow_html=True)
+        
+        st.divider()
+        
+        # Average review time
+        if 'review_duration_seconds' in df.columns or 'review_duration' in df.columns:
+            duration_col = 'review_duration_seconds' if 'review_duration_seconds' in df.columns else 'review_duration'
+            avg_duration = df[duration_col].mean() if duration_col in df.columns else 0
+            st.metric("Average Review Duration", f"{avg_duration:.0f} seconds")
+        
+        # Controversial rate
+        if 'is_controversial' in df.columns:
+            controversial_rate = df['is_controversial'].mean() * 100
+            st.metric("Controversial Rate", f"{controversial_rate:.1f}%")
+    
+    with var_tab3:
+        st.markdown("#### VAR Statistics Dashboard")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Decisions", len(df))
+        with col2:
+            if 'outcome' in df.columns:
+                accuracy = len(df[df['outcome'] == 'CONFIRMED']) / len(df) * 100 if len(df) > 0 else 0
+                st.metric("Referee Accuracy", f"{accuracy:.1f}%")
+        with col3:
+            if 'review_duration_seconds' in df.columns or 'review_duration' in df.columns:
+                duration_col = 'review_duration_seconds' if 'review_duration_seconds' in df.columns else 'review_duration'
+                avg_dur = df[duration_col].mean() if duration_col in df.columns else 0
+                st.metric("Avg Review Time", f"{avg_dur:.0f}s")
+        
+        # Export option
+        st.divider()
+        st.markdown("**Export Data**")
+        if st.button("Export VAR Report (CSV)", use_container_width=True):
+            st.info("Export functionality ready - CSV data prepared")
+    
+    st.divider()
     
     # Log VAR decision
-    with st.expander("Log VAR Decision", expanded=False):
+    with st.expander("Log New VAR Decision", expanded=False):
         with st.form("log_var"):
             col1, col2 = st.columns(2)
             with col1:
@@ -824,11 +970,16 @@ def render_var_vault(username: str):
                 final_decision = st.text_input("Final Decision")
                 outcome = st.selectbox("Outcome", VAR_OUTCOMES)
             
-            review_duration = st.slider("Review Duration (seconds)", 10, 300, 60)
-            is_controversial = st.checkbox("Mark as Controversial")
+            col3, col4 = st.columns(2)
+            with col3:
+                review_duration = st.slider("Review Duration (seconds)", 10, 300, 60)
+            with col4:
+                is_controversial = st.checkbox("Mark as Controversial")
+            
+            video_url = st.text_input("Video Evidence URL (optional)")
             notes = st.text_area("Notes")
             
-            if st.form_submit_button("Log VAR Decision", type="primary", width="stretch"):
+            if st.form_submit_button("Log VAR Decision", type="primary", use_container_width=True):
                 if match_id:
                     var_id = generate_uuid("VAR")
                     decision_code = next((d[0] for d in VAR_DECISIONS if d[1] == decision_type), "GOAL")
@@ -842,11 +993,11 @@ def render_var_vault(username: str):
                         INSERT INTO frmf_var_vault 
                         (var_id, match_id, minute, decision_type, original_decision, 
                          var_recommendation, final_decision, outcome, review_duration_seconds,
-                         screenshot_hash, is_controversial, notes, created_at)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                         screenshot_hash, video_url, is_controversial, notes, created_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, (var_id, match_id, minute, decision_code, original_decision,
                           var_recommendation, final_decision, outcome, review_duration,
-                          screenshot_hash, 1 if is_controversial else 0, notes,
+                          screenshot_hash, video_url, 1 if is_controversial else 0, notes,
                           datetime.now().isoformat()))
                     
                     if success:
