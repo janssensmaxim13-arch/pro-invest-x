@@ -205,31 +205,31 @@ def render_wk_countdown_mini():
     
     st.markdown(f"""
         <div style='
-            background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
-            border: 1px solid #DDD6FE;
+            background: linear-gradient(135deg, #C4B5FD 0%, #DDD6FE 100%);
+            border: 1px solid #A78BFA;
             border-radius: 12px;
             padding: 0.75rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.15);
         '>
             <div style='display: flex; align-items: center; gap: 1rem;'>
                 <span style='font-size: 1.5rem;'></span>
-                <span style='color: #1F2937; font-weight: 600;'>WK 2030 Morocco</span>
+                <span style='color: #4C1D95; font-weight: 600;'>WK 2030 Morocco</span>
             </div>
             <div style='display: flex; gap: 2rem;'>
                 <div style='text-align: center;'>
-                    <div style='color: #1F2937; font-size: 1.5rem; font-weight: 700;'>{days_left:,}</div>
-                    <div style='color: #4B5563; font-size: 0.75rem;'>DAGEN</div>
+                    <div style='color: #4C1D95; font-size: 1.5rem; font-weight: 700;'>{days_left:,}</div>
+                    <div style='color: #6D28D9; font-size: 0.75rem;'>DAGEN</div>
                 </div>
                 <div style='text-align: center;'>
-                    <div style='color: #1F2937; font-size: 1.5rem; font-weight: 700;'>{delta.days // 365}</div>
-                    <div style='color: #4B5563; font-size: 0.75rem;'>JAAR</div>
+                    <div style='color: #4C1D95; font-size: 1.5rem; font-weight: 700;'>{delta.days // 365}</div>
+                    <div style='color: #6D28D9; font-size: 0.75rem;'>JAAR</div>
                 </div>
                 <div style='text-align: center;'>
-                    <div style='color: #1F2937; font-size: 1.5rem; font-weight: 700;'>{(delta.days % 365) // 30}</div>
-                    <div style='color: #4B5563; font-size: 0.75rem;'>MAANDEN</div>
+                    <div style='color: #4C1D95; font-size: 1.5rem; font-weight: 700;'>{(delta.days % 365) // 30}</div>
+                    <div style='color: #6D28D9; font-size: 0.75rem;'>MAANDEN</div>
                 </div>
             </div>
         </div>
