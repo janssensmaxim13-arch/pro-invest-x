@@ -74,10 +74,11 @@ GRADIENTS = {
 # CSS INJECTION
 # =============================================================================
 
-def apply_custom_css():
+def apply_custom_css(dark_mode=False):
     """Apply Soft Pastel Purple theme CSS - matches FanDorpen style"""
     import streamlit as st
     
+    # Note: dark_mode parameter reserved for future use
     st.markdown("""
     <style>
         /* ===========================================
