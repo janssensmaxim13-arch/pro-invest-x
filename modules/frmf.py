@@ -1,6 +1,6 @@
 # ============================================================================
 # FRMF MODULE - Federation Royale Marocaine de Football
-# RefereeChain + VAR Vault + Match Officials
+# RefereeChain + VAR Vault + Match Officials + Player Profiles
 # ============================================================================
 
 import streamlit as st
@@ -46,6 +46,93 @@ VAR_DECISIONS = [
     ("RED_CARD", "Red Card Decision"),
     ("MISTAKEN_IDENTITY", "Mistaken Identity"),
     ("OFFSIDE", "Offside Check")
+]
+
+# Player Profiles Constants
+PLAYER_POSITIONS = [
+    ("GK", "Goalkeeper"),
+    ("CB", "Center Back"),
+    ("LB", "Left Back"),
+    ("RB", "Right Back"),
+    ("CDM", "Defensive Midfielder"),
+    ("CM", "Central Midfielder"),
+    ("CAM", "Attacking Midfielder"),
+    ("LW", "Left Winger"),
+    ("RW", "Right Winger"),
+    ("ST", "Striker"),
+    ("CF", "Center Forward")
+]
+
+PLAYER_STATUS = [
+    ("ACTIVE", "Active"),
+    ("INJURED", "Injured"),
+    ("SUSPENDED", "Suspended"),
+    ("LOANED_OUT", "Loaned Out"),
+    ("LOANED_IN", "Loaned In"),
+    ("RETIRED", "Retired"),
+    ("FREE_AGENT", "Free Agent")
+]
+
+FOOT_PREFERENCE = ["Right", "Left", "Both"]
+
+BOTOLA_CLUBS = [
+    "Wydad AC", "Raja CA", "AS FAR", "RS Berkane", "FUS Rabat",
+    "Maghreb Fes", "Hassania Agadir", "Difaa El Jadida", "Mouloudia Oujda",
+    "Olympic Safi", "Chabab Mohammedia", "Ittihad Tanger", "Renaissance Zemamra",
+    "Jeunesse Sportive Soualem", "Union Touarga", "Stade Marocain"
+]
+
+NATIONAL_TEAMS = [
+    ("SENIOR_M", "Senior Men (Atlas Lions)"),
+    ("SENIOR_W", "Senior Women (Lionesses)"),
+    ("U23_M", "U23 Olympic Men"),
+    ("U20_M", "U20 Men"),
+    ("U17_M", "U17 Men"),
+    ("U20_W", "U20 Women"),
+    ("U17_W", "U17 Women"),
+    ("FUTSAL", "Futsal National Team"),
+    ("BEACH", "Beach Soccer National Team")
+]
+
+# Contract Management Constants
+CONTRACT_TYPES = [
+    ("PROFESSIONAL", "Professional Contract"),
+    ("AMATEUR", "Amateur Contract"),
+    ("YOUTH", "Youth Academy Contract"),
+    ("LOAN", "Loan Agreement"),
+    ("LOAN_WITH_OPTION", "Loan with Purchase Option"),
+    ("PRE_CONTRACT", "Pre-Contract Agreement"),
+    ("EXTENSION", "Contract Extension")
+]
+
+CONTRACT_STATUS = [
+    ("ACTIVE", "Active"),
+    ("EXPIRED", "Expired"),
+    ("TERMINATED", "Terminated"),
+    ("PENDING", "Pending Approval"),
+    ("SUSPENDED", "Suspended"),
+    ("UNDER_NEGOTIATION", "Under Negotiation")
+]
+
+CLAUSE_TYPES = [
+    ("RELEASE", "Release Clause"),
+    ("BUYOUT", "Buyout Clause"),
+    ("PERFORMANCE_BONUS", "Performance Bonus"),
+    ("APPEARANCE_BONUS", "Appearance Bonus"),
+    ("GOAL_BONUS", "Goal Bonus"),
+    ("LOYALTY_BONUS", "Loyalty Bonus"),
+    ("SIGNING_BONUS", "Signing Bonus"),
+    ("IMAGE_RIGHTS", "Image Rights"),
+    ("TERMINATION", "Termination Clause"),
+    ("NON_COMPETE", "Non-Compete Clause"),
+    ("SELL_ON", "Sell-On Percentage")
+]
+
+PAYMENT_FREQUENCY = [
+    ("MONTHLY", "Monthly"),
+    ("WEEKLY", "Weekly"),
+    ("BI_WEEKLY", "Bi-Weekly"),
+    ("ANNUAL", "Annual")
 ]
 
 VAR_OUTCOMES = ["CONFIRMED", "OVERTURNED", "REVIEW_COMPLETE"]
@@ -351,11 +438,171 @@ def init_frmf_tables():
         )
     ''')
     
+    # Player Profiles table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_players (
+            player_id TEXT PRIMARY KEY,
+            first_name TEXT NOT NULL,
+            last_name TEXT NOT NULL,
+            date_of_birth TEXT,
+            nationality TEXT DEFAULT 'Moroccan',
+            second_nationality TEXT,
+            position TEXT NOT NULL,
+            secondary_position TEXT,
+            current_club TEXT,
+            jersey_number INTEGER,
+            height_cm INTEGER,
+            weight_kg INTEGER,
+            foot TEXT DEFAULT 'Right',
+            market_value REAL DEFAULT 0,
+            contract_start TEXT,
+            contract_end TEXT,
+            salary_annual REAL,
+            agent_name TEXT,
+            agent_contact TEXT,
+            national_team TEXT,
+            caps INTEGER DEFAULT 0,
+            goals INTEGER DEFAULT 0,
+            assists INTEGER DEFAULT 0,
+            yellow_cards INTEGER DEFAULT 0,
+            red_cards INTEGER DEFAULT 0,
+            status TEXT DEFAULT 'ACTIVE',
+            photo_url TEXT,
+            frmf_license_number TEXT UNIQUE,
+            fifa_id TEXT,
+            created_at TEXT NOT NULL
+        )
+    ''')
+    
+    # Player career history
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_player_history (
+            history_id TEXT PRIMARY KEY,
+            player_id TEXT NOT NULL,
+            club TEXT NOT NULL,
+            season TEXT NOT NULL,
+            league TEXT,
+            appearances INTEGER DEFAULT 0,
+            goals INTEGER DEFAULT 0,
+            assists INTEGER DEFAULT 0,
+            minutes_played INTEGER DEFAULT 0,
+            yellow_cards INTEGER DEFAULT 0,
+            red_cards INTEGER DEFAULT 0,
+            transfer_type TEXT,
+            transfer_fee REAL,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (player_id) REFERENCES frmf_players(player_id)
+        )
+    ''')
+    
+    # Player medical records
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_player_medical (
+            medical_id TEXT PRIMARY KEY,
+            player_id TEXT NOT NULL,
+            injury_type TEXT,
+            injury_date TEXT,
+            expected_return TEXT,
+            actual_return TEXT,
+            severity TEXT,
+            body_part TEXT,
+            treatment TEXT,
+            medical_staff TEXT,
+            notes TEXT,
+            status TEXT DEFAULT 'RECOVERING',
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (player_id) REFERENCES frmf_players(player_id)
+        )
+    ''')
+    
+    # Contract Management - Main contracts table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_contracts (
+            contract_id TEXT PRIMARY KEY,
+            player_id TEXT NOT NULL,
+            club TEXT NOT NULL,
+            contract_type TEXT NOT NULL,
+            start_date TEXT NOT NULL,
+            end_date TEXT NOT NULL,
+            base_salary REAL,
+            currency TEXT DEFAULT 'MAD',
+            payment_frequency TEXT DEFAULT 'MONTHLY',
+            signing_bonus REAL DEFAULT 0,
+            total_value REAL,
+            status TEXT DEFAULT 'ACTIVE',
+            previous_contract_id TEXT,
+            agent_name TEXT,
+            agent_fee REAL,
+            agent_fee_percentage REAL,
+            registration_number TEXT,
+            fifa_registered INTEGER DEFAULT 0,
+            notes TEXT,
+            created_by TEXT,
+            approved_by TEXT,
+            approved_at TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (player_id) REFERENCES frmf_players(player_id)
+        )
+    ''')
+    
+    # Contract Clauses
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_contract_clauses (
+            clause_id TEXT PRIMARY KEY,
+            contract_id TEXT NOT NULL,
+            clause_type TEXT NOT NULL,
+            clause_name TEXT,
+            clause_value REAL,
+            currency TEXT DEFAULT 'MAD',
+            trigger_condition TEXT,
+            is_active INTEGER DEFAULT 1,
+            notes TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (contract_id) REFERENCES frmf_contracts(contract_id)
+        )
+    ''')
+    
+    # Contract Amendments/Extensions
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_contract_amendments (
+            amendment_id TEXT PRIMARY KEY,
+            contract_id TEXT NOT NULL,
+            amendment_type TEXT,
+            description TEXT,
+            old_value TEXT,
+            new_value TEXT,
+            effective_date TEXT,
+            approved_by TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (contract_id) REFERENCES frmf_contracts(contract_id)
+        )
+    ''')
+    
+    # Contract Audit Trail
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_contract_audit (
+            audit_id TEXT PRIMARY KEY,
+            contract_id TEXT NOT NULL,
+            action TEXT NOT NULL,
+            action_by TEXT,
+            action_details TEXT,
+            ip_address TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (contract_id) REFERENCES frmf_contracts(contract_id)
+        )
+    ''')
+    
     # Indexes
     try:
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_referee_level ON frmf_referees(license_level)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_assignment_date ON frmf_match_assignments(match_date)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_var_match ON frmf_var_vault(match_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_player_club ON frmf_players(current_club)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_player_position ON frmf_players(position)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_player_status ON frmf_players(status)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_contract_player ON frmf_contracts(player_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_contract_club ON frmf_contracts(club)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_contract_status ON frmf_contracts(status)")
     except:
         pass
     
@@ -1090,6 +1337,544 @@ def render_referee_performance(username: str):
                     st.error("Match ID is required")
 
 
+def render_player_profiles(username: str):
+    """Render player profiles tab."""
+    st.markdown("### Player Profiles Database")
+    st.caption("Complete registry of all registered players")
+    
+    df = get_data("frmf_players")
+    
+    if df.empty:
+        # Generate demo players
+        players = []
+        first_names = ["Achraf", "Youssef", "Sofiane", "Hakim", "Nayef", "Brahim", "Azzedine", "Romain", "Munir", "Yassine"]
+        last_names = ["Hakimi", "En-Nesyri", "Boufal", "Ziyech", "Aguerd", "Diaz", "Ounahi", "Saiss", "El Haddadi", "Bounou"]
+        
+        for i in range(20):
+            pos_code = random.choice([p[0] for p in PLAYER_POSITIONS])
+            club = random.choice(BOTOLA_CLUBS[:8])
+            status = random.choice(["ACTIVE", "ACTIVE", "ACTIVE", "INJURED", "LOANED_OUT"])
+            
+            players.append({
+                "player_id": f"PLR-{4000+i}",
+                "first_name": random.choice(first_names),
+                "last_name": random.choice(last_names),
+                "position": pos_code,
+                "current_club": club,
+                "nationality": "Moroccan",
+                "jersey_number": random.randint(1, 99),
+                "height_cm": random.randint(170, 195),
+                "market_value": random.randint(100000, 5000000),
+                "caps": random.randint(0, 50),
+                "goals": random.randint(0, 30),
+                "status": status,
+                "created_at": datetime.now().isoformat()
+            })
+        df = pd.DataFrame(players)
+        info_box("Demo Mode", "Showing demo player data.")
+    
+    # Stats
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Total Players", len(df))
+    with col2:
+        active = len(df[df['status'] == 'ACTIVE']) if 'status' in df.columns else len(df)
+        st.metric("Active", active)
+    with col3:
+        injured = len(df[df['status'] == 'INJURED']) if 'status' in df.columns else 0
+        st.metric("Injured", injured)
+    with col4:
+        if 'market_value' in df.columns:
+            total_value = df['market_value'].sum() / 1000000
+            st.metric("Total Value", f"{total_value:.1f}M MAD")
+        else:
+            st.metric("Total Value", "N/A")
+    
+    st.divider()
+    
+    # Sub-tabs
+    player_tab1, player_tab2, player_tab3 = st.tabs(["Player Registry", "Search & Filter", "Add Player"])
+    
+    with player_tab1:
+        # Quick filters
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            pos_filter = st.selectbox("Position", ["All"] + [p[1] for p in PLAYER_POSITIONS], key="pos_filter")
+        with col2:
+            club_filter = st.selectbox("Club", ["All"] + BOTOLA_CLUBS, key="club_filter")
+        with col3:
+            status_filter = st.selectbox("Status", ["All"] + [s[1] for s in PLAYER_STATUS], key="status_filter")
+        
+        # Apply filters
+        filtered_df = df.copy()
+        if pos_filter != "All" and 'position' in df.columns:
+            pos_code = next((p[0] for p in PLAYER_POSITIONS if p[1] == pos_filter), None)
+            if pos_code:
+                filtered_df = filtered_df[filtered_df['position'] == pos_code]
+        if club_filter != "All" and 'current_club' in df.columns:
+            filtered_df = filtered_df[filtered_df['current_club'] == club_filter]
+        if status_filter != "All" and 'status' in df.columns:
+            status_code = next((s[0] for s in PLAYER_STATUS if s[1] == status_filter), None)
+            if status_code:
+                filtered_df = filtered_df[filtered_df['status'] == status_code]
+        
+        st.markdown(f"**{len(filtered_df)} players found**")
+        
+        # Display as cards
+        for _, player in filtered_df.head(12).iterrows():
+            pos = player.get('position', 'N/A')
+            pos_name = next((p[1] for p in PLAYER_POSITIONS if p[0] == pos), pos)
+            status = player.get('status', 'ACTIVE')
+            
+            # Status color
+            if status == 'ACTIVE':
+                status_color = "#48BB78"
+            elif status == 'INJURED':
+                status_color = "#F56565"
+            elif status in ['LOANED_OUT', 'LOANED_IN']:
+                status_color = "#ECC94B"
+            else:
+                status_color = "#A0AEC0"
+            
+            market_val = player.get('market_value', 0)
+            if market_val >= 1000000:
+                val_str = f"{market_val/1000000:.1f}M"
+            else:
+                val_str = f"{market_val/1000:.0f}K"
+            
+            st.markdown(f"""
+                <div style='
+                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                    border-left: 4px solid {status_color};
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin-bottom: 0.5rem;
+                '>
+                    <div style='display: flex; justify-content: space-between; align-items: center;'>
+                        <div>
+                            <span style='font-size: 1.1rem; font-weight: 600; color: #E2E8F0;'>
+                                {player.get('first_name', '')} {player.get('last_name', '')}
+                            </span>
+                            <span style='
+                                background: #8B5CF6;
+                                color: white;
+                                padding: 0.2rem 0.5rem;
+                                border-radius: 4px;
+                                font-size: 0.7rem;
+                                margin-left: 0.5rem;
+                            '>{pos_name}</span>
+                        </div>
+                        <span style='color: #D4AF37; font-weight: 600;'>{val_str} MAD</span>
+                    </div>
+                    <div style='margin-top: 0.5rem; color: #A0AEC0; font-size: 0.85rem;'>
+                        {player.get('current_club', 'N/A')} | 
+                        #{player.get('jersey_number', 'N/A')} |
+                        {player.get('caps', 0)} caps |
+                        {player.get('goals', 0)} goals
+                        <span style='
+                            background: {status_color};
+                            color: white;
+                            padding: 0.15rem 0.4rem;
+                            border-radius: 4px;
+                            font-size: 0.7rem;
+                            margin-left: 0.5rem;
+                        '>{status}</span>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    with player_tab2:
+        st.markdown("#### Advanced Search")
+        
+        search_name = st.text_input("Search by Name")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            min_value = st.number_input("Min Market Value (MAD)", 0, 10000000, 0, step=100000)
+        with col2:
+            max_value = st.number_input("Max Market Value (MAD)", 0, 50000000, 50000000, step=100000)
+        
+        if search_name:
+            search_df = df[
+                (df['first_name'].str.contains(search_name, case=False, na=False)) |
+                (df['last_name'].str.contains(search_name, case=False, na=False))
+            ]
+            st.dataframe(search_df, use_container_width=True, hide_index=True)
+        else:
+            if 'market_value' in df.columns:
+                value_df = df[(df['market_value'] >= min_value) & (df['market_value'] <= max_value)]
+                st.dataframe(value_df, use_container_width=True, hide_index=True)
+            else:
+                st.dataframe(df, use_container_width=True, hide_index=True)
+    
+    with player_tab3:
+        st.markdown("#### Register New Player")
+        
+        with st.form("add_player"):
+            col1, col2 = st.columns(2)
+            with col1:
+                first_name = st.text_input("First Name *")
+                last_name = st.text_input("Last Name *")
+                dob = st.date_input("Date of Birth")
+                nationality = st.text_input("Nationality", "Moroccan")
+            with col2:
+                position = st.selectbox("Position *", [p[1] for p in PLAYER_POSITIONS])
+                current_club = st.selectbox("Current Club", ["None"] + BOTOLA_CLUBS)
+                jersey_number = st.number_input("Jersey Number", 1, 99, 10)
+                foot = st.selectbox("Preferred Foot", FOOT_PREFERENCE)
+            
+            col3, col4 = st.columns(2)
+            with col3:
+                height_cm = st.number_input("Height (cm)", 150, 220, 180)
+                weight_kg = st.number_input("Weight (kg)", 50, 120, 75)
+            with col4:
+                market_value = st.number_input("Market Value (MAD)", 0, 100000000, 500000, step=50000)
+                national_team = st.selectbox("National Team", ["None"] + [t[1] for t in NATIONAL_TEAMS])
+            
+            if st.form_submit_button("Register Player", type="primary", use_container_width=True):
+                if first_name and last_name:
+                    player_id = generate_uuid("PLR")
+                    pos_code = next((p[0] for p in PLAYER_POSITIONS if p[1] == position), "CM")
+                    team_code = next((t[0] for t in NATIONAL_TEAMS if t[1] == national_team), None) if national_team != "None" else None
+                    club = current_club if current_club != "None" else None
+                    
+                    success = run_query("""
+                        INSERT INTO frmf_players 
+                        (player_id, first_name, last_name, date_of_birth, nationality, position,
+                         current_club, jersey_number, height_cm, weight_kg, foot, market_value,
+                         national_team, status, created_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVE', ?)
+                    """, (player_id, first_name, last_name, str(dob), nationality, pos_code,
+                          club, jersey_number, height_cm, weight_kg, foot, market_value,
+                          team_code, datetime.now().isoformat()))
+                    
+                    if success:
+                        success_message("Player Registered!", player_id)
+                        log_audit(username, "PLAYER_REGISTERED", "FRMF", f"{first_name} {last_name}")
+                        st.rerun()
+                else:
+                    st.error("First name and last name are required")
+
+
+def render_contract_management(username: str):
+    """Render contract management tab."""
+    st.markdown("### Contract Management")
+    st.caption("Player contracts, clauses, and amendments tracking")
+    
+    df_contracts = get_data("frmf_contracts")
+    df_players = get_data("frmf_players")
+    
+    # Generate demo data if empty
+    if df_contracts.empty:
+        contracts = []
+        for i in range(15):
+            club = random.choice(BOTOLA_CLUBS[:8])
+            status = random.choice(["ACTIVE", "ACTIVE", "ACTIVE", "EXPIRED", "UNDER_NEGOTIATION"])
+            contract_type = random.choice([c[0] for c in CONTRACT_TYPES[:4]])
+            salary = random.randint(50000, 500000)
+            
+            contracts.append({
+                "contract_id": f"CTR-{5000+i}",
+                "player_id": f"PLR-{4000+i}",
+                "player_name": f"Player {i+1}",
+                "club": club,
+                "contract_type": contract_type,
+                "start_date": "2024-07-01",
+                "end_date": f"202{random.randint(5,8)}-06-30",
+                "base_salary": salary,
+                "total_value": salary * random.randint(1, 4),
+                "status": status,
+                "created_at": datetime.now().isoformat()
+            })
+        df_contracts = pd.DataFrame(contracts)
+        info_box("Demo Mode", "Showing demo contract data.")
+    
+    # Stats
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Total Contracts", len(df_contracts))
+    with col2:
+        active = len(df_contracts[df_contracts['status'] == 'ACTIVE']) if 'status' in df_contracts.columns else 0
+        st.metric("Active", active)
+    with col3:
+        expiring_soon = 0
+        if 'end_date' in df_contracts.columns:
+            try:
+                df_contracts['end_dt'] = pd.to_datetime(df_contracts['end_date'], errors='coerce')
+                six_months = datetime.now() + timedelta(days=180)
+                expiring_soon = len(df_contracts[df_contracts['end_dt'] <= six_months])
+            except:
+                pass
+        st.metric("Expiring Soon", expiring_soon)
+    with col4:
+        if 'total_value' in df_contracts.columns:
+            total_val = df_contracts['total_value'].sum() / 1000000
+            st.metric("Total Value", f"{total_val:.1f}M MAD")
+        else:
+            st.metric("Total Value", "N/A")
+    
+    st.divider()
+    
+    # Sub-tabs
+    contract_tab1, contract_tab2, contract_tab3, contract_tab4 = st.tabs([
+        "Contract Registry", "Expiring Contracts", "Add Contract", "Clauses"
+    ])
+    
+    with contract_tab1:
+        # Filters
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            status_filter = st.selectbox("Status", ["All"] + [s[1] for s in CONTRACT_STATUS], key="ctr_status")
+        with col2:
+            club_filter = st.selectbox("Club", ["All"] + BOTOLA_CLUBS, key="ctr_club")
+        with col3:
+            type_filter = st.selectbox("Type", ["All"] + [t[1] for t in CONTRACT_TYPES], key="ctr_type")
+        
+        # Apply filters
+        filtered = df_contracts.copy()
+        if status_filter != "All" and 'status' in df_contracts.columns:
+            status_code = next((s[0] for s in CONTRACT_STATUS if s[1] == status_filter), None)
+            if status_code:
+                filtered = filtered[filtered['status'] == status_code]
+        if club_filter != "All" and 'club' in df_contracts.columns:
+            filtered = filtered[filtered['club'] == club_filter]
+        if type_filter != "All" and 'contract_type' in df_contracts.columns:
+            type_code = next((t[0] for t in CONTRACT_TYPES if t[1] == type_filter), None)
+            if type_code:
+                filtered = filtered[filtered['contract_type'] == type_code]
+        
+        st.markdown(f"**{len(filtered)} contracts found**")
+        
+        # Display contracts
+        for _, contract in filtered.head(10).iterrows():
+            status = contract.get('status', 'ACTIVE')
+            contract_type = contract.get('contract_type', 'PROFESSIONAL')
+            type_name = next((t[1] for t in CONTRACT_TYPES if t[0] == contract_type), contract_type)
+            
+            # Status color
+            if status == 'ACTIVE':
+                status_color = "#48BB78"
+            elif status == 'EXPIRED':
+                status_color = "#A0AEC0"
+            elif status == 'UNDER_NEGOTIATION':
+                status_color = "#ECC94B"
+            else:
+                status_color = "#F56565"
+            
+            salary = contract.get('base_salary', 0)
+            if salary >= 1000000:
+                salary_str = f"{salary/1000000:.1f}M"
+            else:
+                salary_str = f"{salary/1000:.0f}K"
+            
+            st.markdown(f"""
+                <div style='
+                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                    border-left: 4px solid {status_color};
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin-bottom: 0.5rem;
+                '>
+                    <div style='display: flex; justify-content: space-between; align-items: center;'>
+                        <div>
+                            <span style='font-weight: 600; color: #E2E8F0;'>
+                                {contract.get('player_name', contract.get('player_id', 'Unknown'))}
+                            </span>
+                            <span style='color: #A0AEC0; margin-left: 0.5rem;'>@ {contract.get('club', 'N/A')}</span>
+                        </div>
+                        <span style='
+                            background: {status_color};
+                            color: white;
+                            padding: 0.2rem 0.5rem;
+                            border-radius: 4px;
+                            font-size: 0.75rem;
+                        '>{status}</span>
+                    </div>
+                    <div style='margin-top: 0.5rem; color: #A0AEC0; font-size: 0.85rem;'>
+                        {type_name} | 
+                        {contract.get('start_date', 'N/A')} to {contract.get('end_date', 'N/A')} |
+                        Salary: <span style='color: #D4AF37;'>{salary_str} MAD/year</span>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    with contract_tab2:
+        st.markdown("#### Contracts Expiring Within 6 Months")
+        
+        if 'end_dt' in df_contracts.columns:
+            six_months = datetime.now() + timedelta(days=180)
+            expiring = df_contracts[df_contracts['end_dt'] <= six_months].copy()
+            expiring = expiring.sort_values('end_dt')
+            
+            if len(expiring) > 0:
+                for _, contract in expiring.iterrows():
+                    days_left = (contract['end_dt'] - datetime.now()).days
+                    urgency_color = "#F56565" if days_left < 30 else "#ECC94B" if days_left < 90 else "#48BB78"
+                    
+                    st.markdown(f"""
+                        <div style='
+                            background: rgba(245, 101, 101, 0.1);
+                            border-left: 4px solid {urgency_color};
+                            border-radius: 8px;
+                            padding: 1rem;
+                            margin-bottom: 0.5rem;
+                        '>
+                            <div style='display: flex; justify-content: space-between;'>
+                                <span style='font-weight: 600; color: #E2E8F0;'>
+                                    {contract.get('player_name', contract.get('player_id', 'Unknown'))}
+                                </span>
+                                <span style='color: {urgency_color}; font-weight: 600;'>
+                                    {days_left} days remaining
+                                </span>
+                            </div>
+                            <div style='color: #A0AEC0; font-size: 0.85rem; margin-top: 0.25rem;'>
+                                {contract.get('club', 'N/A')} | Expires: {contract.get('end_date', 'N/A')}
+                            </div>
+                        </div>
+                    """, unsafe_allow_html=True)
+            else:
+                info_box("No Expiring Contracts", "All contracts are valid for more than 6 months.")
+        else:
+            info_box("No Date Data", "Contract end dates not available.")
+    
+    with contract_tab3:
+        st.markdown("#### Register New Contract")
+        
+        # Get players for dropdown
+        if not df_players.empty and 'first_name' in df_players.columns:
+            player_options = [f"{r['first_name']} {r['last_name']}" for _, r in df_players.iterrows()]
+        else:
+            player_options = ["Player 1", "Player 2", "Player 3"]
+        
+        with st.form("add_contract"):
+            col1, col2 = st.columns(2)
+            with col1:
+                player = st.selectbox("Player *", player_options)
+                club = st.selectbox("Club *", BOTOLA_CLUBS)
+                contract_type = st.selectbox("Contract Type *", [t[1] for t in CONTRACT_TYPES])
+            with col2:
+                start_date = st.date_input("Start Date")
+                end_date = st.date_input("End Date", value=datetime.now() + timedelta(days=365*2))
+                payment_freq = st.selectbox("Payment Frequency", [p[1] for p in PAYMENT_FREQUENCY])
+            
+            col3, col4 = st.columns(2)
+            with col3:
+                base_salary = st.number_input("Base Salary (MAD/year)", 0, 50000000, 200000, step=10000)
+                signing_bonus = st.number_input("Signing Bonus (MAD)", 0, 10000000, 0, step=10000)
+            with col4:
+                agent_name = st.text_input("Agent Name")
+                agent_fee = st.number_input("Agent Fee (%)", 0.0, 20.0, 5.0, step=0.5)
+            
+            notes = st.text_area("Contract Notes")
+            
+            if st.form_submit_button("Register Contract", type="primary", use_container_width=True):
+                if player and club:
+                    contract_id = generate_uuid("CTR")
+                    type_code = next((t[0] for t in CONTRACT_TYPES if t[1] == contract_type), "PROFESSIONAL")
+                    freq_code = next((p[0] for p in PAYMENT_FREQUENCY if p[1] == payment_freq), "MONTHLY")
+                    
+                    # Calculate total value
+                    years = (end_date - start_date).days / 365
+                    total_value = (base_salary * years) + signing_bonus
+                    
+                    success = run_query("""
+                        INSERT INTO frmf_contracts 
+                        (contract_id, player_id, club, contract_type, start_date, end_date,
+                         base_salary, payment_frequency, signing_bonus, total_value,
+                         agent_name, agent_fee_percentage, notes, status, created_by, created_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVE', ?, ?)
+                    """, (contract_id, player, club, type_code, str(start_date), str(end_date),
+                          base_salary, freq_code, signing_bonus, total_value,
+                          agent_name, agent_fee, notes, username, datetime.now().isoformat()))
+                    
+                    if success:
+                        # Add to audit trail
+                        run_query("""
+                            INSERT INTO frmf_contract_audit 
+                            (audit_id, contract_id, action, action_by, action_details, created_at)
+                            VALUES (?, ?, 'CREATED', ?, ?, ?)
+                        """, (generate_uuid("AUD"), contract_id, username, 
+                              f"New contract created for {player} at {club}",
+                              datetime.now().isoformat()))
+                        
+                        success_message("Contract Registered!", contract_id)
+                        log_audit(username, "CONTRACT_CREATED", "FRMF", f"{player} @ {club}")
+                        st.rerun()
+                else:
+                    st.error("Player and Club are required")
+    
+    with contract_tab4:
+        st.markdown("#### Contract Clauses")
+        st.caption("Manage release clauses, bonuses, and special conditions")
+        
+        df_clauses = get_data("frmf_contract_clauses")
+        
+        if df_clauses.empty:
+            # Demo clauses
+            clauses = []
+            for i in range(8):
+                clause_type = random.choice([c[0] for c in CLAUSE_TYPES])
+                clauses.append({
+                    "clause_id": f"CLS-{6000+i}",
+                    "contract_id": f"CTR-{5000+random.randint(0,9)}",
+                    "clause_type": clause_type,
+                    "clause_value": random.randint(100000, 5000000),
+                    "is_active": 1
+                })
+            df_clauses = pd.DataFrame(clauses)
+        
+        # Display clauses by type
+        for clause_code, clause_name in CLAUSE_TYPES[:6]:
+            type_clauses = df_clauses[df_clauses['clause_type'] == clause_code] if 'clause_type' in df_clauses.columns else pd.DataFrame()
+            count = len(type_clauses)
+            if count > 0:
+                total_val = type_clauses['clause_value'].sum() if 'clause_value' in type_clauses.columns else 0
+                st.markdown(f"""
+                    <div style='
+                        background: #1a1a2e;
+                        border-radius: 8px;
+                        padding: 0.75rem 1rem;
+                        margin-bottom: 0.5rem;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    '>
+                        <span style='color: #E2E8F0;'>{clause_name}</span>
+                        <div>
+                            <span style='color: #A0AEC0; margin-right: 1rem;'>{count} clauses</span>
+                            <span style='color: #D4AF37; font-weight: 600;'>{total_val/1000000:.1f}M MAD</span>
+                        </div>
+                    </div>
+                """, unsafe_allow_html=True)
+        
+        # Add clause form
+        with st.expander("Add New Clause"):
+            with st.form("add_clause"):
+                col1, col2 = st.columns(2)
+                with col1:
+                    contract_select = st.text_input("Contract ID")
+                    clause_type = st.selectbox("Clause Type", [c[1] for c in CLAUSE_TYPES])
+                with col2:
+                    clause_value = st.number_input("Clause Value (MAD)", 0, 100000000, 1000000, step=100000)
+                    trigger = st.text_input("Trigger Condition")
+                
+                if st.form_submit_button("Add Clause", use_container_width=True):
+                    if contract_select:
+                        clause_id = generate_uuid("CLS")
+                        clause_code = next((c[0] for c in CLAUSE_TYPES if c[1] == clause_type), "RELEASE")
+                        
+                        run_query("""
+                            INSERT INTO frmf_contract_clauses 
+                            (clause_id, contract_id, clause_type, clause_name, clause_value,
+                             trigger_condition, is_active, created_at)
+                            VALUES (?, ?, ?, ?, ?, ?, 1, ?)
+                        """, (clause_id, contract_select, clause_code, clause_type, clause_value,
+                              trigger, datetime.now().isoformat()))
+                        
+                        success_message("Clause Added!", clause_id)
+                        st.rerun()
+
+
 def render_match_incidents(username: str):
     """Render match incidents tab."""
     st.markdown("### Match Incidents Log")
@@ -1178,7 +1963,7 @@ def render(username: str):
     
     page_header(
         "FRMF Officials Hub",
-        "RefereeChain + VAR Vault - Complete Match Officials Management",
+        "RefereeChain + VAR Vault + Player Profiles - Complete Football Management",
         icon=""
     )
     
@@ -1186,26 +1971,28 @@ def render(username: str):
     df_refs = get_data("frmf_referees")
     df_matches = get_data("frmf_match_assignments")
     df_var = get_data("frmf_var_vault")
-    df_chain = get_data("frmf_refereechain")
+    df_players = get_data("frmf_players")
     
     ref_count = len(df_refs) if not df_refs.empty else 10
-    match_count = len(df_matches) if not df_matches.empty else 15
+    player_count = len(df_players) if not df_players.empty else 20
     var_count = len(df_var) if not df_var.empty else 20
-    chain_blocks = len(df_chain) if not df_chain.empty else 0
+    match_count = len(df_matches) if not df_matches.empty else 15
     
     premium_kpi_row([
         ("", "Licensed Referees", str(ref_count), "Active officials"),
-        ("", "Chain Blocks", str(chain_blocks), "Audit trail"),
+        ("", "Registered Players", str(player_count), "In database"),
         ("", "VAR Decisions", str(var_count), "Archived"),
-        ("", "Avg Rating", "8.2", "Season average")
+        ("", "Matches", str(match_count), "This season")
     ])
     
     st.divider()
     
-    # Tabs - Added RefereeChain
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    # Tabs - Full FRMF Module
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
         "Referee Registry",
         "RefereeChain",
+        "Player Profiles",
+        "Contracts",
         "Match Assignments", 
         "VAR Vault",
         "Performance",
@@ -1219,13 +2006,19 @@ def render(username: str):
         render_refereechain(username)
     
     with tab3:
-        render_match_assignments(username)
+        render_player_profiles(username)
     
     with tab4:
-        render_var_vault(username)
+        render_contract_management(username)
     
     with tab5:
-        render_referee_performance(username)
+        render_match_assignments(username)
     
     with tab6:
+        render_var_vault(username)
+    
+    with tab7:
+        render_referee_performance(username)
+    
+    with tab8:
         render_match_incidents(username)
