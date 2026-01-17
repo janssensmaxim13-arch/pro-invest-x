@@ -1,9 +1,9 @@
 """
-ProInvestiX UI Styles - v8.2 with Dark/Light Mode
+ProInvestiX UI Styles - v8.4
 """
 
-# Light Theme Colors
-COLORS_LIGHT = {
+# Light Theme Colors (default)
+COLORS = {
     'primary': '#8B5CF6',
     'secondary': '#F5F3FF', 
     'accent': '#D4AF37',
@@ -24,6 +24,9 @@ COLORS_LIGHT = {
     'red': '#EF4444',
     'blue': '#3B82F6',
 }
+
+# Alias for backward compatibility
+COLORS_LIGHT = COLORS.copy()
 
 # Dark Theme Colors
 COLORS_DARK = {
@@ -48,153 +51,71 @@ COLORS_DARK = {
     'blue': '#60A5FA',
 }
 
-# Default to light theme (for backward compatibility)
-COLORS = COLORS_LIGHT.copy()
 
-
-def get_theme_colors(dark_mode: bool = False) -> dict:
+def get_theme_colors(dark_mode=False):
     """Get colors based on theme setting"""
-    return COLORS_DARK if dark_mode else COLORS_LIGHT
+    if dark_mode:
+        return COLORS_DARK
+    return COLORS
 
 
-def apply_custom_css(dark_mode: bool = False):
-    """Apply custom CSS styling with theme support"""
-    import streamlit as st
-    
-    colors = get_theme_colors(dark_mode)
-    
-    st.markdown(f"""
-    <style>
-        /* Main App Background */
-        .stApp {{
-            background-color: {colors['background']};
-        }}
+def apply_custom_css(dark_mode=False):
+    """Apply custom CSS styling"""
+    try:
+        import streamlit as st
         
-        /* Sidebar */
-        [data-testid="stSidebar"] {{
-            background-color: {colors['sidebar_bg']};
-        }}
+        colors = get_theme_colors(dark_mode)
         
-        [data-testid="stSidebar"] * {{
-            color: {colors['text']} !important;
-        }}
-        
-        /* Buttons */
-        .stButton > button {{
-            background: linear-gradient(135deg, {colors['primary']} 0%, {colors['purple_dark']} 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
-            transition: all 0.3s ease;
-        }}
-        
-        .stButton > button:hover {{
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
-        }}
-        
-        /* Text Colors */
-        h1, h2, h3, h4, h5, h6 {{
-            color: {colors['text']} !important;
-        }}
-        
-        p, span, label, .stMarkdown {{
-            color: {colors['text']};
-        }}
-        
-        /* Cards / Containers */
-        [data-testid="stExpander"], 
-        .stForm,
-        [data-testid="stMetric"] {{
-            background-color: {colors['card']};
-            border: 1px solid {colors['card_border']};
-            border-radius: 10px;
-        }}
-        
-        /* Metric Cards */
-        .metric-card {{
-            background: {colors['card']};
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid {colors['accent']};
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }}
-        
-        /* Category headers in sidebar */
-        .category-header {{
-            color: {colors['gold']} !important;
-            font-weight: bold;
-            font-size: 12px;
-            margin: 15px 0 5px 0;
-            padding: 5px;
-            border-bottom: 1px solid {colors['gold']}33;
-        }}
-        
-        /* DataFrames */
-        .stDataFrame {{
-            background-color: {colors['card']};
-        }}
-        
-        /* Inputs */
-        .stTextInput > div > div > input,
-        .stSelectbox > div > div,
-        .stTextArea > div > div > textarea {{
-            background-color: {colors['card']};
-            color: {colors['text']};
-            border-color: {colors['card_border']};
-        }}
-        
-        /* Tabs */
-        .stTabs [data-baseweb="tab-list"] {{
-            background-color: {colors['card']};
-            border-radius: 8px;
-        }}
-        
-        .stTabs [data-baseweb="tab"] {{
-            color: {colors['text_muted']};
-        }}
-        
-        .stTabs [aria-selected="true"] {{
-            color: {colors['primary']} !important;
-            border-bottom-color: {colors['primary']} !important;
-        }}
-        
-        /* Success/Error/Warning messages */
-        .stSuccess {{
-            background-color: {colors['success']}20;
-            border-left-color: {colors['success']};
-        }}
-        
-        .stError {{
-            background-color: {colors['error']}20;
-            border-left-color: {colors['error']};
-        }}
-        
-        .stWarning {{
-            background-color: {colors['warning']}20;
-            border-left-color: {colors['warning']};
-        }}
-        
-        /* Dividers */
-        hr {{
-            border-color: {colors['card_border']};
-        }}
-        
-        /* Loading Spinner */
-        .stSpinner > div {{
-            border-top-color: {colors['primary']} !important;
-        }}
-    </style>
-    """, unsafe_allow_html=True)
+        css = f"""
+        <style>
+            .stApp {{
+                background-color: {colors['background']};
+            }}
+            
+            [data-testid="stSidebar"] {{
+                background-color: {colors['sidebar_bg']};
+            }}
+            
+            .stButton > button {{
+                background: linear-gradient(135deg, {colors['primary']} 0%, {colors['purple_dark']} 100%);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 0.5rem 1rem;
+            }}
+            
+            .stButton > button:hover {{
+                opacity: 0.9;
+            }}
+            
+            .metric-card {{
+                background: {colors['card']};
+                padding: 20px;
+                border-radius: 10px;
+                border-left: 4px solid {colors['accent']};
+            }}
+            
+            .category-header {{
+                color: {colors['gold']} !important;
+                font-weight: bold;
+                font-size: 12px;
+                margin: 15px 0 5px 0;
+                padding: 5px;
+                border-bottom: 1px solid {colors['gold']}33;
+            }}
+        </style>
+        """
+        st.markdown(css, unsafe_allow_html=True)
+    except Exception:
+        pass  # Silently fail if CSS cannot be applied
 
 
-def get_footer_html(dark_mode: bool = False):
-    """Get footer HTML with theme support"""
+def get_footer_html(dark_mode=False):
+    """Get footer HTML"""
     colors = get_theme_colors(dark_mode)
     return f"""
     <div style='text-align: center; padding: 20px; color: {colors['text_muted']};'>
-        <p>ProInvestiX v8.2 | Masterplan 2026-2050</p>
+        <p>ProInvestiX v8.4 | Masterplan 2026-2050</p>
         <p style='color: {colors['gold']};'>Sadaka Jaaria - For Morocco, With Morocco</p>
     </div>
     """
