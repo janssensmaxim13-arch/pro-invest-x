@@ -657,3 +657,323 @@ def section_header(title: str, subtitle: str = "", color: str = "purple"):
             {subtitle_html}
         </div>
     """, unsafe_allow_html=True)
+
+
+# ============================================================================
+# LOADING STATES & SPINNERS
+# ============================================================================
+
+def loading_spinner(message: str = "Loading...", size: str = "medium"):
+    """
+    Render a custom loading spinner.
+    
+    Args:
+        message: Loading message to display
+        size: 'small', 'medium', or 'large'
+    """
+    sizes = {
+        'small': ('30px', '3px', '0.8rem'),
+        'medium': ('50px', '4px', '1rem'),
+        'large': ('80px', '5px', '1.2rem'),
+    }
+    spinner_size, border_width, font_size = sizes.get(size, sizes['medium'])
+    
+    st.markdown(f"""
+        <div style='
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        '>
+            <div style='
+                width: {spinner_size};
+                height: {spinner_size};
+                border: {border_width} solid #EDE9FE;
+                border-top: {border_width} solid #8B5CF6;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            '></div>
+            <p style='
+                color: #6B7280;
+                margin-top: 1rem;
+                font-size: {font_size};
+            '>{message}</p>
+        </div>
+        <style>
+            @keyframes spin {{
+                0% {{ transform: rotate(0deg); }}
+                100% {{ transform: rotate(360deg); }}
+            }}
+        </style>
+    """, unsafe_allow_html=True)
+
+
+def skeleton_loader(lines: int = 3, show_avatar: bool = False):
+    """
+    Render skeleton loading placeholder.
+    
+    Args:
+        lines: Number of text lines to show
+        show_avatar: Whether to show avatar placeholder
+    """
+    avatar_html = """
+        <div style='
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #EDE9FE 25%, #F5F3FF 50%, #EDE9FE 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            margin-right: 1rem;
+        '></div>
+    """ if show_avatar else ""
+    
+    lines_html = "".join([f"""
+        <div style='
+            height: 12px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, #EDE9FE 25%, #F5F3FF 50%, #EDE9FE 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            margin-bottom: 0.75rem;
+            width: {90 - i * 10}%;
+        '></div>
+    """ for i in range(lines)])
+    
+    st.markdown(f"""
+        <div style='
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #EDE9FE;
+        '>
+            {avatar_html}
+            <div style='flex: 1;'>
+                {lines_html}
+            </div>
+        </div>
+        <style>
+            @keyframes shimmer {{
+                0% {{ background-position: -200% 0; }}
+                100% {{ background-position: 200% 0; }}
+            }}
+        </style>
+    """, unsafe_allow_html=True)
+
+
+def loading_card(title: str = "Loading data..."):
+    """
+    Render a loading card placeholder.
+    
+    Args:
+        title: Loading message
+    """
+    st.markdown(f"""
+        <div style='
+            background: #FFFFFF;
+            border: 1px solid #EDE9FE;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        '>
+            <div style='
+                width: 40px;
+                height: 40px;
+                border: 3px solid #EDE9FE;
+                border-top: 3px solid #8B5CF6;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin: 0 auto 1rem auto;
+            '></div>
+            <p style='color: #6B7280; margin: 0;'>{title}</p>
+        </div>
+        <style>
+            @keyframes spin {{
+                0% {{ transform: rotate(0deg); }}
+                100% {{ transform: rotate(360deg); }}
+            }}
+        </style>
+    """, unsafe_allow_html=True)
+
+
+def progress_bar_animated(progress: int, label: str = "", show_percentage: bool = True):
+    """
+    Render an animated progress bar.
+    
+    Args:
+        progress: Progress value (0-100)
+        label: Optional label
+        show_percentage: Show percentage text
+    """
+    progress = max(0, min(100, progress))
+    
+    # Color based on progress
+    if progress >= 80:
+        color = '#10B981'
+    elif progress >= 50:
+        color = '#8B5CF6'
+    elif progress >= 25:
+        color = '#F59E0B'
+    else:
+        color = '#EF4444'
+    
+    label_html = f"<span style='color: #6B7280;'>{label}</span>" if label else ""
+    percentage_html = f"<span style='color: {color}; font-weight: 600;'>{progress}%</span>" if show_percentage else ""
+    
+    st.markdown(f"""
+        <div style='margin: 1rem 0;'>
+            <div style='display: flex; justify-content: space-between; margin-bottom: 0.5rem;'>
+                {label_html}
+                {percentage_html}
+            </div>
+            <div style='
+                background: #EDE9FE;
+                border-radius: 8px;
+                height: 12px;
+                overflow: hidden;
+            '>
+                <div style='
+                    background: linear-gradient(90deg, {color} 0%, {color}CC 100%);
+                    width: {progress}%;
+                    height: 100%;
+                    border-radius: 8px;
+                    transition: width 0.5s ease;
+                    animation: pulse 2s infinite;
+                '></div>
+            </div>
+        </div>
+        <style>
+            @keyframes pulse {{
+                0%, 100% {{ opacity: 1; }}
+                50% {{ opacity: 0.8; }}
+            }}
+        </style>
+    """, unsafe_allow_html=True)
+
+
+# ============================================================================
+# TOOLTIPS & HELP
+# ============================================================================
+
+def tooltip(text: str, help_text: str, icon: str = "ℹ️"):
+    """
+    Render text with a tooltip icon.
+    
+    Args:
+        text: Main text to display
+        help_text: Tooltip help text
+        icon: Tooltip icon
+    """
+    st.markdown(f"""
+        <div style='display: inline-flex; align-items: center; gap: 0.5rem;'>
+            <span>{text}</span>
+            <span title="{help_text}" style='
+                cursor: help;
+                color: #8B5CF6;
+                font-size: 0.9rem;
+            '>{icon}</span>
+        </div>
+    """, unsafe_allow_html=True)
+
+
+def help_icon(help_text: str):
+    """
+    Render a standalone help icon with tooltip.
+    
+    Args:
+        help_text: Help text to show on hover
+    """
+    st.markdown(f"""
+        <span title="{help_text}" style='
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #EDE9FE;
+            color: #8B5CF6;
+            font-size: 0.75rem;
+            cursor: help;
+            margin-left: 0.5rem;
+        '>?</span>
+    """, unsafe_allow_html=True)
+
+
+def form_field_with_help(label: str, help_text: str):
+    """
+    Render a form field label with help icon.
+    
+    Args:
+        label: Field label
+        help_text: Help text
+    
+    Returns:
+        The label HTML (use with st.markdown)
+    """
+    return f"""
+        <div style='
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        '>
+            <span style='color: #4C1D95; font-weight: 500;'>{label}</span>
+            <span title="{help_text}" style='
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background: #EDE9FE;
+                color: #8B5CF6;
+                font-size: 0.65rem;
+                cursor: help;
+            '>?</span>
+        </div>
+    """
+
+
+def info_tooltip_card(title: str, content: str, tips: list = None):
+    """
+    Render an expandable info card with tips.
+    
+    Args:
+        title: Card title
+        content: Main content
+        tips: List of tip strings
+    """
+    tips_html = ""
+    if tips:
+        tips_items = "".join([f"<li style='margin: 0.25rem 0; color: #4B5563;'>{tip}</li>" for tip in tips])
+        tips_html = f"<ul style='margin: 0.75rem 0 0 0; padding-left: 1.25rem;'>{tips_items}</ul>"
+    
+    st.markdown(f"""
+        <div style='
+            background: linear-gradient(135deg, #EDE9FE 0%, #F5F3FF 100%);
+            border: 1px solid #DDD6FE;
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+        '>
+            <div style='
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: #5B21B6;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            '>
+                <span style='font-size: 1.1rem;'>💡</span>
+                {title}
+            </div>
+            <div style='color: #6B7280; font-size: 0.9rem; line-height: 1.5;'>
+                {content}
+                {tips_html}
+            </div>
+        </div>
+    """, unsafe_allow_html=True)

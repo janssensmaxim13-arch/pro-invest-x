@@ -749,6 +749,14 @@ TRANSLATIONS = {
     "success_report_generated": {"nl": "Rapport gegenereerd!", "fr": "Rapport généré!", "en": "Report generated!", "ar": "تم إنشاء التقرير!"},
     "success_no_incidents": {"nl": "Geen incidenten!", "fr": "Aucun incident!", "en": "No incidents!", "ar": "لا توجد حوادث!"},
     "success_transaction_complete": {"nl": "Transactie voltooid!", "fr": "Transaction terminée!", "en": "Transaction complete!", "ar": "اكتملت المعاملة!"},
+
+    # =========================================================================
+    # THEME / SETTINGS
+    # =========================================================================
+    "theme_dark": {"nl": "Donker", "fr": "Sombre", "en": "Dark", "ar": "داكن"},
+    "theme_light": {"nl": "Licht", "fr": "Clair", "en": "Light", "ar": "فاتح"},
+    "theme_toggle": {"nl": "Thema wisselen", "fr": "Changer de thème", "en": "Toggle theme", "ar": "تبديل السمة"},
+    "settings": {"nl": "Instellingen", "fr": "Paramètres", "en": "Settings", "ar": "الإعدادات"},
 }
 
 # =============================================================================

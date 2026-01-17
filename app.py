@@ -71,7 +71,11 @@ def t(key):
 # APPLY STYLING
 # ============================================================================
 
-apply_custom_css()
+# Apply styling after session state is initialized
+def apply_theme():
+    apply_custom_css(st.session_state.get('dark_mode', False))
+
+apply_theme()
 init_db()
 
 # ============================================================================
@@ -90,6 +94,8 @@ if 'show_login' not in st.session_state:
     st.session_state['show_login'] = False
 if 'language' not in st.session_state:
     st.session_state['language'] = 'en'
+if 'dark_mode' not in st.session_state:
+    st.session_state['dark_mode'] = False
 
 
 # ============================================================================
@@ -309,23 +315,34 @@ def render_main_app():
         st.markdown("<br>", unsafe_allow_html=True)
         
         if os.path.exists(LOGO_SHIELD):
-            st.image(LOGO_SHIELD, width="stretch")
+            st.image(LOGO_SHIELD, use_container_width=True)
         
-        # === LANGUAGE SELECTOR ===
-        lang_options = get_language_options()
-        current_lang = st.session_state.get('language', 'en')
-        current_selection = f"{LANGUAGES[current_lang]['flag']} {LANGUAGES[current_lang]['name']}"
+        # === SETTINGS ROW: Language + Theme ===
+        col_lang, col_theme = st.columns([3, 1])
         
-        selected_lang = st.selectbox(
-            " Language / Taal / Langue / اللغة",
-            options=lang_options,
-            index=lang_options.index(current_selection) if current_selection in lang_options else 0,
-            key="lang_selector"
-        )
-        new_lang = get_language_code(selected_lang)
-        if new_lang != current_lang:
-            st.session_state['language'] = new_lang
-            st.rerun()
+        with col_lang:
+            lang_options = get_language_options()
+            current_lang = st.session_state.get('language', 'en')
+            current_selection = f"{LANGUAGES[current_lang]['flag']} {LANGUAGES[current_lang]['name']}"
+            
+            selected_lang = st.selectbox(
+                " Language",
+                options=lang_options,
+                index=lang_options.index(current_selection) if current_selection in lang_options else 0,
+                key="lang_selector",
+                label_visibility="collapsed"
+            )
+            new_lang = get_language_code(selected_lang)
+            if new_lang != current_lang:
+                st.session_state['language'] = new_lang
+                st.rerun()
+        
+        with col_theme:
+            # Theme Toggle Button
+            theme_icon = "" if st.session_state.get('dark_mode', False) else ""
+            if st.button(theme_icon, key="theme_toggle", help="Toggle Dark/Light Mode"):
+                st.session_state['dark_mode'] = not st.session_state.get('dark_mode', False)
+                st.rerun()
         
         st.markdown(f"""
             <div style='text-align: center; padding: 1rem; margin: 1rem 0;
@@ -342,12 +359,12 @@ def render_main_app():
         # === DASHBOARD (Always visible) ===
         lang = st.session_state.get('language', 'en')
         
-        if st.button(get_text('dashboard', lang), width="stretch", 
+        if st.button(get_text('dashboard', lang), use_container_width=True, 
                      type="primary" if st.session_state['current_module'] == 'dashboard' else "secondary"):
             set_module('dashboard')
             st.rerun()
         
-        if st.button(get_text('analytics', lang), width="stretch",
+        if st.button(get_text('analytics', lang), use_container_width=True,
                      type="primary" if st.session_state['current_module'] == 'analytics' else "secondary"):
             set_module('analytics')
             st.rerun()
