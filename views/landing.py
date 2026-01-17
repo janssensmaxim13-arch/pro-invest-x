@@ -70,7 +70,7 @@ def render_landing_page(navigate_to: Callable):
             text-align: center;
         }
         .countdown-number {
-            color: #7C3AED;
+            color: #D4AF37;
             font-size: 2.5rem;
             font-weight: 700;
         }
@@ -105,18 +105,38 @@ def render_landing_page(navigate_to: Callable):
     st.write("")
     st.write("")
     
-    # Countdown using Streamlit columns
-    st.subheader("⏱ WK 2030 Countdown")
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.metric(label="Days", value=f"{countdown['total_days']:,}")
-    with col2:
-        st.metric(label="Years", value=countdown['years'])
-    with col3:
-        st.metric(label="Months", value=countdown['months'])
-    
-    st.caption("Until WK 2030 Opening Ceremony ")
+    # Countdown met gouden achtergrond
+    st.markdown(f"""
+        <div style='
+            background: linear-gradient(135deg, #D4AF37 0%, #F4E5B2 50%, #D4AF37 100%);
+            border: 2px solid #B8860B;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        '>
+            <div style='text-align: center; margin-bottom: 1rem;'>
+                <span style='color: #1F2937; font-size: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;'>WK 2030 Countdown</span>
+            </div>
+            <div style='display: flex; justify-content: center; gap: 3rem;'>
+                <div style='text-align: center;'>
+                    <div style='color: #1F2937; font-size: 3rem; font-weight: 700;'>{countdown['total_days']:,}</div>
+                    <div style='color: #4B5563; font-size: 0.85rem; text-transform: uppercase; font-weight: 500;'>Days</div>
+                </div>
+                <div style='text-align: center;'>
+                    <div style='color: #1F2937; font-size: 3rem; font-weight: 700;'>{countdown['years']}</div>
+                    <div style='color: #4B5563; font-size: 0.85rem; text-transform: uppercase; font-weight: 500;'>Years</div>
+                </div>
+                <div style='text-align: center;'>
+                    <div style='color: #1F2937; font-size: 3rem; font-weight: 700;'>{countdown['months']}</div>
+                    <div style='color: #4B5563; font-size: 0.85rem; text-transform: uppercase; font-weight: 500;'>Months</div>
+                </div>
+            </div>
+            <div style='text-align: center; margin-top: 1rem;'>
+                <span style='color: #4B5563; font-size: 0.9rem;'>Until WK 2030 Opening Ceremony</span>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
     
     st.divider()
     
