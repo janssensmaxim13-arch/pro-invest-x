@@ -639,6 +639,77 @@ TRANSLATIONS = {
     # =========================================================================
     "footer_sadaka": {"nl": "صدقة جارية - Sadaka Jaaria", "fr": "صدقة جارية - Sadaka Jaaria", "en": "صدقة جارية - Sadaka Jaaria", "ar": "صدقة جارية"},
     "footer_morocco": {"nl": "Voor Marokko, Met Marokko", "fr": "Pour le Maroc, Avec le Maroc", "en": "For Morocco, With Morocco", "ar": "من أجل المغرب، مع المغرب"},
+
+    # =========================================================================
+    # LANDING PAGE
+    # =========================================================================
+    "landing_badge": {"nl": "OFFICIËLE WK 2030 PARTNER", "fr": "PARTENAIRE OFFICIEL CdM 2030", "en": "OFFICIAL WK 2030 PARTNER", "ar": "شريك رسمي لكأس العالم 2030"},
+    "landing_subtitle": {"nl": "Nationaal Investeringsplatform", "fr": "Plateforme Nationale d'Investissement", "en": "National Investment Platform", "ar": "منصة الاستثمار الوطنية"},
+    "landing_description": {"nl": "De toekomst van Marokko bouwen door Sport, Technologie & Diaspora Verbinding", "fr": "Construire l'avenir du Maroc par le Sport, la Technologie et la Connexion Diaspora", "en": "Building Morocco's Future Through Sport, Technology & Diaspora Connection", "ar": "بناء مستقبل المغرب من خلال الرياضة والتكنولوجيا والتواصل مع الشتات"},
+    "landing_countdown_title": {"nl": "WK 2030 Aftellen", "fr": "Compte à Rebours CdM 2030", "en": "WK 2030 Countdown", "ar": "العد التنازلي لكأس العالم 2030"},
+    "landing_days": {"nl": "Dagen", "fr": "Jours", "en": "Days", "ar": "أيام"},
+    "landing_years": {"nl": "Jaren", "fr": "Années", "en": "Years", "ar": "سنوات"},
+    "landing_months": {"nl": "Maanden", "fr": "Mois", "en": "Months", "ar": "أشهر"},
+    "landing_until_ceremony": {"nl": "Tot de WK 2030 Openingsceremonie", "fr": "Jusqu'à la Cérémonie d'Ouverture CdM 2030", "en": "Until WK 2030 Opening Ceremony", "ar": "حتى حفل افتتاح كأس العالم 2030"},
+    "landing_impact": {"nl": "Platform Impact", "fr": "Impact de la Plateforme", "en": "Platform Impact", "ar": "تأثير المنصة"},
+    "landing_impact_desc": {"nl": "Realtime statistieken van het ProInvestiX ecosysteem", "fr": "Statistiques en temps réel de l'écosystème ProInvestiX", "en": "Real-time statistics from the ProInvestiX ecosystem", "ar": "إحصائيات في الوقت الحقيقي من نظام بروإنفستيكس"},
+    "landing_talents": {"nl": "Talenten Gevolgd", "fr": "Talents Suivis", "en": "Talents Tracked", "ar": "المواهب المتابعة"},
+    "landing_diaspora": {"nl": "Diaspora Verbonden", "fr": "Diaspora Connectée", "en": "Diaspora Connected", "ar": "الشتات المتصل"},
+    "landing_investment": {"nl": "Investeringspotentieel", "fr": "Potentiel d'Investissement", "en": "Investment Potential", "ar": "إمكانات الاستثمار"},
+    "landing_dossiers": {"nl": "Geïntegreerde Dossiers", "fr": "Dossiers Intégrés", "en": "Integrated Dossiers", "ar": "الملفات المدمجة"},
+    "landing_capabilities": {"nl": "Platform Mogelijkheden", "fr": "Capacités de la Plateforme", "en": "Platform Capabilities", "ar": "قدرات المنصة"},
+    "landing_capabilities_desc": {"nl": "Uitgebreide nationale infrastructuur voor sport, economie & identiteit", "fr": "Infrastructure nationale complète pour le sport, l'économie et l'identité", "en": "Comprehensive national infrastructure for sport, economy & identity", "ar": "بنية تحتية وطنية شاملة للرياضة والاقتصاد والهوية"},
+    "landing_ntsp": {"nl": "NTSP™ Talent Scouting", "fr": "NTSP™ Détection de Talents", "en": "NTSP™ Talent Scouting", "ar": "نظام استكشاف المواهب"},
+    "landing_ntsp_desc": {"nl": "AI-gestuurd nationaal talentidentificatiesysteem met 80.000+ spelers.", "fr": "Système national d'identification des talents basé sur l'IA avec 80 000+ joueurs.", "en": "AI-powered national talent identification system tracking 80,000+ players.", "ar": "نظام وطني لتحديد المواهب بالذكاء الاصطناعي يتتبع أكثر من 80,000 لاعب."},
+    "landing_ticketchain": {"nl": "TicketChain™ Blockchain", "fr": "TicketChain™ Blockchain", "en": "TicketChain™ Blockchain", "ar": "تكنولوجيا البلوكشين للتذاكر"},
+    "landing_ticketchain_desc": {"nl": "Fraudebestendig ticketsysteem met blockchain verificatie.", "fr": "Système de billetterie anti-fraude avec vérification blockchain.", "en": "Fraud-proof ticketing system with blockchain verification.", "ar": "نظام تذاكر مقاوم للاحتيال مع التحقق من البلوكشين."},
+    "landing_foundation": {"nl": "Foundation Bank", "fr": "Foundation Bank", "en": "Foundation Bank", "ar": "بنك المؤسسة"},
+    "landing_foundation_desc": {"nl": "Automatische 0,5% bijdrage. Sadaka Jaaria - doorlopende liefdadigheid.", "fr": "Contribution automatique de 0,5%. Sadaka Jaaria - charité continue.", "en": "Automated 0.5% contribution. Sadaka Jaaria - continuous charity.", "ar": "مساهمة تلقائية بنسبة 0.5٪. صدقة جارية."},
+    "landing_identity": {"nl": "Identity Shield™", "fr": "Identity Shield™", "en": "Identity Shield™", "ar": "درع الهوية"},
+    "landing_identity_desc": {"nl": "24/7 AI-gestuurde identiteitsbescherming en fraudedetectie.", "fr": "Protection d'identité 24/7 par IA et détection de fraude.", "en": "24/7 AI-powered identity protection and fraud detection.", "ar": "حماية الهوية على مدار الساعة بالذكاء الاصطناعي واكتشاف الاحتيال."},
+    "landing_consulate": {"nl": "Digital Consulate Hub™", "fr": "Hub Consulaire Digital™", "en": "Digital Consulate Hub™", "ar": "مركز القنصلية الرقمية"},
+    "landing_consulate_desc": {"nl": "Complete diasporadiensten: documenten, beurzen, hulp.", "fr": "Services diaspora complets: documents, bourses, assistance.", "en": "Complete diaspora services: documents, scholarships, assistance.", "ar": "خدمات شاملة للشتات: الوثائق، المنح، المساعدة."},
+    "landing_wallet": {"nl": "Diaspora Wallet™", "fr": "Diaspora Wallet™", "en": "Diaspora Wallet™", "ar": "محفظة الشتات"},
+    "landing_wallet_desc": {"nl": "Digitale financiële identiteit voor de wereldwijde Marokkaanse gemeenschap.", "fr": "Identité financière numérique pour la communauté marocaine mondiale.", "en": "Digital financial identity for the global Moroccan community.", "ar": "هوية مالية رقمية للمجتمع المغربي العالمي."},
+    "landing_join": {"nl": "Word deel van de beweging", "fr": "Rejoignez le Mouvement", "en": "Join the Movement", "ar": "انضم إلى الحركة"},
+    "landing_join_desc": {"nl": "\"We werken VOOR Marokko, MET Marokko\" - Een blijvende erfenis bouwen door sport, technologie en de kracht van 5,5 miljoen diasporaleden wereldwijd.", "fr": "\"Nous travaillons POUR le Maroc, AVEC le Maroc\" - Construire un héritage durable grâce au sport, à la technologie et à la puissance de 5,5 millions de membres de la diaspora dans le monde.", "en": "\"We work FOR Morocco, WITH Morocco\" - Building a lasting legacy through sport, technology, and the power of 5,5 million diaspora members worldwide.", "ar": "\"نعمل من أجل المغرب، مع المغرب\" - بناء إرث دائم من خلال الرياضة والتكنولوجيا وقوة 5.5 مليون من أفراد الشتات حول العالم."},
+    "landing_investor_portal": {"nl": "Investeerdersportaal", "fr": "Portail Investisseur", "en": "Investor Portal", "ar": "بوابة المستثمر"},
+    "landing_masterplan": {"nl": "Volledig Masterplan", "fr": "Masterplan Complet", "en": "Full Masterplan", "ar": "الخطة الرئيسية الكاملة"},
+    "landing_footer_platform": {"nl": "Nationaal Investeringsplatform | Marokko", "fr": "Plateforme Nationale d'Investissement | Maroc", "en": "National Investment Platform | Morocco", "ar": "منصة الاستثمار الوطنية | المغرب"},
+    "landing_footer_version": {"nl": "ULTIMATE | Enterprise Ready | WK 2030 Partner", "fr": "ULTIMATE | Enterprise Ready | Partenaire CdM 2030", "en": "ULTIMATE | Enterprise Ready | WK 2030 Partner", "ar": "النسخة النهائية | جاهز للمؤسسات | شريك كأس العالم 2030"},
+    "landing_sadaka": {"nl": "صدقة جارية - Sadaka Jaaria - Doorlopende Liefdadigheid", "fr": "صدقة جارية - Sadaka Jaaria - Charité Continue", "en": "صدقة جارية - Sadaka Jaaria - Continuous Charity", "ar": "صدقة جارية"},
+
+    # =========================================================================
+    # AUTH / LOGIN / REGISTER
+    # =========================================================================
+    "auth_secure_access": {"nl": "Beveiligde Toegang", "fr": "Accès Sécurisé", "en": "Secure Access", "ar": "الوصول الآمن"},
+    "auth_enter_credentials": {"nl": "Voer uw gegevens in om toegang te krijgen", "fr": "Entrez vos identifiants pour accéder", "en": "Enter your credentials to access the platform", "ar": "أدخل بيانات الاعتماد للوصول إلى المنصة"},
+    "auth_username_placeholder": {"nl": "Voer gebruikersnaam in", "fr": "Entrez le nom d'utilisateur", "en": "Enter username", "ar": "أدخل اسم المستخدم"},
+    "auth_password_placeholder": {"nl": "Voer wachtwoord in", "fr": "Entrez le mot de passe", "en": "Enter password", "ar": "أدخل كلمة المرور"},
+    "auth_login_button": {"nl": "INLOGGEN", "fr": "CONNEXION", "en": "LOGIN", "ar": "تسجيل الدخول"},
+    "auth_demo_hint": {"nl": "Demo: admin / admin123", "fr": "Démo: admin / admin123", "en": "Demo: admin / admin123", "ar": "تجريبي: admin / admin123"},
+    "auth_create_account": {"nl": "Account Aanmaken", "fr": "Créer un Compte", "en": "Create Account", "ar": "إنشاء حساب"},
+    "auth_join_platform": {"nl": "Word lid van het ProInvestiX Nationaal Platform", "fr": "Rejoignez la Plateforme Nationale ProInvestiX", "en": "Join the ProInvestiX National Platform", "ar": "انضم إلى منصة بروإنفستيكس الوطنية"},
+    "auth_min_chars": {"nl": "Min 3 tekens", "fr": "Min 3 caractères", "en": "Min 3 characters", "ar": "3 أحرف على الأقل"},
+    "auth_min_password": {"nl": "Min 8 tekens", "fr": "Min 8 caractères", "en": "Min 8 characters", "ar": "8 أحرف على الأقل"},
+    "auth_confirm_password": {"nl": "Bevestig Wachtwoord", "fr": "Confirmer le Mot de Passe", "en": "Confirm Password", "ar": "تأكيد كلمة المرور"},
+    "auth_register_button": {"nl": "REGISTREREN", "fr": "S'INSCRIRE", "en": "REGISTER", "ar": "تسجيل"},
+    "auth_back": {"nl": "Terug", "fr": "Retour", "en": "Back", "ar": "رجوع"},
+    "auth_welcome": {"nl": "Welkom", "fr": "Bienvenue", "en": "Welcome", "ar": "مرحباً"},
+    "auth_login_now": {"nl": "U kunt nu inloggen met uw gegevens.", "fr": "Vous pouvez maintenant vous connecter.", "en": "You can now login with your credentials.", "ar": "يمكنك الآن تسجيل الدخول."},
+    "auth_please_login": {"nl": "Log in om toegang te krijgen tot deze pagina.", "fr": "Veuillez vous connecter pour accéder.", "en": "Please login to access this page.", "ar": "يرجى تسجيل الدخول للوصول."},
+
+    # =========================================================================
+    # ERROR MESSAGES
+    # =========================================================================
+    "error_invalid_credentials": {"nl": "Ongeldige gebruikersnaam of wachtwoord", "fr": "Identifiants invalides", "en": "Invalid username or password", "ar": "اسم المستخدم أو كلمة المرور غير صحيحة"},
+    "error_username_short": {"nl": "Gebruikersnaam moet minimaal 3 tekens zijn", "fr": "Le nom d'utilisateur doit contenir au moins 3 caractères", "en": "Username must be at least 3 characters", "ar": "يجب أن يكون اسم المستخدم 3 أحرف على الأقل"},
+    "error_password_short": {"nl": "Wachtwoord moet minimaal 8 tekens zijn", "fr": "Le mot de passe doit contenir au moins 8 caractères", "en": "Password must be at least 8 characters", "ar": "يجب أن تكون كلمة المرور 8 أحرف على الأقل"},
+    "error_passwords_mismatch": {"nl": "Wachtwoorden komen niet overeen", "fr": "Les mots de passe ne correspondent pas", "en": "Passwords do not match", "ar": "كلمات المرور غير متطابقة"},
+    "error_username_exists": {"nl": "Gebruikersnaam bestaat al", "fr": "Le nom d'utilisateur existe déjà", "en": "Username already exists", "ar": "اسم المستخدم موجود بالفعل"},
+    "error_required_field": {"nl": "Dit veld is verplicht", "fr": "Ce champ est obligatoire", "en": "This field is required", "ar": "هذا الحقل مطلوب"},
+    "success_account_created": {"nl": "Account succesvol aangemaakt!", "fr": "Compte créé avec succès!", "en": "Account created successfully!", "ar": "تم إنشاء الحساب بنجاح!"},
+    "success_saved": {"nl": "Succesvol opgeslagen!", "fr": "Enregistré avec succès!", "en": "Saved successfully!", "ar": "تم الحفظ بنجاح!"},
 }
 
 # =============================================================================

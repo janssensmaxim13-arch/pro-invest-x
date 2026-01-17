@@ -62,7 +62,10 @@ from modules import frmf  # FRMF Officials Hub: RefereeChain + VAR Vault
 from modules import pma_logistics  # PMA Logistics: Supply Chain Management
 
 # --- Translations ---
-from translations import get_text, get_language_options, get_language_code, LANGUAGES, is_rtl
+from translations import get_text, get_language_options, get_language_code, LANGUAGES, is_rtl, get_current_language
+
+def t(key):
+    return get_text(key, get_current_language())
 
 # ============================================================================
 # APPLY STYLING
@@ -184,9 +187,9 @@ def render_login_page():
         st.markdown(f"""
             <div style='text-align: center; margin-bottom: 2rem;'>
                 <h2 style='color: {COLORS['purple_light']}; font-family: Rajdhani, sans-serif;'>
-                    SECURE ACCESS
+                    {t("auth_secure_access").upper()}
                 </h2>
-                <p style='color: {COLORS['text_muted']};'>Enter your credentials to access the platform</p>
+                <p style='color: {COLORS['text_muted']};'>{t("auth_enter_credentials")}</p>
             </div>
         """, unsafe_allow_html=True)
         
@@ -202,15 +205,15 @@ def render_login_page():
         """, unsafe_allow_html=True)
         
         with st.form("login_form"):
-            username = st.text_input("Username", placeholder="Enter username")
-            password = st.text_input("Password", type="password", placeholder="Enter password")
+            username = st.text_input(t("username"), placeholder=t("auth_username_placeholder"))
+            password = st.text_input(t("password"), type="password", placeholder=t("auth_password_placeholder"))
             
             col_btn1, col_btn2 = st.columns(2)
             
             with col_btn1:
-                submit = st.form_submit_button(" LOGIN", width="stretch")
+                submit = st.form_submit_button(f" {t('auth_login_button')}", use_container_width=True)
             with col_btn2:
-                if st.form_submit_button("← Back", width="stretch"):
+                if st.form_submit_button(f"← {t('auth_back')}", use_container_width=True):
                     navigate_to('landing')
             
             if submit:
@@ -219,11 +222,11 @@ def render_login_page():
                     st.session_state['username'] = username
                     st.session_state['user_role'] = get_user_role(username)
                     st.session_state['page'] = 'dashboard'
-                    st.toast(f"Welcome, {username}!")
+                    st.toast(f"{t('auth_welcome')}, {username}!")
                     time.sleep(1)
                     st.rerun()
                 else:
-                    st.error(Messages.INVALID_CREDENTIALS)
+                    st.error(t("error_invalid_credentials"))
         
         st.markdown("</div>", unsafe_allow_html=True)
         
@@ -232,7 +235,7 @@ def render_login_page():
             <div style='text-align: center; margin-top: 1rem; padding: 1rem; 
                         background: rgba(139, 92, 246, 0.1); border-radius: 8px;'>
                 <p style='color: {COLORS['text_muted']}; font-size: 0.85rem; margin: 0;'>
-                     Demo: <code>admin</code> / <code>admin123</code>
+                     {t("auth_demo_hint")}
                 </p>
             </div>
         """, unsafe_allow_html=True)
@@ -249,42 +252,42 @@ def render_register_page():
         st.markdown(f"""
             <div style='text-align: center; margin-bottom: 2rem;'>
                 <h2 style='color: {COLORS['purple_light']}; font-family: Rajdhani, sans-serif;'>
-                    CREATE ACCOUNT
+                    {t("auth_create_account").upper()}
                 </h2>
-                <p style='color: {COLORS['text_muted']};'>Join the ProInvestiX National Platform</p>
+                <p style='color: {COLORS['text_muted']};'>{t("auth_join_platform")}</p>
             </div>
         """, unsafe_allow_html=True)
         
         with st.form("register_form"):
-            new_username = st.text_input("Username", placeholder="Min 3 characters")
-            new_email = st.text_input("Email", placeholder="your@email.com")
-            new_password = st.text_input("Password", type="password", placeholder="Min 8 characters")
-            confirm_password = st.text_input("Confirm Password", type="password")
+            new_username = st.text_input(t("username"), placeholder=t("auth_min_chars"))
+            new_email = st.text_input(t("email"), placeholder="your@email.com")
+            new_password = st.text_input(t("password"), type="password", placeholder=t("auth_min_password"))
+            confirm_password = st.text_input(t("auth_confirm_password"), type="password")
             
             col_btn1, col_btn2 = st.columns(2)
             
             with col_btn1:
-                submit = st.form_submit_button(" REGISTER", width="stretch")
+                submit = st.form_submit_button(f" {t('auth_register_button')}", use_container_width=True)
             with col_btn2:
-                if st.form_submit_button("← Back", width="stretch"):
+                if st.form_submit_button(f"← {t('auth_back')}", use_container_width=True):
                     navigate_to('landing')
             
             if submit:
                 if len(new_username) < 3:
-                    st.error(Messages.USERNAME_TOO_SHORT)
+                    st.error(t("error_username_short"))
                 elif len(new_password) < 8:
-                    st.error(Messages.PASSWORD_TOO_SHORT)
+                    st.error(t("error_password_short"))
                 elif new_password != confirm_password:
-                    st.error(" Passwords do not match")
+                    st.error(t("error_passwords_mismatch"))
                 else:
                     success = register_user(new_username, new_password, "Official", new_email)
                     if success:
-                        st.success(Messages.ACCOUNT_CREATED)
-                        st.info("You can now login with your credentials.")
+                        st.success(t("success_account_created"))
+                        st.info(t("auth_login_now"))
                         time.sleep(2)
                         navigate_to('login')
                     else:
-                        st.error(Messages.USERNAME_EXISTS)
+                        st.error(t("error_username_exists"))
 
 
 # ============================================================================
@@ -760,7 +763,7 @@ def main():
         if st.session_state['ingelogd']:
             render_main_app()
         else:
-            st.warning("Please login to access this page.")
+            st.warning(t("auth_please_login"))
             navigate_to('login')
     
     else:
