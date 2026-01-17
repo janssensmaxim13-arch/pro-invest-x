@@ -174,7 +174,7 @@ def render_scholarships(username: str):
                     format_func=lambda x: id_map.get(x, x)
                 )
             else:
-                st.warning("No identities registered yet.")
+                st.warning(t("warning_no_identities"))
                 applicant_id = None
             
             scholarship_type = st.selectbox("Scholarship Type", Options.SCHOLARSHIP_TYPES)
@@ -189,7 +189,7 @@ def render_scholarships(username: str):
             if not applicant_id or not university or not field:
                 st.error(" All fields required.")
             elif amount <= 0:
-                st.error(" Amount must be positive.")
+                st.error(t("error_amount_positive"))
             else:
                 app_id = generate_uuid("SCH")
                 
@@ -283,7 +283,7 @@ def render_assistance(username: str):
                     format_func=lambda x: id_map.get(x, x)
                 )
             else:
-                st.warning("No identities registered yet.")
+                st.warning(t("warning_no_identities"))
                 requester_id = None
             
             assist_type = st.selectbox("Assistance Type", Options.ASSISTANCE_TYPES)

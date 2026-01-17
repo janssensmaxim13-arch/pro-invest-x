@@ -521,7 +521,7 @@ def render_wellbeing_dashboard(username: str):
     talents = get_talents_for_hayat()
     
     if not talents:
-        st.warning("Geen talenten beschikbaar.")
+        st.warning(t("warning_no_talents"))
         return
     
     col1, col2 = st.columns([1, 2])
@@ -634,7 +634,7 @@ def render_sessions(username: str):
     talents = get_talents_for_hayat()
     
     if not talents:
-        st.warning("Geen talenten beschikbaar.")
+        st.warning(t("warning_no_talents"))
         return
     
     col1, col2 = st.columns([1, 2])
@@ -761,7 +761,7 @@ def render_rehabilitation(username: str):
     talents = get_talents_for_hayat()
     
     if not talents:
-        st.warning("Geen talenten beschikbaar.")
+        st.warning(t("warning_no_talents"))
         return
     
     col1, col2 = st.columns([1, 2])

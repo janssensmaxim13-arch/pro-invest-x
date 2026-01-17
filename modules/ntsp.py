@@ -838,7 +838,7 @@ def render_medical(username: str):
     talents = get_talents_dropdown()
     
     if not talents:
-        st.warning("Geen talenten beschikbaar.")
+        st.warning(t("warning_no_talents"))
         return
     
     tab1, tab2 = st.tabs([" Nieuwe Medical", t("overview")])
@@ -976,7 +976,7 @@ def render_mental(username: str):
     talents = get_talents_dropdown()
     
     if not talents:
-        st.warning("Geen talenten beschikbaar.")
+        st.warning(t("warning_no_talents"))
         return
     
     with st.form("mental_form"):

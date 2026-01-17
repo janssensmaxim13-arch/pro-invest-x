@@ -230,7 +230,7 @@ def render_transactions(username: str):
                     format_func=lambda x: id_map.get(x, x)
                 )
             else:
-                st.warning("No identities registered yet.")
+                st.warning(t("warning_no_identities"))
                 entity_id = None
             
             amount = st.number_input("Amount (€) *", min_value=0.0, step=1000.0)
@@ -260,7 +260,7 @@ def render_transactions(username: str):
             if not entity_id:
                 st.error(" Entity required.")
             elif amount <= 0:
-                st.error(" Amount must be positive.")
+                st.error(t("error_amount_positive"))
             else:
                 tx_id = generate_uuid("TX")
                 
@@ -393,7 +393,7 @@ def render_donations(username: str):
         
         if st.form_submit_button(" DONATE NOW", width="stretch", type="primary"):
             if donation_amt <= 0:
-                st.error(" Amount must be positive.")
+                st.error(t("error_amount_positive"))
             else:
                 donation_id = generate_uuid("DON")
                 donor_val = None if donor_id == "Anonymous" or anonymous else donor_id

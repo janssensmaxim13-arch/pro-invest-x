@@ -644,7 +644,7 @@ def render_verification(username: str):
             
             if st.form_submit_button(" Start Verificatie", width="stretch", type="primary"):
                 if not all([first_name, last_name, phone, email, document_number]):
-                    st.error("Vul alle verplichte velden in")
+                    st.error(t("error_fill_required"))
                 elif not consent:
                     st.error("Accepteer de voorwaarden om door te gaan")
                 else:
@@ -939,7 +939,7 @@ def render_organizations(username: str):
             
             if st.form_submit_button(" Registreren", width="stretch"):
                 if not name or not beneficial_owner_name:
-                    st.error("Vul alle verplichte velden in")
+                    st.error(t("error_fill_required"))
                 else:
                     org_id = generate_uuid("ORG")
                     

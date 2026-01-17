@@ -90,9 +90,9 @@ def render_new_academy(username: str):
             num_pitches = st.number_input("Velden", 0, 20, 2)
             email = st.text_input("E-mail")
         
-        if st.form_submit_button(" REGISTREREN", width="stretch"):
+        if st.form_submit_button(" REGISTREREN", use_container_width=True):
             if not name or not city:
-                st.error("Naam en stad verplicht.")
+                st.error(t("error_fill_required"))
             else:
                 success = run_query("""
                     INSERT INTO academies (academy_id, name, region, city, country, academy_type, 
@@ -103,7 +103,7 @@ def render_new_academy(username: str):
                       director or None, email or None, "ACTIVE", datetime.now().isoformat()))
                 
                 if success:
-                    st.success(Messages.ACADEMY_REGISTERED.format(name))
+                    st.success(t("success_registered"))
                     log_audit(username, "ACADEMY_CREATED", "Academy")
                     st.balloons()
 
@@ -112,7 +112,7 @@ def render_teams(username: str):
     academies = get_academies_dropdown()
     
     if not academies:
-        st.warning("Geen academies.")
+        st.warning(t("warning_no_academies"))
         return
     
     col1, col2 = st.columns([1, 2])
@@ -130,12 +130,12 @@ def render_teams(username: str):
                         INSERT INTO academy_teams (team_id, academy_id, team_name, age_group, head_coach, status, created_at)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
                     """, (generate_uuid("TM"), academy_id, team_name, age_group, head_coach or None, "ACTIVE", datetime.now().isoformat()))
-                    st.success(f" {team_name} toegevoegd!")
+                    st.success(t("success_added"))
     
     with col2:
         df = get_data("academy_teams")
         if not df.empty:
-            st.dataframe(df[['team_name', 'age_group', 'head_coach', 'status']], width="stretch", hide_index=True)
+            st.dataframe(df[['team_name', 'age_group', 'head_coach', 'status']], use_container_width=True, hide_index=True)
 
 
 def render_enrollments(username: str):
@@ -143,7 +143,7 @@ def render_enrollments(username: str):
     talents = get_talents_dropdown()
     
     if not academies or not talents:
-        st.warning("Academies en talenten nodig.")
+        st.warning(t("warning_no_data"))
         return
     
     col1, col2 = st.columns([1, 2])
@@ -161,19 +161,19 @@ def render_enrollments(username: str):
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """, (generate_uuid("ENR"), academy_id, talent_id, str(date.today()), enrollment_type, 1 if is_residential else 0, "ACTIVE", datetime.now().isoformat()))
                 run_query("UPDATE academies SET current_enrollment = current_enrollment + 1 WHERE academy_id = ?", (academy_id,))
-                st.success(" Ingeschreven!")
+                st.success(t("success_registered"))
     
     with col2:
         df = get_data("academy_enrollments")
         if not df.empty:
-            st.dataframe(df[['talent_id', 'academy_id', 'enrollment_type', 'status']], width="stretch", hide_index=True)
+            st.dataframe(df[['talent_id', 'academy_id', 'enrollment_type', 'status']], use_container_width=True, hide_index=True)
 
 
 def render_staff(username: str):
     academies = get_academies_dropdown()
     
     if not academies:
-        st.warning("Geen academies.")
+        st.warning(t("warning_no_academies"))
         return
     
     col1, col2 = st.columns([1, 2])

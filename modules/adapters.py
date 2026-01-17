@@ -44,7 +44,7 @@ def render_sport(username: str):
                         format_func=lambda x: id_map.get(x, x)
                     )
                 else:
-                    st.warning("No identities registered yet.")
+                    st.warning(t("warning_no_identities"))
                     athlete_id = None
                 
                 discipline = st.text_input("Discipline/Position", placeholder="e.g., Forward")
@@ -239,7 +239,7 @@ def render_health(username: str):
                         format_func=lambda x: id_map.get(x, x)
                     )
                 else:
-                    st.warning("No identities registered yet.")
+                    st.warning(t("warning_no_identities"))
                     patient_id = None
                 
                 checkup_type = st.selectbox("Checkup Type", Options.CHECKUP_TYPES)

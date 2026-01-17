@@ -708,8 +708,47 @@ TRANSLATIONS = {
     "error_passwords_mismatch": {"nl": "Wachtwoorden komen niet overeen", "fr": "Les mots de passe ne correspondent pas", "en": "Passwords do not match", "ar": "كلمات المرور غير متطابقة"},
     "error_username_exists": {"nl": "Gebruikersnaam bestaat al", "fr": "Le nom d'utilisateur existe déjà", "en": "Username already exists", "ar": "اسم المستخدم موجود بالفعل"},
     "error_required_field": {"nl": "Dit veld is verplicht", "fr": "Ce champ est obligatoire", "en": "This field is required", "ar": "هذا الحقل مطلوب"},
+    "error_fill_required": {"nl": "Vul alle verplichte velden in", "fr": "Veuillez remplir tous les champs obligatoires", "en": "Please fill in all required fields", "ar": "يرجى ملء جميع الحقول المطلوبة"},
+    "error_name_required": {"nl": "Naam is verplicht", "fr": "Le nom est obligatoire", "en": "Name is required", "ar": "الاسم مطلوب"},
+    "error_amount_positive": {"nl": "Bedrag moet positief zijn", "fr": "Le montant doit être positif", "en": "Amount must be positive", "ar": "يجب أن يكون المبلغ موجبًا"},
+    "error_select_identity": {"nl": "Selecteer een identiteit", "fr": "Veuillez sélectionner une identité", "en": "Please select an identity", "ar": "يرجى اختيار هوية"},
+    "error_not_found": {"nl": "Niet gevonden", "fr": "Non trouvé", "en": "Not found", "ar": "غير موجود"},
+    "error_registration_failed": {"nl": "Registratie mislukt", "fr": "Échec de l'inscription", "en": "Registration failed", "ar": "فشل التسجيل"},
+    "error_file_required": {"nl": "Bestand is verplicht", "fr": "Le fichier est obligatoire", "en": "File is required", "ar": "الملف مطلوب"},
+    "error_invalid_id": {"nl": "Ongeldig ID", "fr": "ID invalide", "en": "Invalid ID", "ar": "معرف غير صالح"},
+    "error_duplicate": {"nl": "Duplicaat gevonden", "fr": "Doublon trouvé", "en": "Duplicate found", "ar": "تم العثور على نسخة مكررة"},
+    "error_file_too_large": {"nl": "Bestand te groot", "fr": "Fichier trop volumineux", "en": "File too large", "ar": "الملف كبير جدًا"},
+    "error_match_id_required": {"nl": "Wedstrijd ID is verplicht", "fr": "L'ID du match est obligatoire", "en": "Match ID is required", "ar": "معرف المباراة مطلوب"},
+
+    # =========================================================================
+    # WARNING MESSAGES
+    # =========================================================================
+    "warning_no_data": {"nl": "Geen gegevens beschikbaar", "fr": "Aucune donnée disponible", "en": "No data available", "ar": "لا توجد بيانات متاحة"},
+    "warning_no_identities": {"nl": "Geen identiteiten geregistreerd", "fr": "Aucune identité enregistrée", "en": "No identities registered yet", "ar": "لم يتم تسجيل هويات بعد"},
+    "warning_no_talents": {"nl": "Geen talenten beschikbaar", "fr": "Aucun talent disponible", "en": "No talents available", "ar": "لا توجد مواهب متاحة"},
+    "warning_no_academies": {"nl": "Geen academies beschikbaar", "fr": "Aucune académie disponible", "en": "No academies available", "ar": "لا توجد أكاديميات متاحة"},
+    "warning_no_wallets": {"nl": "Geen wallets beschikbaar", "fr": "Aucun portefeuille disponible", "en": "No wallets available", "ar": "لا توجد محافظ متاحة"},
+    "warning_loading": {"nl": "Laden...", "fr": "Chargement...", "en": "Loading...", "ar": "جار التحميل..."},
+    "warning_login_required": {"nl": "Inloggen vereist", "fr": "Connexion requise", "en": "Login required", "ar": "تسجيل الدخول مطلوب"},
+    "warning_wallet_required": {"nl": "Wallet vereist", "fr": "Portefeuille requis", "en": "Wallet required", "ar": "المحفظة مطلوبة"},
+    "warning_register_first": {"nl": "Registreer eerst", "fr": "Inscrivez-vous d'abord", "en": "Please register first", "ar": "يرجى التسجيل أولاً"},
+    "warning_awaiting_verification": {"nl": "In afwachting van verificatie", "fr": "En attente de vérification", "en": "Awaiting verification", "ar": "في انتظار التحقق"},
+
+    # =========================================================================
+    # SUCCESS MESSAGES
+    # =========================================================================
     "success_account_created": {"nl": "Account succesvol aangemaakt!", "fr": "Compte créé avec succès!", "en": "Account created successfully!", "ar": "تم إنشاء الحساب بنجاح!"},
     "success_saved": {"nl": "Succesvol opgeslagen!", "fr": "Enregistré avec succès!", "en": "Saved successfully!", "ar": "تم الحفظ بنجاح!"},
+    "success_registered": {"nl": "Succesvol geregistreerd!", "fr": "Enregistré avec succès!", "en": "Registered successfully!", "ar": "تم التسجيل بنجاح!"},
+    "success_added": {"nl": "Succesvol toegevoegd!", "fr": "Ajouté avec succès!", "en": "Added successfully!", "ar": "تمت الإضافة بنجاح!"},
+    "success_deleted": {"nl": "Succesvol verwijderd!", "fr": "Supprimé avec succès!", "en": "Deleted successfully!", "ar": "تم الحذف بنجاح!"},
+    "success_updated": {"nl": "Succesvol bijgewerkt!", "fr": "Mis à jour avec succès!", "en": "Updated successfully!", "ar": "تم التحديث بنجاح!"},
+    "success_submitted": {"nl": "Succesvol verzonden!", "fr": "Soumis avec succès!", "en": "Submitted successfully!", "ar": "تم الإرسال بنجاح!"},
+    "success_verified": {"nl": "Succesvol geverifieerd!", "fr": "Vérifié avec succès!", "en": "Verified successfully!", "ar": "تم التحقق بنجاح!"},
+    "success_completed": {"nl": "Voltooid!", "fr": "Terminé!", "en": "Completed!", "ar": "اكتمل!"},
+    "success_report_generated": {"nl": "Rapport gegenereerd!", "fr": "Rapport généré!", "en": "Report generated!", "ar": "تم إنشاء التقرير!"},
+    "success_no_incidents": {"nl": "Geen incidenten!", "fr": "Aucun incident!", "en": "No incidents!", "ar": "لا توجد حوادث!"},
+    "success_transaction_complete": {"nl": "Transactie voltooid!", "fr": "Transaction terminée!", "en": "Transaction complete!", "ar": "اكتملت المعاملة!"},
 }
 
 # =============================================================================

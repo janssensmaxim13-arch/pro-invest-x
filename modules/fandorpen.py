@@ -634,7 +634,7 @@ def render_volunteer_registration(username: str):
         
         if st.form_submit_button(" Registreren", width="stretch"):
             if not first_name or not last_name or not email or not nationality_2:
-                st.error("Vul alle verplichte velden in")
+                st.error(t("error_fill_required"))
             elif len(languages) < 2:
                 st.error("Selecteer minstens 2 talen")
             elif not agree:
