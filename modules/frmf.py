@@ -135,6 +135,71 @@ PAYMENT_FREQUENCY = [
     ("ANNUAL", "Annual")
 ]
 
+# Medical Records Constants
+INJURY_TYPES = [
+    ("MUSCLE", "Muscle Injury"),
+    ("LIGAMENT", "Ligament Injury"),
+    ("TENDON", "Tendon Injury"),
+    ("BONE", "Bone Fracture"),
+    ("CONCUSSION", "Concussion"),
+    ("SPRAIN", "Sprain"),
+    ("STRAIN", "Strain"),
+    ("CONTUSION", "Contusion/Bruise"),
+    ("DISLOCATION", "Dislocation"),
+    ("OVERUSE", "Overuse Injury"),
+    ("ILLNESS", "Illness/Disease"),
+    ("OTHER", "Other")
+]
+
+BODY_PARTS = [
+    ("HEAD", "Head"),
+    ("NECK", "Neck"),
+    ("SHOULDER", "Shoulder"),
+    ("ARM", "Arm"),
+    ("ELBOW", "Elbow"),
+    ("WRIST", "Wrist"),
+    ("HAND", "Hand"),
+    ("BACK", "Back"),
+    ("CHEST", "Chest"),
+    ("ABDOMEN", "Abdomen"),
+    ("HIP", "Hip"),
+    ("GROIN", "Groin"),
+    ("THIGH", "Thigh"),
+    ("HAMSTRING", "Hamstring"),
+    ("KNEE", "Knee"),
+    ("ACL", "ACL"),
+    ("MCL", "MCL"),
+    ("CALF", "Calf"),
+    ("ANKLE", "Ankle"),
+    ("FOOT", "Foot"),
+    ("ACHILLES", "Achilles")
+]
+
+INJURY_SEVERITY = [
+    ("MINOR", "Minor (1-7 days)"),
+    ("MODERATE", "Moderate (1-4 weeks)"),
+    ("SERIOUS", "Serious (1-3 months)"),
+    ("SEVERE", "Severe (3-6 months)"),
+    ("CRITICAL", "Critical (6+ months)")
+]
+
+MEDICAL_STATUS = [
+    ("FIT", "Fit to Play"),
+    ("RECOVERING", "Recovering"),
+    ("REHAB", "In Rehabilitation"),
+    ("ASSESSMENT", "Under Assessment"),
+    ("SURGERY", "Post-Surgery"),
+    ("CLEARED", "Medically Cleared")
+]
+
+FITNESS_LEVELS = [
+    ("A", "Level A - Full Match Fitness"),
+    ("B", "Level B - High Intensity Training"),
+    ("C", "Level C - Moderate Training"),
+    ("D", "Level D - Light Training Only"),
+    ("E", "Level E - Recovery Phase")
+]
+
 VAR_OUTCOMES = ["CONFIRMED", "OVERTURNED", "REVIEW_COMPLETE"]
 
 INCIDENT_TYPES = [
@@ -512,6 +577,51 @@ def init_frmf_tables():
             status TEXT DEFAULT 'RECOVERING',
             created_at TEXT NOT NULL,
             FOREIGN KEY (player_id) REFERENCES frmf_players(player_id)
+        )
+    ''')
+    
+    # Player fitness tracking
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_player_fitness (
+            fitness_id TEXT PRIMARY KEY,
+            player_id TEXT NOT NULL,
+            assessment_date TEXT NOT NULL,
+            fitness_level TEXT,
+            match_readiness INTEGER DEFAULT 0,
+            training_intensity TEXT,
+            vo2_max REAL,
+            sprint_speed REAL,
+            endurance_score REAL,
+            strength_score REAL,
+            flexibility_score REAL,
+            weight_kg REAL,
+            body_fat_percentage REAL,
+            resting_heart_rate INTEGER,
+            assessed_by TEXT,
+            notes TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (player_id) REFERENCES frmf_players(player_id)
+        )
+    ''')
+    
+    # Return to play protocol
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_return_to_play (
+            protocol_id TEXT PRIMARY KEY,
+            player_id TEXT NOT NULL,
+            medical_id TEXT,
+            phase INTEGER DEFAULT 1,
+            phase_name TEXT,
+            start_date TEXT,
+            target_date TEXT,
+            actual_completion TEXT,
+            requirements TEXT,
+            status TEXT DEFAULT 'IN_PROGRESS',
+            cleared_by TEXT,
+            notes TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (player_id) REFERENCES frmf_players(player_id),
+            FOREIGN KEY (medical_id) REFERENCES frmf_player_medical(medical_id)
         )
     ''')
     
@@ -1875,6 +1985,346 @@ def render_contract_management(username: str):
                         st.rerun()
 
 
+def render_medical_records(username: str):
+    """Render medical records tab."""
+    st.markdown("### Medical Records Center")
+    st.caption("Injury tracking, fitness assessments, and return-to-play protocols")
+    
+    df_medical = get_data("frmf_player_medical")
+    df_players = get_data("frmf_players")
+    df_fitness = get_data("frmf_player_fitness")
+    
+    # Generate demo data if empty
+    if df_medical.empty:
+        records = []
+        for i in range(12):
+            injury_type = random.choice([t[0] for t in INJURY_TYPES])
+            body_part = random.choice([b[0] for b in BODY_PARTS])
+            severity = random.choice([s[0] for s in INJURY_SEVERITY])
+            status = random.choice(["RECOVERING", "RECOVERING", "FIT", "REHAB", "ASSESSMENT"])
+            
+            injury_date = datetime.now() - timedelta(days=random.randint(5, 90))
+            expected_return = injury_date + timedelta(days=random.randint(14, 120))
+            
+            records.append({
+                "medical_id": f"MED-{7000+i}",
+                "player_id": f"PLR-{4000+random.randint(0,15)}",
+                "player_name": f"Player {random.randint(1,20)}",
+                "injury_type": injury_type,
+                "body_part": body_part,
+                "severity": severity,
+                "injury_date": injury_date.strftime("%Y-%m-%d"),
+                "expected_return": expected_return.strftime("%Y-%m-%d"),
+                "status": status,
+                "created_at": datetime.now().isoformat()
+            })
+        df_medical = pd.DataFrame(records)
+        info_box("Demo Mode", "Showing demo medical data.")
+    
+    # Stats
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Total Records", len(df_medical))
+    with col2:
+        injured = len(df_medical[df_medical['status'].isin(['RECOVERING', 'REHAB', 'SURGERY'])]) if 'status' in df_medical.columns else 0
+        st.metric("Currently Injured", injured)
+    with col3:
+        fit = len(df_medical[df_medical['status'] == 'FIT']) if 'status' in df_medical.columns else 0
+        st.metric("Cleared to Play", fit)
+    with col4:
+        severe = len(df_medical[df_medical['severity'].isin(['SEVERE', 'CRITICAL'])]) if 'severity' in df_medical.columns else 0
+        st.metric("Severe Injuries", severe)
+    
+    st.divider()
+    
+    # Sub-tabs
+    med_tab1, med_tab2, med_tab3, med_tab4 = st.tabs([
+        "Injury Log", "Fitness Tracking", "Return to Play", "Add Record"
+    ])
+    
+    with med_tab1:
+        # Filters
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            status_filter = st.selectbox("Status", ["All"] + [s[1] for s in MEDICAL_STATUS], key="med_status")
+        with col2:
+            severity_filter = st.selectbox("Severity", ["All"] + [s[1] for s in INJURY_SEVERITY], key="med_severity")
+        with col3:
+            body_filter = st.selectbox("Body Part", ["All"] + [b[1] for b in BODY_PARTS[:10]], key="med_body")
+        
+        # Apply filters
+        filtered = df_medical.copy()
+        if status_filter != "All" and 'status' in df_medical.columns:
+            status_code = next((s[0] for s in MEDICAL_STATUS if s[1] == status_filter), None)
+            if status_code:
+                filtered = filtered[filtered['status'] == status_code]
+        if severity_filter != "All" and 'severity' in df_medical.columns:
+            sev_code = next((s[0] for s in INJURY_SEVERITY if s[1] == severity_filter), None)
+            if sev_code:
+                filtered = filtered[filtered['severity'] == sev_code]
+        
+        st.markdown(f"**{len(filtered)} injury records found**")
+        
+        # Display injuries
+        for _, record in filtered.head(10).iterrows():
+            status = record.get('status', 'RECOVERING')
+            severity = record.get('severity', 'MODERATE')
+            injury_type = record.get('injury_type', 'OTHER')
+            body_part = record.get('body_part', 'OTHER')
+            
+            injury_name = next((t[1] for t in INJURY_TYPES if t[0] == injury_type), injury_type)
+            body_name = next((b[1] for b in BODY_PARTS if b[0] == body_part), body_part)
+            severity_name = next((s[1] for s in INJURY_SEVERITY if s[0] == severity), severity)
+            
+            # Status color
+            if status == 'FIT':
+                status_color = "#48BB78"
+            elif status in ['RECOVERING', 'REHAB']:
+                status_color = "#ECC94B"
+            elif status == 'SURGERY':
+                status_color = "#F56565"
+            else:
+                status_color = "#A0AEC0"
+            
+            # Severity color
+            if severity in ['SEVERE', 'CRITICAL']:
+                sev_color = "#F56565"
+            elif severity == 'SERIOUS':
+                sev_color = "#ED8936"
+            else:
+                sev_color = "#ECC94B"
+            
+            st.markdown(f"""
+                <div style='
+                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                    border-left: 4px solid {status_color};
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin-bottom: 0.5rem;
+                '>
+                    <div style='display: flex; justify-content: space-between; align-items: center;'>
+                        <div>
+                            <span style='font-weight: 600; color: #E2E8F0;'>
+                                {record.get('player_name', record.get('player_id', 'Unknown'))}
+                            </span>
+                            <span style='
+                                background: {sev_color};
+                                color: white;
+                                padding: 0.15rem 0.4rem;
+                                border-radius: 4px;
+                                font-size: 0.7rem;
+                                margin-left: 0.5rem;
+                            '>{severity_name}</span>
+                        </div>
+                        <span style='
+                            background: {status_color};
+                            color: white;
+                            padding: 0.2rem 0.5rem;
+                            border-radius: 4px;
+                            font-size: 0.75rem;
+                        '>{status}</span>
+                    </div>
+                    <div style='margin-top: 0.5rem; color: #A0AEC0; font-size: 0.85rem;'>
+                        {injury_name} - {body_name} |
+                        Injury Date: {record.get('injury_date', 'N/A')} |
+                        Expected Return: <span style='color: #D4AF37;'>{record.get('expected_return', 'N/A')}</span>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    with med_tab2:
+        st.markdown("#### Fitness Assessments")
+        st.caption("Track player fitness levels and readiness")
+        
+        if df_fitness.empty:
+            # Generate demo fitness data
+            fitness_records = []
+            for i in range(10):
+                level = random.choice([f[0] for f in FITNESS_LEVELS])
+                fitness_records.append({
+                    "fitness_id": f"FIT-{8000+i}",
+                    "player_id": f"PLR-{4000+i}",
+                    "player_name": f"Player {i+1}",
+                    "fitness_level": level,
+                    "match_readiness": random.randint(60, 100),
+                    "vo2_max": round(random.uniform(50, 65), 1),
+                    "sprint_speed": round(random.uniform(30, 36), 1),
+                    "assessment_date": datetime.now().strftime("%Y-%m-%d")
+                })
+            df_fitness = pd.DataFrame(fitness_records)
+        
+        # Summary
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            level_a = len(df_fitness[df_fitness['fitness_level'] == 'A']) if 'fitness_level' in df_fitness.columns else 0
+            st.metric("Level A (Match Fit)", level_a)
+        with col2:
+            avg_readiness = df_fitness['match_readiness'].mean() if 'match_readiness' in df_fitness.columns else 0
+            st.metric("Avg Readiness", f"{avg_readiness:.0f}%")
+        with col3:
+            avg_vo2 = df_fitness['vo2_max'].mean() if 'vo2_max' in df_fitness.columns else 0
+            st.metric("Avg VO2 Max", f"{avg_vo2:.1f}")
+        
+        st.divider()
+        
+        # Fitness table
+        for _, fit in df_fitness.head(8).iterrows():
+            level = fit.get('fitness_level', 'C')
+            level_name = next((f[1] for f in FITNESS_LEVELS if f[0] == level), level)
+            readiness = fit.get('match_readiness', 75)
+            
+            # Color based on readiness
+            if readiness >= 90:
+                bar_color = "#48BB78"
+            elif readiness >= 75:
+                bar_color = "#ECC94B"
+            else:
+                bar_color = "#F56565"
+            
+            st.markdown(f"""
+                <div style='
+                    background: #1a1a2e;
+                    border-radius: 8px;
+                    padding: 0.75rem 1rem;
+                    margin-bottom: 0.5rem;
+                '>
+                    <div style='display: flex; justify-content: space-between; margin-bottom: 0.5rem;'>
+                        <span style='color: #E2E8F0; font-weight: 600;'>
+                            {fit.get('player_name', fit.get('player_id', 'Unknown'))}
+                        </span>
+                        <span style='color: #A0AEC0;'>{level_name}</span>
+                    </div>
+                    <div style='background: #2D3748; border-radius: 4px; height: 8px;'>
+                        <div style='background: {bar_color}; width: {readiness}%; height: 100%; border-radius: 4px;'></div>
+                    </div>
+                    <div style='display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: #718096;'>
+                        <span>VO2: {fit.get('vo2_max', 'N/A')}</span>
+                        <span>Sprint: {fit.get('sprint_speed', 'N/A')} km/h</span>
+                        <span style='color: {bar_color};'>{readiness}% Ready</span>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    with med_tab3:
+        st.markdown("#### Return to Play Protocol")
+        st.caption("Track player recovery phases")
+        
+        df_rtp = get_data("frmf_return_to_play")
+        
+        if df_rtp.empty:
+            info_box("No Active Protocols", "No return-to-play protocols currently active.")
+        else:
+            for _, protocol in df_rtp.iterrows():
+                phase = protocol.get('phase', 1)
+                status = protocol.get('status', 'IN_PROGRESS')
+                
+                st.markdown(f"""
+                    <div style='background: #1a1a2e; border-radius: 8px; padding: 1rem; margin-bottom: 0.5rem;'>
+                        <div style='color: #E2E8F0; font-weight: 600;'>Phase {phase}: {protocol.get('phase_name', 'Recovery')}</div>
+                        <div style='color: #A0AEC0; font-size: 0.85rem; margin-top: 0.25rem;'>
+                            Target: {protocol.get('target_date', 'N/A')} | Status: {status}
+                        </div>
+                    </div>
+                """, unsafe_allow_html=True)
+        
+        # RTP Phases explanation
+        with st.expander("Return to Play Phases"):
+            st.markdown("""
+            **Phase 1:** Rest & Protection  
+            **Phase 2:** Light Activity  
+            **Phase 3:** Sport-Specific Exercise  
+            **Phase 4:** Non-Contact Training  
+            **Phase 5:** Full Contact Training  
+            **Phase 6:** Return to Competition
+            """)
+    
+    with med_tab4:
+        st.markdown("#### Log New Injury")
+        
+        # Get players for dropdown
+        if not df_players.empty and 'first_name' in df_players.columns:
+            player_options = [f"{r['first_name']} {r['last_name']}" for _, r in df_players.iterrows()]
+        else:
+            player_options = [f"Player {i+1}" for i in range(10)]
+        
+        with st.form("add_injury"):
+            col1, col2 = st.columns(2)
+            with col1:
+                player = st.selectbox("Player *", player_options, key="inj_player")
+                injury_type = st.selectbox("Injury Type *", [t[1] for t in INJURY_TYPES])
+                body_part = st.selectbox("Body Part *", [b[1] for b in BODY_PARTS])
+            with col2:
+                injury_date = st.date_input("Injury Date")
+                severity = st.selectbox("Severity *", [s[1] for s in INJURY_SEVERITY])
+                expected_return = st.date_input("Expected Return", value=datetime.now() + timedelta(days=30))
+            
+            col3, col4 = st.columns(2)
+            with col3:
+                treatment = st.text_input("Treatment")
+                medical_staff = st.text_input("Medical Staff")
+            with col4:
+                status = st.selectbox("Current Status", [s[1] for s in MEDICAL_STATUS])
+            
+            notes = st.text_area("Medical Notes")
+            
+            if st.form_submit_button("Log Injury", type="primary", use_container_width=True):
+                if player:
+                    medical_id = generate_uuid("MED")
+                    injury_code = next((t[0] for t in INJURY_TYPES if t[1] == injury_type), "OTHER")
+                    body_code = next((b[0] for b in BODY_PARTS if b[1] == body_part), "OTHER")
+                    sev_code = next((s[0] for s in INJURY_SEVERITY if s[1] == severity), "MODERATE")
+                    status_code = next((s[0] for s in MEDICAL_STATUS if s[1] == status), "RECOVERING")
+                    
+                    success = run_query("""
+                        INSERT INTO frmf_player_medical 
+                        (medical_id, player_id, injury_type, body_part, severity, injury_date,
+                         expected_return, treatment, medical_staff, status, notes, created_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (medical_id, player, injury_code, body_code, sev_code, str(injury_date),
+                          str(expected_return), treatment, medical_staff, status_code, notes,
+                          datetime.now().isoformat()))
+                    
+                    if success:
+                        success_message("Injury Logged!", medical_id)
+                        log_audit(username, "INJURY_LOGGED", "FRMF", f"{player} - {injury_type}")
+                        st.rerun()
+                else:
+                    st.error("Player is required")
+        
+        st.divider()
+        
+        # Fitness Assessment form
+        st.markdown("#### Log Fitness Assessment")
+        
+        with st.form("add_fitness"):
+            col1, col2 = st.columns(2)
+            with col1:
+                fit_player = st.selectbox("Player *", player_options, key="fit_player")
+                fitness_level = st.selectbox("Fitness Level *", [f[1] for f in FITNESS_LEVELS])
+                match_readiness = st.slider("Match Readiness %", 0, 100, 80)
+            with col2:
+                vo2_max = st.number_input("VO2 Max", 30.0, 80.0, 55.0, step=0.5)
+                sprint_speed = st.number_input("Sprint Speed (km/h)", 20.0, 40.0, 32.0, step=0.5)
+                assessed_by = st.text_input("Assessed By")
+            
+            if st.form_submit_button("Log Assessment", use_container_width=True):
+                if fit_player:
+                    fitness_id = generate_uuid("FIT")
+                    level_code = next((f[0] for f in FITNESS_LEVELS if f[1] == fitness_level), "C")
+                    
+                    run_query("""
+                        INSERT INTO frmf_player_fitness 
+                        (fitness_id, player_id, assessment_date, fitness_level, match_readiness,
+                         vo2_max, sprint_speed, assessed_by, created_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (fitness_id, fit_player, datetime.now().strftime("%Y-%m-%d"), level_code,
+                          match_readiness, vo2_max, sprint_speed, assessed_by,
+                          datetime.now().isoformat()))
+                    
+                    success_message("Assessment Logged!", fitness_id)
+                    st.rerun()
+
+
 def render_match_incidents(username: str):
     """Render match incidents tab."""
     st.markdown("### Match Incidents Log")
@@ -1988,11 +2438,12 @@ def render(username: str):
     st.divider()
     
     # Tabs - Full FRMF Module
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
         "Referee Registry",
         "RefereeChain",
         "Player Profiles",
         "Contracts",
+        "Medical",
         "Match Assignments", 
         "VAR Vault",
         "Performance",
@@ -2012,13 +2463,16 @@ def render(username: str):
         render_contract_management(username)
     
     with tab5:
-        render_match_assignments(username)
+        render_medical_records(username)
     
     with tab6:
-        render_var_vault(username)
+        render_match_assignments(username)
     
     with tab7:
-        render_referee_performance(username)
+        render_var_vault(username)
     
     with tab8:
+        render_referee_performance(username)
+    
+    with tab9:
         render_match_incidents(username)
