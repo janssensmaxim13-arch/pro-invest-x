@@ -68,18 +68,7 @@ def t(key):
     return get_text(key, get_current_language())
 
 # ============================================================================
-# APPLY STYLING
-# ============================================================================
-
-# Apply styling after session state is initialized
-def apply_theme():
-    apply_custom_css(st.session_state.get('dark_mode', False))
-
-apply_theme()
-init_db()
-
-# ============================================================================
-# SESSION STATE
+# SESSION STATE (moet EERST)
 # ============================================================================
 
 if 'page' not in st.session_state:
@@ -97,8 +86,15 @@ if 'language' not in st.session_state:
 if 'dark_mode' not in st.session_state:
     st.session_state['dark_mode'] = False
 
-
 # ============================================================================
+# APPLY STYLING (na session state)
+# ============================================================================
+
+apply_custom_css(st.session_state.get('dark_mode', False))
+init_db()
+
+
+## ============================================================================
 # NAVIGATION HELPER
 # ============================================================================
 
