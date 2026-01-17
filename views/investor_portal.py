@@ -415,7 +415,7 @@ def render_investor_portal(navigate_to: Callable):
             
             message = st.text_area("Message", placeholder="Tell us about your interest in ProInvestiX...")
             
-            if st.form_submit_button(" Send Inquiry", width="stretch"):
+            if st.form_submit_button(" Send Inquiry", use_container_width=True):
                 if name and email:
                     st.success(" Thank you! Our investor relations team will contact you within 48 hours.")
                     st.balloons()

@@ -341,7 +341,7 @@ def render_signal_monitor(username: str):
                 shares = st.number_input("Shares", 0)
                 confidence = st.slider("Confidence", 0, 100, 50)
             
-            if st.form_submit_button("🚨 Submit", type="primary", width="stretch"):
+            if st.form_submit_button("🚨 Submit", type="primary", use_container_width=True):
                 if title:
                     platform_code = next((p[0] for p in PLATFORMS if p[1] in platform), "OTHER")
                     manip_code = next((m[0] for m in MANIPULATION_TYPES if m[1] in manip), "MISINFORMATION")
@@ -366,7 +366,7 @@ def render_content_forensics(username: str):
         with st.form("forensics"):
             url = st.text_input("Content URL *")
             content_type = st.selectbox("Type", ["Video", "Image", "Text Post", "Audio"])
-            analyze_clicked = st.form_submit_button(" Analyze", type="primary", width="stretch")
+            analyze_clicked = st.form_submit_button(" Analyze", type="primary", use_container_width=True)
         
         if analyze_clicked and url:
             import time, random
@@ -439,7 +439,7 @@ def render_source_registry(username: str):
     
     st.divider()
     st.dataframe(df[['account_name', 'platform', 'followers', 'credibility_score', 'risk_category']], 
-                 width="stretch", hide_index=True)
+                 use_container_width=True, hide_index=True)
     
     with st.expander("➕ Add Source"):
         with st.form("add_source"):
@@ -451,7 +451,7 @@ def render_source_registry(username: str):
                 followers = st.number_input("Followers", 0)
                 risk = st.selectbox("Risk Category", [c[1] for c in SOURCE_CATEGORIES])
             
-            if st.form_submit_button("➕ Add", width="stretch"):
+            if st.form_submit_button("➕ Add", use_container_width=True):
                 if name:
                     sid = create_source({
                         'account_name': name,
@@ -489,7 +489,7 @@ def render_evidence_vault(username: str):
         with st.form("archive"):
             url = st.text_input("URL *")
             legal = st.select_slider("Legal Value", ["LOW", "MEDIUM", "HIGH"])
-            if st.form_submit_button("📥 Archive", type="primary", width="stretch"):
+            if st.form_submit_button("📥 Archive", type="primary", use_container_width=True):
                 if url:
                     eid = create_evidence({'original_url': url, 'legal_value': legal, 'created_by': username})
                     if eid:
@@ -508,7 +508,7 @@ def render_fact_cards(username: str):
             source = st.text_input("Official Source URL")
             level = st.selectbox("Response Level", RESPONSE_LEVELS)
             
-            if st.form_submit_button("📄 Generate", type="primary", width="stretch"):
+            if st.form_submit_button("📄 Generate", type="primary", use_container_width=True):
                 if title and facts and false_claims:
                     fcid = create_fact_card({
                         'incident_title': title, 'verified_facts': facts,
@@ -579,7 +579,7 @@ def render_crisis_playbook(username: str):
             level = st.selectbox("Level", [c[1] for c in CRISIS_LEVELS])
             desc = st.text_area("Description *")
             
-            if st.form_submit_button("🚨 Declare", type="primary", width="stretch"):
+            if st.form_submit_button("🚨 Declare", type="primary", use_container_width=True):
                 if name and desc:
                     cid = create_crisis({
                         'incident_name': name,

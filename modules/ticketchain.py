@@ -260,7 +260,7 @@ def render_events(username: str):
         
         mobility = st.checkbox("Enable Mobility Integration (bus/train booking)")
         
-        if st.form_submit_button(" DEPLOY EVENT CONTRACT", width="stretch"):
+        if st.form_submit_button(" DEPLOY EVENT CONTRACT", use_container_width=True):
             if not event_name or not event_location:
                 st.error(" Event name and location required.")
             else:
@@ -349,7 +349,7 @@ def render_minting(username: str):
         capacity, sold, available, is_full = check_event_capacity(selected_event)
         st.info(f" Capacity: {sold}/{capacity} sold • {available} remaining")
         
-        if st.form_submit_button(" MINT TICKET", width="stretch"):
+        if st.form_submit_button(" MINT TICKET", use_container_width=True):
             if is_full:
                 st.error(f" EVENT SOLD OUT! All {capacity} tickets minted.")
             elif not seat_info or not seat_info.strip():
@@ -459,7 +459,7 @@ Minted: {res['timestamp']}
         display_df['price'] = display_df['price'].apply(lambda x: f"{x:.2f} MAD")
         
         cols = ['hash_preview', 'event_id', 'owner_id', 'seat_info', 'price', 'status', 'minted_at']
-        st.dataframe(display_df[cols], width="stretch", hide_index=True)
+        st.dataframe(display_df[cols], use_container_width=True, hide_index=True)
     else:
         st.info("No tickets minted yet.")
 
@@ -477,7 +477,7 @@ def render_validator(username: str):
     col1, col2 = st.columns(2)
     
     with col1:
-        if st.button(" VERIFY AUTHENTICITY", width="stretch"):
+        if st.button(" VERIFY AUTHENTICITY", use_container_width=True):
             if not check_hash or len(check_hash.strip()) != 64:
                 st.error(" Invalid hash format. Must be 64 characters.")
             else:
@@ -514,7 +514,7 @@ def render_validator(username: str):
                     st.warning(" POSSIBLE FRAUD DETECTED")
     
     with col2:
-        if st.button(" MARK AS USED", width="stretch"):
+        if st.button(" MARK AS USED", use_container_width=True):
             if not check_hash or len(check_hash.strip()) != 64:
                 st.error(" Invalid hash format.")
             else:

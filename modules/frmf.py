@@ -959,7 +959,7 @@ def render_referee_registry(username: str):
     if status_filter != "All" and 'status' in df.columns:
         filtered_df = filtered_df[filtered_df['status'] == status_filter]
     
-    st.dataframe(filtered_df, width="stretch", hide_index=True)
+    st.dataframe(filtered_df, use_container_width=True, hide_index=True)
     
     # Add referee
     with st.expander("Add New Referee", expanded=False):
@@ -1223,7 +1223,7 @@ def render_match_assignments(username: str):
                 referee = st.selectbox("Main Referee", ref_options)
                 var_referee = st.selectbox("VAR Referee", ref_options)
             
-            if st.form_submit_button("Create Assignment", type="primary", width="stretch"):
+            if st.form_submit_button("Create Assignment", type="primary", use_container_width=True):
                 if home_team and away_team:
                     assignment_id = generate_uuid("ASSIGN")
                     match_id = generate_uuid("MATCH")
@@ -1536,7 +1536,7 @@ def render_referee_performance(username: str):
             
             notes = st.text_area("Performance Notes")
             
-            if st.form_submit_button("Submit Rating", type="primary", width="stretch"):
+            if st.form_submit_button("Submit Rating", type="primary", use_container_width=True):
                 if match_id:
                     rating_id = generate_uuid("RATE")
                     
@@ -2808,7 +2808,7 @@ def render_match_incidents(username: str):
         st.metric("Penalties", penalties)
     
     st.divider()
-    st.dataframe(df, width="stretch", hide_index=True)
+    st.dataframe(df, use_container_width=True, hide_index=True)
     
     # Log incident
     with st.expander("Log Match Incident", expanded=False):
@@ -2825,7 +2825,7 @@ def render_match_incidents(username: str):
             
             description = st.text_area("Description")
             
-            if st.form_submit_button("Log Incident", type="primary", width="stretch"):
+            if st.form_submit_button("Log Incident", type="primary", use_container_width=True):
                 if match_id:
                     incident_id = generate_uuid("INC")
                     

@@ -316,7 +316,7 @@ def render_shipment_tracking(username: str):
         tracking_input = st.text_input("Enter Tracking Number", placeholder="PMA123456MA")
     with col2:
         st.markdown("<br>", unsafe_allow_html=True)
-        track_btn = st.button("Track", type="primary", width="stretch")
+        track_btn = st.button("Track", type="primary", use_container_width=True)
     
     if track_btn and tracking_input:
         # Search in dataframe
@@ -355,7 +355,7 @@ def render_shipment_tracking(username: str):
     if status_filter != "All" and 'status' in df.columns:
         filtered_df = filtered_df[filtered_df['status'] == status_filter]
     
-    st.dataframe(filtered_df, width="stretch", hide_index=True)
+    st.dataframe(filtered_df, use_container_width=True, hide_index=True)
     
     # Create shipment
     with st.expander("Create New Shipment", expanded=False):
@@ -372,7 +372,7 @@ def render_shipment_tracking(username: str):
                 transport_mode = st.selectbox("Transport Mode", TRANSPORT_MODES)
                 sender_name = st.text_input("Sender Name")
             
-            if st.form_submit_button("Create Shipment", type="primary", width="stretch"):
+            if st.form_submit_button("Create Shipment", type="primary", use_container_width=True):
                 if origin_country and destination:
                     shipment_id = generate_uuid("SHP")
                     tracking = f"PMA{random.randint(100000, 999999)}MA"
@@ -474,7 +474,7 @@ def render_inventory(username: str):
     if warehouse_filter != "All" and 'warehouse' in df.columns:
         filtered_df = filtered_df[filtered_df['warehouse'] == warehouse_filter]
     
-    st.dataframe(filtered_df, width="stretch", hide_index=True)
+    st.dataframe(filtered_df, use_container_width=True, hide_index=True)
     
     # Add inventory item
     with st.expander("Add Inventory Item", expanded=False):
@@ -489,7 +489,7 @@ def render_inventory(username: str):
                 unit = st.selectbox("Unit", ["pcs", "boxes", "pallets", "containers"])
                 location_code = st.text_input("Location Code", placeholder="A-12-3")
             
-            if st.form_submit_button("Add to Inventory", type="primary", width="stretch"):
+            if st.form_submit_button("Add to Inventory", type="primary", use_container_width=True):
                 if item_name and warehouse:
                     inv_id = generate_uuid("INV")
                     wh_id = next((w[0] for w in WAREHOUSES if w[1] == warehouse), None)
@@ -608,7 +608,7 @@ def render_customs(username: str):
         st.metric("Total Duties", f"MAD {total_duty:,.0f}")
     
     st.divider()
-    st.dataframe(df, width="stretch", hide_index=True)
+    st.dataframe(df, use_container_width=True, hide_index=True)
     
     # File customs declaration
     with st.expander("File Customs Declaration", expanded=False):
@@ -628,7 +628,7 @@ def render_customs(username: str):
             
             st.info(f"Estimated Duty: MAD {duty_amount:,.2f} | VAT: MAD {vat_amount:,.2f} | Total: MAD {duty_amount + vat_amount:,.2f}")
             
-            if st.form_submit_button("Submit Declaration", type="primary", width="stretch"):
+            if st.form_submit_button("Submit Declaration", type="primary", use_container_width=True):
                 if shipment_id and hs_code:
                     customs_id = generate_uuid("CUS")
                     declaration = f"DEC-{random.randint(10000, 99999)}"

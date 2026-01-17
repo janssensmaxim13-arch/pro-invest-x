@@ -63,7 +63,7 @@ def render_overview():
         
         display_cols = ['name', 'city', 'region', 'academy_type', 'certification_level', 'status']
         display_cols = [c for c in display_cols if c in df.columns]
-        st.dataframe(df[display_cols], width="stretch", hide_index=True)
+        st.dataframe(df[display_cols], use_container_width=True, hide_index=True)
     else:
         st.info(" Nog geen academies.")
 
@@ -197,4 +197,4 @@ def render_staff(username: str):
     with col2:
         df = get_data("academy_staff")
         if not df.empty:
-            st.dataframe(df[['first_name', 'last_name', 'role', 'coaching_license']], width="stretch", hide_index=True)
+            st.dataframe(df[['first_name', 'last_name', 'role', 'coaching_license']], use_container_width=True, hide_index=True)

@@ -158,7 +158,7 @@ def render_security_alerts():
         
         if not active_alerts.empty:
             st.write("###  Active Alerts Requiring Action")
-            st.dataframe(active_alerts, width="stretch", hide_index=True)
+            st.dataframe(active_alerts, use_container_width=True, hide_index=True)
         else:
             st.success(" No active alerts! System running securely.")
     else:
@@ -240,7 +240,7 @@ def render_user_management(admin_username: str):
     
     if not df_users.empty:
         display_users = df_users.drop('password_hash', axis=1)
-        st.dataframe(display_users, width="stretch", hide_index=True)
+        st.dataframe(display_users, use_container_width=True, hide_index=True)
         
         st.markdown("<br>", unsafe_allow_html=True)
         

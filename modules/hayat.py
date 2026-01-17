@@ -393,7 +393,7 @@ def render_crisis_center(username: str):
             
             submitted = st.form_submit_button(
                 "🆘 VERSTUUR HULPVRAAG",
-                width="stretch",
+                use_container_width=True,
                 type="primary"
             )
             
@@ -551,7 +551,7 @@ def render_wellbeing_dashboard(username: str):
             
             notes = st.text_area("Notities", placeholder="Hoe was je dag?")
             
-            if st.form_submit_button(" OPSLAAN", width="stretch"):
+            if st.form_submit_button(" OPSLAAN", use_container_width=True):
                 log_id = generate_uuid("WBL")
                 needs_attention = 1 if (mood <= 3 or stress >= 8 or sleep <= 3) else 0
                 
@@ -679,7 +679,7 @@ def render_sessions(username: str):
             
             no_show = st.checkbox("No-show (niet verschenen)")
             
-            if st.form_submit_button(" SESSIE LOGGEN", width="stretch"):
+            if st.form_submit_button(" SESSIE LOGGEN", use_container_width=True):
                 session_id = generate_uuid("SES")
                 
                 success = run_query("""
@@ -737,7 +737,7 @@ def render_sessions(username: str):
                 display_cols = ['session_date', 'talent_id', 'session_type', 'mood_score', 'progress_score', 'status']
                 display_cols = [c for c in display_cols if c in filtered.columns]
                 
-                st.dataframe(filtered[display_cols].head(20), width="stretch", hide_index=True)
+                st.dataframe(filtered[display_cols].head(20), use_container_width=True, hide_index=True)
             else:
                 st.info("Geen sessies gevonden.")
         else:
@@ -797,7 +797,7 @@ def render_rehabilitation(username: str):
             
             mental_notes = st.text_area("Mentale Observaties", placeholder="Hoe gaat de atleet mentaal om met de blessure?")
             
-            if st.form_submit_button(" OPSLAAN", width="stretch"):
+            if st.form_submit_button(" OPSLAAN", use_container_width=True):
                 rehab_id = generate_uuid("RHB")
                 
                 success = run_query("""
@@ -942,7 +942,7 @@ def render_hayat_admin(username: str):
             
             filtered = df if filter_status == "All" else df[df['status'] == filter_status]
             
-            st.dataframe(filtered, width="stretch", hide_index=True)
+            st.dataframe(filtered, use_container_width=True, hide_index=True)
             
             # Resolve alert
             st.write("###  Resolve Alert")

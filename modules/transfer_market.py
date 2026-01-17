@@ -448,19 +448,19 @@ def render_overview(df):
         fig = px.bar(league_df, x='League', y='Value', color='Value', color_continuous_scale='Greens')
         fig.update_layout(paper_bgcolor='#FAF9FF', plot_bgcolor='#FFFFFF', font_color='white', height=350, showlegend=False, yaxis_title='Value (EUR)')
         fig.update_yaxes(tickformat='.2s')
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, use_container_width=True)
     with c2:
         st.markdown("#### Top Nationalities by Value")
         nat_val = df.groupby('nationality')['market_value'].sum().sort_values(ascending=False).head(10)
         fig = px.pie(values=nat_val.values, names=nat_val.index, hole=0.4, color_discrete_sequence=px.colors.qualitative.Set2)
         fig.update_layout(paper_bgcolor='#FAF9FF', plot_bgcolor='#FFFFFF', font_color='white', height=350)
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, use_container_width=True)
     
     st.markdown("#### Most Valuable Players")
     top = df.nlargest(15,'market_value')[['full_name','age','position','nationality','current_club','market_value']].copy()
     top['market_value'] = top['market_value'].apply(format_value)
     top.columns = ['Player','Age','Pos','Nation','Club','Value']
-    st.dataframe(top, hide_index=True, width="stretch")
+    st.dataframe(top, hide_index=True, use_container_width=True)
     
     c1, c2 = st.columns(2)
     with c1:
@@ -468,12 +468,12 @@ def render_overview(df):
         pos_count = df['position'].value_counts()
         fig = px.bar(x=pos_count.index, y=pos_count.values, color=pos_count.values, color_continuous_scale='Blues')
         fig.update_layout(paper_bgcolor='#FAF9FF', plot_bgcolor='#FFFFFF', font_color='white', height=280, showlegend=False, xaxis_title='Position', yaxis_title='Count')
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, use_container_width=True)
     with c2:
         st.markdown("#### Age Distribution")
         fig = px.histogram(df, x='age', nbins=20, color_discrete_sequence=['#22c55e'])
         fig.update_layout(paper_bgcolor='#FAF9FF', plot_bgcolor='#FFFFFF', font_color='white', height=280, xaxis_title='Age', yaxis_title='Players')
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, use_container_width=True)
 
 def render_search(df):
     st.markdown("#### Advanced Player Search")
@@ -507,7 +507,7 @@ def render_search(df):
     disp = filtered[['full_name','age','position','nationality','current_club','market_value','status']].copy()
     disp['market_value'] = disp['market_value'].apply(format_value)
     disp.columns = ['Player','Age','Pos','Nation','Club','Value','Status']
-    st.dataframe(disp.sort_values('Value', ascending=False), hide_index=True, width="stretch", height=400)
+    st.dataframe(disp.sort_values('Value', ascending=False), hide_index=True, use_container_width=True, height=400)
     
     if not filtered.empty:
         st.markdown("---")
@@ -554,7 +554,7 @@ def render_player_profile(name, df):
         fig.update_traces(line_color='#22c55e', marker_color='#22c55e')
         fig.update_layout(paper_bgcolor='#FAF9FF', plot_bgcolor='#FFFFFF', font_color='white', height=250, xaxis_title='Date', yaxis_title='Value (EUR)')
         fig.update_yaxes(tickformat='.2s')
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, use_container_width=True)
     
     # Transfer History
     transfers = get_data("tm_transfers", f"player_id='{p['player_id']}'")
@@ -563,7 +563,7 @@ def render_player_profile(name, df):
         t_disp = transfers[['date','from_club','to_club','fee','type']].copy()
         t_disp['fee'] = t_disp['fee'].apply(lambda x: format_value(x) if pd.notna(x) else 'Free')
         t_disp.columns = ['Date','From','To','Fee','Type']
-        st.dataframe(t_disp, hide_index=True, width="stretch")
+        st.dataframe(t_disp, hide_index=True, use_container_width=True)
 
 def render_clubs(df):
     st.markdown("#### Club Profiles")
@@ -586,14 +586,14 @@ def render_clubs(df):
                 sq_disp = squad[['full_name','age','position','nationality','market_value','jersey_number']].copy()
                 sq_disp['market_value'] = sq_disp['market_value'].apply(format_value)
                 sq_disp.columns = ['Player','Age','Pos','Nation','Value','#']
-                st.dataframe(sq_disp.sort_values('Value', ascending=False), hide_index=True, width="stretch")
+                st.dataframe(sq_disp.sort_values('Value', ascending=False), hide_index=True, use_container_width=True)
             
             # Squad by position
             st.markdown("#### Squad Composition")
             pos_val = squad.groupby('position')['market_value'].sum()
             fig = px.pie(values=pos_val.values, names=pos_val.index, hole=0.4)
             fig.update_layout(paper_bgcolor='#FAF9FF', plot_bgcolor='#FFFFFF', font_color='white', height=300)
-            st.plotly_chart(fig, width="stretch")
+            st.plotly_chart(fig, use_container_width=True)
 
 def render_transfers(df):
     t1,t2,t3,t4 = st.tabs(["Rumours","Recent Transfers","Free Agents","Transfer Listed"])
@@ -622,7 +622,7 @@ def render_transfers(df):
             tr_disp = tr_df[['date','full_name','position','from_club','to_club','fee']].sort_values('date', ascending=False).head(20)
             tr_disp['fee'] = tr_disp['fee'].apply(lambda x: format_value(x) if pd.notna(x) else 'Free')
             tr_disp.columns = ['Date','Player','Pos','From','To','Fee']
-            st.dataframe(tr_disp, hide_index=True, width="stretch")
+            st.dataframe(tr_disp, hide_index=True, use_container_width=True)
     with t3:
         fa = df[df['status']=='Free Agent'][['full_name','age','position','nationality','market_value']]
         if fa.empty:
@@ -630,7 +630,7 @@ def render_transfers(df):
         else:
             fa['market_value'] = fa['market_value'].apply(format_value)
             fa.columns = ['Player','Age','Pos','Nation','Value']
-            st.dataframe(fa, hide_index=True, width="stretch")
+            st.dataframe(fa, hide_index=True, use_container_width=True)
     with t4:
         tl = df[df['status']=='Transfer Listed'][['full_name','age','position','current_club','market_value']]
         if tl.empty:
@@ -638,7 +638,7 @@ def render_transfers(df):
         else:
             tl['market_value'] = tl['market_value'].apply(format_value)
             tl.columns = ['Player','Age','Pos','Club','Value']
-            st.dataframe(tl, hide_index=True, width="stretch")
+            st.dataframe(tl, hide_index=True, use_container_width=True)
 
 def render_top_lists(df):
     c1,c2 = st.columns(2)
@@ -647,13 +647,13 @@ def render_top_lists(df):
         tv = df.nlargest(25,'market_value')[['full_name','age','position','current_club','market_value']].copy()
         tv['market_value'] = tv['market_value'].apply(format_value)
         tv.columns = ['Player','Age','Pos','Club','Value']
-        st.dataframe(tv, hide_index=True, width="stretch", height=500)
+        st.dataframe(tv, hide_index=True, use_container_width=True, height=500)
     with c2:
         st.markdown("#### Top Talents (U21)")
         yg = df[df['age']<=21].nlargest(25,'market_value')[['full_name','age','position','current_club','market_value']].copy()
         yg['market_value'] = yg['market_value'].apply(format_value)
         yg.columns = ['Player','Age','Pos','Club','Value']
-        st.dataframe(yg, hide_index=True, width="stretch", height=500)
+        st.dataframe(yg, hide_index=True, use_container_width=True, height=500)
     
     st.markdown("---")
     st.markdown("#### Top by Position")
@@ -661,14 +661,14 @@ def render_top_lists(df):
     pos_df = df[df['position']==pos_sel].nlargest(15,'market_value')[['full_name','age','nationality','current_club','market_value']].copy()
     pos_df['market_value'] = pos_df['market_value'].apply(format_value)
     pos_df.columns = ['Player','Age','Nation','Club','Value']
-    st.dataframe(pos_df, hide_index=True, width="stretch")
+    st.dataframe(pos_df, hide_index=True, use_container_width=True)
     
     st.markdown("#### Top by Nationality")
     nat_sel = st.selectbox("Select Nationality", NATIONALITIES, key="nat_top")
     nat_df = df[df['nationality']==nat_sel].nlargest(15,'market_value')[['full_name','age','position','current_club','market_value']].copy()
     nat_df['market_value'] = nat_df['market_value'].apply(format_value)
     nat_df.columns = ['Player','Age','Pos','Club','Value']
-    st.dataframe(nat_df, hide_index=True, width="stretch")
+    st.dataframe(nat_df, hide_index=True, use_container_width=True)
 
 def render_stats(df):
     stats = get_data("tm_statistics")
@@ -683,19 +683,19 @@ def render_stats(df):
         sc = stats_df.nlargest(20,'goals')[['full_name','position','current_club','goals','appearances']].copy()
         sc['ratio'] = (sc['goals']/sc['appearances']).round(2)
         sc.columns = ['Player','Pos','Club','Goals','Apps','G/App']
-        st.dataframe(sc, hide_index=True, width="stretch")
+        st.dataframe(sc, hide_index=True, use_container_width=True)
     with c2:
         st.markdown("#### Top Assists 2024/25")
         ass = stats_df.nlargest(20,'assists')[['full_name','position','current_club','assists','appearances']].copy()
         ass['ratio'] = (ass['assists']/ass['appearances']).round(2)
         ass.columns = ['Player','Pos','Club','Assists','Apps','A/App']
-        st.dataframe(ass, hide_index=True, width="stretch")
+        st.dataframe(ass, hide_index=True, use_container_width=True)
     
     st.markdown("#### Goals + Assists Combined")
     stats_df['ga'] = stats_df['goals'] + stats_df['assists']
     ga = stats_df.nlargest(15,'ga')[['full_name','position','current_club','goals','assists','ga']].copy()
     ga.columns = ['Player','Pos','Club','Goals','Assists','G+A']
-    st.dataframe(ga, hide_index=True, width="stretch")
+    st.dataframe(ga, hide_index=True, use_container_width=True)
 
 def render_watchlist(username, df):
     if not username:
@@ -740,7 +740,7 @@ def render_compare(df):
             p1: [d1['age'],d1['position'],d1['current_club'],d1['nationality'],format_value(d1['market_value']),f"{d1['height_cm']}cm",d1['foot'],d1['status'],d1['caps']],
             p2: [d2['age'],d2['position'],d2['current_club'],d2['nationality'],format_value(d2['market_value']),f"{d2['height_cm']}cm",d2['foot'],d2['status'],d2['caps']]
         })
-        st.dataframe(comp, hide_index=True, width="stretch")
+        st.dataframe(comp, hide_index=True, use_container_width=True)
         
         # Stats comparison
         stats = get_data("tm_statistics")
@@ -754,7 +754,7 @@ def render_compare(df):
                 p1: [s1.iloc[0]['appearances'], s1.iloc[0]['goals'], s1.iloc[0]['assists'], s1.iloc[0]['minutes']],
                 p2: [s2.iloc[0]['appearances'], s2.iloc[0]['goals'], s2.iloc[0]['assists'], s2.iloc[0]['minutes']]
             })
-            st.dataframe(stats_comp, hide_index=True, width="stretch")
+            st.dataframe(stats_comp, hide_index=True, use_container_width=True)
         
         # Value chart
         fig = go.Figure(data=[
@@ -762,4 +762,4 @@ def render_compare(df):
             go.Bar(name=p2, x=['Market Value'], y=[d2['market_value']/1e6], marker_color='#22c55e')
         ])
         fig.update_layout(barmode='group', paper_bgcolor='#FAF9FF', plot_bgcolor='#FFFFFF', font_color='white', height=280, yaxis_title='Value (M EUR)')
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, use_container_width=True)

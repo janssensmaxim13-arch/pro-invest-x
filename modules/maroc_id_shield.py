@@ -642,7 +642,7 @@ def render_verification(username: str):
             
             consent = st.checkbox("Ik ga akkoord met de verwerking van mijn gegevens voor verificatiedoeleinden")
             
-            if st.form_submit_button(" Start Verificatie", width="stretch", type="primary"):
+            if st.form_submit_button(" Start Verificatie", use_container_width=True, type="primary"):
                 if not all([first_name, last_name, phone, email, document_number]):
                     st.error(t("error_fill_required"))
                 elif not consent:
@@ -937,7 +937,7 @@ def render_organizations(username: str):
                 bank_iban = st.text_input("Bank IBAN")
                 licenses = st.text_area("Licenties (één per regel)")
             
-            if st.form_submit_button(" Registreren", width="stretch"):
+            if st.form_submit_button(" Registreren", use_container_width=True):
                 if not name or not beneficial_owner_name:
                     st.error(t("error_fill_required"))
                 else:
@@ -1076,7 +1076,7 @@ def render_transaction_signing(username: str):
             biometric = st.checkbox(" Ik bevestig deze transactie met mijn biometrische gegevens")
             pin = st.text_input("PIN Code", type="password", max_chars=6)
             
-            if st.form_submit_button(" Ondertekenen", width="stretch", type="primary"):
+            if st.form_submit_button(" Ondertekenen", use_container_width=True, type="primary"):
                 if not biometric or not pin:
                     st.error("Bevestig met biometrie en PIN")
                 elif len(pin) < 4:
@@ -1253,7 +1253,7 @@ def render_pma_dashboard(username: str):
                 destination = st.text_input("Bestemming")
                 description = st.text_area("Beschrijving")
             
-            if st.form_submit_button(" Submit voor Review", width="stretch"):
+            if st.form_submit_button(" Submit voor Review", use_container_width=True):
                 pma_id = generate_uuid("PMA")
                 
                 # Auto risk assessment

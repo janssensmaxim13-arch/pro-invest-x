@@ -757,6 +757,129 @@ TRANSLATIONS = {
     "theme_light": {"nl": "Licht", "fr": "Clair", "en": "Light", "ar": "فاتح"},
     "theme_toggle": {"nl": "Thema wisselen", "fr": "Changer de thème", "en": "Toggle theme", "ar": "تبديل السمة"},
     "settings": {"nl": "Instellingen", "fr": "Paramètres", "en": "Settings", "ar": "الإعدادات"},
+
+    # =========================================================================
+    # MODULE UI - COMMON LABELS
+    # =========================================================================
+    "overview": {"nl": "Overzicht", "fr": "Aperçu", "en": "Overview", "ar": "نظرة عامة"},
+    "details": {"nl": "Details", "fr": "Détails", "en": "Details", "ar": "التفاصيل"},
+    "history": {"nl": "Geschiedenis", "fr": "Historique", "en": "History", "ar": "التاريخ"},
+    "statistics": {"nl": "Statistieken", "fr": "Statistiques", "en": "Statistics", "ar": "الإحصائيات"},
+    "reports": {"nl": "Rapporten", "fr": "Rapports", "en": "Reports", "ar": "التقارير"},
+    "management": {"nl": "Beheer", "fr": "Gestion", "en": "Management", "ar": "الإدارة"},
+    "registry": {"nl": "Register", "fr": "Registre", "en": "Registry", "ar": "السجل"},
+    "transactions": {"nl": "Transacties", "fr": "Transactions", "en": "Transactions", "ar": "المعاملات"},
+    "wallet": {"nl": "Wallet", "fr": "Portefeuille", "en": "Wallet", "ar": "المحفظة"},
+    "profile": {"nl": "Profiel", "fr": "Profil", "en": "Profile", "ar": "الملف الشخصي"},
+    "documents": {"nl": "Documenten", "fr": "Documents", "en": "Documents", "ar": "المستندات"},
+    "applications": {"nl": "Aanvragen", "fr": "Demandes", "en": "Applications", "ar": "الطلبات"},
+    "requests": {"nl": "Verzoeken", "fr": "Requêtes", "en": "Requests", "ar": "الطلبات"},
+    "alerts": {"nl": "Meldingen", "fr": "Alertes", "en": "Alerts", "ar": "التنبيهات"},
+    "incidents": {"nl": "Incidenten", "fr": "Incidents", "en": "Incidents", "ar": "الحوادث"},
+    "monitoring": {"nl": "Monitoring", "fr": "Surveillance", "en": "Monitoring", "ar": "المراقبة"},
+    "verification": {"nl": "Verificatie", "fr": "Vérification", "en": "Verification", "ar": "التحقق"},
+    "analysis": {"nl": "Analyse", "fr": "Analyse", "en": "Analysis", "ar": "التحليل"},
+    "calculator": {"nl": "Calculator", "fr": "Calculateur", "en": "Calculator", "ar": "الحاسبة"},
+    "scheduler": {"nl": "Planner", "fr": "Planificateur", "en": "Scheduler", "ar": "المجدول"},
+    "timeline": {"nl": "Tijdlijn", "fr": "Chronologie", "en": "Timeline", "ar": "الجدول الزمني"},
+    "map": {"nl": "Kaart", "fr": "Carte", "en": "Map", "ar": "الخريطة"},
+    "list": {"nl": "Lijst", "fr": "Liste", "en": "List", "ar": "القائمة"},
+    "grid": {"nl": "Raster", "fr": "Grille", "en": "Grid", "ar": "الشبكة"},
+    "table": {"nl": "Tabel", "fr": "Tableau", "en": "Table", "ar": "الجدول"},
+    "chart": {"nl": "Grafiek", "fr": "Graphique", "en": "Chart", "ar": "الرسم البياني"},
+
+    # =========================================================================
+    # MODULE UI - ACTIONS
+    # =========================================================================
+    "action_register": {"nl": "Registreren", "fr": "Enregistrer", "en": "Register", "ar": "تسجيل"},
+    "action_verify": {"nl": "Verifiëren", "fr": "Vérifier", "en": "Verify", "ar": "تحقق"},
+    "action_approve": {"nl": "Goedkeuren", "fr": "Approuver", "en": "Approve", "ar": "موافقة"},
+    "action_reject": {"nl": "Afwijzen", "fr": "Rejeter", "en": "Reject", "ar": "رفض"},
+    "action_transfer": {"nl": "Overdragen", "fr": "Transférer", "en": "Transfer", "ar": "نقل"},
+    "action_assign": {"nl": "Toewijzen", "fr": "Assigner", "en": "Assign", "ar": "تعيين"},
+    "action_schedule": {"nl": "Plannen", "fr": "Planifier", "en": "Schedule", "ar": "جدولة"},
+    "action_generate": {"nl": "Genereren", "fr": "Générer", "en": "Generate", "ar": "إنشاء"},
+    "action_export": {"nl": "Exporteren", "fr": "Exporter", "en": "Export", "ar": "تصدير"},
+    "action_import": {"nl": "Importeren", "fr": "Importer", "en": "Import", "ar": "استيراد"},
+    "action_scan": {"nl": "Scannen", "fr": "Scanner", "en": "Scan", "ar": "مسح"},
+    "action_track": {"nl": "Volgen", "fr": "Suivre", "en": "Track", "ar": "تتبع"},
+    "action_monitor": {"nl": "Monitoren", "fr": "Surveiller", "en": "Monitor", "ar": "مراقبة"},
+
+    # =========================================================================
+    # MODULE UI - STATUS
+    # =========================================================================
+    "status_active": {"nl": "Actief", "fr": "Actif", "en": "Active", "ar": "نشط"},
+    "status_inactive": {"nl": "Inactief", "fr": "Inactif", "en": "Inactive", "ar": "غير نشط"},
+    "status_pending": {"nl": "In behandeling", "fr": "En attente", "en": "Pending", "ar": "قيد الانتظار"},
+    "status_approved": {"nl": "Goedgekeurd", "fr": "Approuvé", "en": "Approved", "ar": "موافق عليه"},
+    "status_rejected": {"nl": "Afgewezen", "fr": "Rejeté", "en": "Rejected", "ar": "مرفوض"},
+    "status_completed": {"nl": "Voltooid", "fr": "Terminé", "en": "Completed", "ar": "مكتمل"},
+    "status_cancelled": {"nl": "Geannuleerd", "fr": "Annulé", "en": "Cancelled", "ar": "ملغى"},
+    "status_expired": {"nl": "Verlopen", "fr": "Expiré", "en": "Expired", "ar": "منتهي الصلاحية"},
+    "status_verified": {"nl": "Geverifieerd", "fr": "Vérifié", "en": "Verified", "ar": "موثق"},
+    "status_unverified": {"nl": "Niet geverifieerd", "fr": "Non vérifié", "en": "Unverified", "ar": "غير موثق"},
+
+    # =========================================================================
+    # MODULE UI - FILTERS
+    # =========================================================================
+    "filter_all": {"nl": "Alle", "fr": "Tous", "en": "All", "ar": "الكل"},
+    "filter_today": {"nl": "Vandaag", "fr": "Aujourd'hui", "en": "Today", "ar": "اليوم"},
+    "filter_this_week": {"nl": "Deze week", "fr": "Cette semaine", "en": "This week", "ar": "هذا الأسبوع"},
+    "filter_this_month": {"nl": "Deze maand", "fr": "Ce mois", "en": "This month", "ar": "هذا الشهر"},
+    "filter_this_year": {"nl": "Dit jaar", "fr": "Cette année", "en": "This year", "ar": "هذه السنة"},
+    "filter_by_status": {"nl": "Filter op status", "fr": "Filtrer par statut", "en": "Filter by status", "ar": "تصفية حسب الحالة"},
+    "filter_by_date": {"nl": "Filter op datum", "fr": "Filtrer par date", "en": "Filter by date", "ar": "تصفية حسب التاريخ"},
+    "filter_by_type": {"nl": "Filter op type", "fr": "Filtrer par type", "en": "Filter by type", "ar": "تصفية حسب النوع"},
+
+    # =========================================================================
+    # MODULE UI - FORM LABELS
+    # =========================================================================
+    "form_name": {"nl": "Naam", "fr": "Nom", "en": "Name", "ar": "الاسم"},
+    "form_description": {"nl": "Beschrijving", "fr": "Description", "en": "Description", "ar": "الوصف"},
+    "form_date": {"nl": "Datum", "fr": "Date", "en": "Date", "ar": "التاريخ"},
+    "form_time": {"nl": "Tijd", "fr": "Heure", "en": "Time", "ar": "الوقت"},
+    "form_location": {"nl": "Locatie", "fr": "Lieu", "en": "Location", "ar": "الموقع"},
+    "form_amount": {"nl": "Bedrag", "fr": "Montant", "en": "Amount", "ar": "المبلغ"},
+    "form_quantity": {"nl": "Aantal", "fr": "Quantité", "en": "Quantity", "ar": "الكمية"},
+    "form_price": {"nl": "Prijs", "fr": "Prix", "en": "Price", "ar": "السعر"},
+    "form_notes": {"nl": "Notities", "fr": "Notes", "en": "Notes", "ar": "ملاحظات"},
+    "form_comments": {"nl": "Opmerkingen", "fr": "Commentaires", "en": "Comments", "ar": "تعليقات"},
+    "form_category": {"nl": "Categorie", "fr": "Catégorie", "en": "Category", "ar": "الفئة"},
+    "form_type": {"nl": "Type", "fr": "Type", "en": "Type", "ar": "النوع"},
+    "form_priority": {"nl": "Prioriteit", "fr": "Priorité", "en": "Priority", "ar": "الأولوية"},
+    "form_status": {"nl": "Status", "fr": "Statut", "en": "Status", "ar": "الحالة"},
+    "form_country": {"nl": "Land", "fr": "Pays", "en": "Country", "ar": "البلد"},
+    "form_city": {"nl": "Stad", "fr": "Ville", "en": "City", "ar": "المدينة"},
+    "form_region": {"nl": "Regio", "fr": "Région", "en": "Region", "ar": "المنطقة"},
+    "form_address": {"nl": "Adres", "fr": "Adresse", "en": "Address", "ar": "العنوان"},
+    "form_phone": {"nl": "Telefoon", "fr": "Téléphone", "en": "Phone", "ar": "الهاتف"},
+    "form_email": {"nl": "E-mail", "fr": "E-mail", "en": "Email", "ar": "البريد الإلكتروني"},
+
+    # =========================================================================
+    # MODULE UI - DASHBOARD METRICS
+    # =========================================================================
+    "metric_total": {"nl": "Totaal", "fr": "Total", "en": "Total", "ar": "المجموع"},
+    "metric_active": {"nl": "Actief", "fr": "Actif", "en": "Active", "ar": "نشط"},
+    "metric_pending": {"nl": "In behandeling", "fr": "En attente", "en": "Pending", "ar": "قيد الانتظار"},
+    "metric_completed": {"nl": "Voltooid", "fr": "Terminé", "en": "Completed", "ar": "مكتمل"},
+    "metric_revenue": {"nl": "Omzet", "fr": "Revenus", "en": "Revenue", "ar": "الإيرادات"},
+    "metric_growth": {"nl": "Groei", "fr": "Croissance", "en": "Growth", "ar": "النمو"},
+    "metric_average": {"nl": "Gemiddeld", "fr": "Moyenne", "en": "Average", "ar": "المتوسط"},
+    "metric_count": {"nl": "Aantal", "fr": "Nombre", "en": "Count", "ar": "العدد"},
+
+    # =========================================================================
+    # MODULE UI - TIME/DATE
+    # =========================================================================
+    "time_today": {"nl": "Vandaag", "fr": "Aujourd'hui", "en": "Today", "ar": "اليوم"},
+    "time_yesterday": {"nl": "Gisteren", "fr": "Hier", "en": "Yesterday", "ar": "أمس"},
+    "time_tomorrow": {"nl": "Morgen", "fr": "Demain", "en": "Tomorrow", "ar": "غداً"},
+    "time_week": {"nl": "Week", "fr": "Semaine", "en": "Week", "ar": "أسبوع"},
+    "time_month": {"nl": "Maand", "fr": "Mois", "en": "Month", "ar": "شهر"},
+    "time_year": {"nl": "Jaar", "fr": "Année", "en": "Year", "ar": "سنة"},
+    "time_start_date": {"nl": "Startdatum", "fr": "Date de début", "en": "Start date", "ar": "تاريخ البدء"},
+    "time_end_date": {"nl": "Einddatum", "fr": "Date de fin", "en": "End date", "ar": "تاريخ الانتهاء"},
+    "time_created": {"nl": "Aangemaakt", "fr": "Créé", "en": "Created", "ar": "تم الإنشاء"},
+    "time_updated": {"nl": "Bijgewerkt", "fr": "Mis à jour", "en": "Updated", "ar": "تم التحديث"},
 }
 
 # =============================================================================

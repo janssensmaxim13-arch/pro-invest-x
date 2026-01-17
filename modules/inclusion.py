@@ -571,7 +571,7 @@ def render_women_players(username: str):
                     caps = 0
                 scholarship = st.checkbox("Heeft beurs")
             
-            if st.form_submit_button(" REGISTREER SPEELSTER", width="stretch"):
+            if st.form_submit_button(" REGISTREER SPEELSTER", use_container_width=True):
                 if not first_name or not last_name:
                     st.error("Vul naam in.")
                 else:
@@ -678,7 +678,7 @@ def render_paralympics(username: str):
             
             coach_name = st.text_input("Coach")
             
-            if st.form_submit_button(" REGISTREER ATLEET", width="stretch"):
+            if st.form_submit_button(" REGISTREER ATLEET", use_container_width=True):
                 if not first_name or not last_name or not discipline:
                     st.error("Vul verplichte velden in.")
                 else:
@@ -740,7 +740,7 @@ def render_programs(username: str):
             ])
             
             st.dataframe(df[['name', 'program_type', 'target_group', 'current_participants', 'status']], 
-                        width="stretch", hide_index=True)
+                        use_container_width=True, hide_index=True)
         else:
             st.info("Nog geen programma's.")
     
@@ -767,7 +767,7 @@ def render_programs(username: str):
                 
                 start_date = st.date_input("Start Datum")
             
-            if st.form_submit_button(" PROGRAMMA AANMAKEN", width="stretch"):
+            if st.form_submit_button(" PROGRAMMA AANMAKEN", use_container_width=True):
                 if not name:
                     st.error("Vul programma naam in.")
                 else:
@@ -823,7 +823,7 @@ def render_events(username: str):
             ])
             
             st.dataframe(df[['name', 'event_type', 'target_group', 'event_date', 'status']], 
-                        width="stretch", hide_index=True)
+                        use_container_width=True, hide_index=True)
         else:
             st.info("Nog geen events.")
     
@@ -842,7 +842,7 @@ def render_events(username: str):
                 max_participants = st.number_input("Max Deelnemers", 1, 10000, 100)
                 description = st.text_area("Beschrijving")
             
-            if st.form_submit_button(" EVENT AANMAKEN", width="stretch"):
+            if st.form_submit_button(" EVENT AANMAKEN", use_container_width=True):
                 event_id = generate_uuid("EVT")
                 
                 run_query("""

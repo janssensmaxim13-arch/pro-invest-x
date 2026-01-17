@@ -201,7 +201,7 @@ def render_contract_registry():
     # Table
     df_display = df.copy()
     df_display['value'] = df_display['value'].apply(lambda x: f"MAD {x:,.0f}")
-    st.dataframe(df_display, width="stretch", hide_index=True)
+    st.dataframe(df_display, use_container_width=True, hide_index=True)
     
     # Add new contract
     with st.expander("➕ Register New Contract"):
@@ -250,7 +250,7 @@ def render_ownership_control():
     st.divider()
     
     # UBO Table
-    st.dataframe(df_owners, width="stretch", hide_index=True)
+    st.dataframe(df_owners, use_container_width=True, hide_index=True)
     
     # Verify UBO against Identity Shield
     with st.expander(" Verify UBO via Identity Shield", expanded=False):
@@ -288,7 +288,7 @@ def render_ownership_control():
                 st.warning("No verified identities in Identity Shield. Register identities first.")
                 selected_identity = None
         
-        if st.button("Run Full UBO Verification", type="primary", width="stretch"):
+        if st.button("Run Full UBO Verification", type="primary", use_container_width=True):
             if not verify_name or not verify_id:
                 st.error("Name and ID are required")
             else:
@@ -325,7 +325,7 @@ def render_ownership_control():
         if not high_risk.empty:
             warning_box("High Risk Identities", f"{len(high_risk)} identities flagged as high risk in Identity Shield")
             st.dataframe(high_risk[['identity_id', 'name', 'risk_level']] if 'name' in high_risk.columns else high_risk, 
-                        width="stretch", hide_index=True)
+                        use_container_width=True, hide_index=True)
         else:
             st.success(" No high-risk identities detected")
     else:
@@ -355,7 +355,7 @@ def render_payment_tracking():
     df_display = df.copy()
     df_display['amount'] = df_display['amount'].apply(lambda x: f"MAD {x:,.0f}")
     df_display['foundation_contribution'] = df_display['foundation_contribution'].apply(lambda x: f"MAD {x:,.0f}")
-    st.dataframe(df_display, width="stretch", hide_index=True)
+    st.dataframe(df_display, use_container_width=True, hide_index=True)
     
     # Payment verification
     with st.expander(" Verify Payment"):
@@ -395,7 +395,7 @@ def render_audit_dashboard():
     
     # Anomaly table
     st.markdown("#### Detected Anomalies")
-    st.dataframe(anomalies, width="stretch", hide_index=True)
+    st.dataframe(anomalies, use_container_width=True, hide_index=True)
     
     st.divider()
     
@@ -452,7 +452,7 @@ def render_reports():
             "Recommendations"
         ], default=["Executive Summary", "Contract Details"])
         
-        if st.button("📄 Generate Report", type="primary", width="stretch"):
+        if st.button("📄 Generate Report", type="primary", use_container_width=True):
             with st.spinner("Generating report..."):
                 import time
                 time.sleep(2)

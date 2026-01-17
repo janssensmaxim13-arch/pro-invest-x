@@ -129,15 +129,15 @@ def render_top_navbar():
             """, unsafe_allow_html=True)
     
     with col2:
-        if st.button(" Home", width="stretch", key="nav_home"):
+        if st.button(" Home", use_container_width=True, key="nav_home"):
             navigate_to('landing')
     
     with col3:
-        if st.button(" Investors", width="stretch", key="nav_investors"):
+        if st.button(" Investors", use_container_width=True, key="nav_investors"):
             navigate_to('investor_portal')
     
     with col4:
-        if st.button(" Masterplan", width="stretch", key="nav_masterplan"):
+        if st.button(" Masterplan", use_container_width=True, key="nav_masterplan"):
             navigate_to('masterplan')
     
     with col5:
@@ -160,12 +160,12 @@ def render_top_navbar():
         else:
             col_login, col_register = st.columns(2)
             with col_login:
-                if st.button(" Login", width="stretch", key="nav_login"):
+                if st.button(" Login", use_container_width=True, key="nav_login"):
                     st.session_state['show_login'] = True
                     st.session_state['page'] = 'login'
                     st.rerun()
             with col_register:
-                if st.button(" Register", width="stretch", key="nav_register"):
+                if st.button(" Register", use_container_width=True, key="nav_register"):
                     st.session_state['page'] = 'register'
                     st.rerun()
     
@@ -373,92 +373,92 @@ def render_main_app():
         
         # === GOVERNANCE & INTEGRITY ===
         st.markdown(f"<p style='color: {COLORS['gold']}; font-size: 0.7rem; font-weight: 600; margin: 0.75rem 0 0.25rem 0; text-transform: uppercase; letter-spacing: 1px;'>{get_text('section_governance', lang)}</p>", unsafe_allow_html=True)
-        if st.button(get_text('nil_monitor', lang), width="stretch", key="nil_monitor"):
+        if st.button(get_text('nil_monitor', lang), use_container_width=True, key="nil_monitor"):
             set_module('nil')
             st.rerun()
-        if st.button(get_text('antilobby', lang), width="stretch", key="antilobby"):
+        if st.button(get_text('antilobby', lang), use_container_width=True, key="antilobby"):
             set_module('antilobby')
             st.rerun()
-        if st.button("FRMF Officials", width="stretch", key="nav_frmf"):
+        if st.button("FRMF Officials", use_container_width=True, key="nav_frmf"):
             set_module('frmf')
             st.rerun()
-        if st.button("PMA Logistics", width="stretch", key="nav_pma"):
+        if st.button("PMA Logistics", use_container_width=True, key="nav_pma"):
             set_module('pma')
             st.rerun()
         
         # === FINANCIAL ECOSYSTEM ===
         st.markdown(f"<p style='color: {COLORS['gold']}; font-size: 0.7rem; font-weight: 600; margin: 0.75rem 0 0.25rem 0; text-transform: uppercase; letter-spacing: 1px;'>{get_text('section_financial', lang)}</p>", unsafe_allow_html=True)
-        if st.button(get_text('nav_ticketchain', lang), width="stretch", key="nav_ticket"):
+        if st.button(get_text('nav_ticketchain', lang), use_container_width=True, key="nav_ticket"):
             set_module('ticketchain')
             st.rerun()
-        if st.button(get_text('nav_foundation', lang), width="stretch", key="nav_foundation"):
+        if st.button(get_text('nav_foundation', lang), use_container_width=True, key="nav_foundation"):
             set_module('foundation')
             st.rerun()
-        if st.button(get_text('nav_wallet', lang), width="stretch", key="nav_wallet"):
+        if st.button(get_text('nav_wallet', lang), use_container_width=True, key="nav_wallet"):
             set_module('wallet')
             st.rerun()
-        if st.button(get_text('nav_subscriptions', lang), width="stretch", key="nav_subs"):
+        if st.button(get_text('nav_subscriptions', lang), use_container_width=True, key="nav_subs"):
             set_module('subscriptions')
             st.rerun()
         
         # === SPORT DIVISION ===
         st.markdown(f"<p style='color: {COLORS['gold']}; font-size: 0.7rem; font-weight: 600; margin: 0.75rem 0 0.25rem 0; text-transform: uppercase; letter-spacing: 1px;'>{get_text('section_sport', lang)}</p>", unsafe_allow_html=True)
-        if st.button(get_text('nav_ntsp', lang), width="stretch", key="nav_ntsp"):
+        if st.button(get_text('nav_ntsp', lang), use_container_width=True, key="nav_ntsp"):
             set_module('ntsp')
             st.rerun()
-        if st.button(get_text('nav_transfers', lang), width="stretch", key="nav_transfers"):
+        if st.button(get_text('nav_transfers', lang), use_container_width=True, key="nav_transfers"):
             set_module('transfers')
             st.rerun()
-        if st.button(get_text('nav_academy', lang), width="stretch", key="nav_academy"):
+        if st.button(get_text('nav_academy', lang), use_container_width=True, key="nav_academy"):
             set_module('academy')
             st.rerun()
-        if st.button(get_text('nav_transfer_market', lang), width="stretch", key="nav_transfer_market"):
+        if st.button(get_text('nav_transfer_market', lang), use_container_width=True, key="nav_transfer_market"):
             set_module('transfer_market')
             st.rerun()
         
         # === WK2030 & DIASPORA ===
         st.markdown(f"<p style='color: {COLORS['gold']}; font-size: 0.7rem; font-weight: 600; margin: 0.75rem 0 0.25rem 0; text-transform: uppercase; letter-spacing: 1px;'>{get_text('section_wk2030', lang)}</p>", unsafe_allow_html=True)
-        if st.button(get_text('nav_fandorpen', lang), width="stretch", key="nav_fandorpen"):
+        if st.button(get_text('nav_fandorpen', lang), use_container_width=True, key="nav_fandorpen"):
             set_module('fandorpen')
             st.rerun()
-        if st.button(get_text('nav_consulate', lang), width="stretch", key="nav_consulate"):
+        if st.button(get_text('nav_consulate', lang), use_container_width=True, key="nav_consulate"):
             set_module('consulate')
             st.rerun()
-        if st.button(get_text('nav_mobility', lang), width="stretch", key="nav_mobility"):
+        if st.button(get_text('nav_mobility', lang), use_container_width=True, key="nav_mobility"):
             set_module('mobility')
             st.rerun()
         
         # === SOCIAL IMPACT ===
         st.markdown(f"<p style='color: {COLORS['gold']}; font-size: 0.7rem; font-weight: 600; margin: 0.75rem 0 0.25rem 0; text-transform: uppercase; letter-spacing: 1px;'>{get_text('section_social', lang)}</p>", unsafe_allow_html=True)
-        if st.button(get_text('nav_hayat', lang), width="stretch", key="nav_hayat"):
+        if st.button(get_text('nav_hayat', lang), use_container_width=True, key="nav_hayat"):
             set_module('hayat')
             st.rerun()
-        if st.button(get_text('nav_inclusion', lang), width="stretch", key="nav_inclusion"):
+        if st.button(get_text('nav_inclusion', lang), use_container_width=True, key="nav_inclusion"):
             set_module('inclusion')
             st.rerun()
-        if st.button(get_text('nav_antihate', lang), width="stretch", key="nav_antihate"):
+        if st.button(get_text('nav_antihate', lang), use_container_width=True, key="nav_antihate"):
             set_module('antihate')
             st.rerun()
         
         # === IDENTITY & SECURITY ===
         st.markdown(f"<p style='color: {COLORS['gold']}; font-size: 0.7rem; font-weight: 600; margin: 0.75rem 0 0.25rem 0; text-transform: uppercase; letter-spacing: 1px;'>{get_text('section_security', lang)}</p>", unsafe_allow_html=True)
-        if st.button(get_text('nav_maroc_id', lang), width="stretch", key="nav_maroc_id", type="primary" if st.session_state['current_module'] == 'maroc_id' else "secondary"):
+        if st.button(get_text('nav_maroc_id', lang), use_container_width=True, key="nav_maroc_id", type="primary" if st.session_state['current_module'] == 'maroc_id' else "secondary"):
             set_module('maroc_id')
             st.rerun()
-        if st.button(get_text('nav_identity', lang), width="stretch", key="nav_identity"):
+        if st.button(get_text('nav_identity', lang), use_container_width=True, key="nav_identity"):
             set_module('identity')
             st.rerun()
         if st.session_state['user_role'] in ["SuperAdmin", "Security Staff", "Admin"]:
-            if st.button(get_text('nav_security', lang), width="stretch", key="nav_security"):
+            if st.button(get_text('nav_security', lang), use_container_width=True, key="nav_security"):
                 set_module('security')
                 st.rerun()
-            if st.button(get_text('nav_admin', lang), width="stretch", key="nav_admin"):
+            if st.button(get_text('nav_admin', lang), use_container_width=True, key="nav_admin"):
                 set_module('admin')
                 st.rerun()
         
         st.markdown("<hr style='margin: 0.5rem 0; border-color: rgba(139, 92, 246, 0.2);'>", unsafe_allow_html=True)
         
-        if st.button(get_text('logout', lang).upper(), width="stretch"):
+        if st.button(get_text('logout', lang).upper(), use_container_width=True):
             log_audit(st.session_state['username'], "LOGOUT", "Authentication")
             st.session_state['ingelogd'] = False
             st.session_state['username'] = ""
@@ -605,25 +605,25 @@ def render_interactive_dashboard(set_module):
     
     with col1:
         if st.button(f" TicketChain™\n\n**{tickets:,}** Tickets\n€{ticket_revenue:,.0f} Revenue", 
-                     width="stretch", key="dash_ticket"):
+                     use_container_width=True, key="dash_ticket"):
             set_module('ticketchain')
             st.rerun()
     
     with col2:
         if st.button(f" Foundation Bank\n\n**{donations + contributions:,}** Transactions\n€{foundation_total:,.0f} Sadaka", 
-                     width="stretch", key="dash_foundation"):
+                     use_container_width=True, key="dash_foundation"):
             set_module('foundation')
             st.rerun()
     
     with col3:
         if st.button(f" Diaspora Wallet\n\n**{wallets:,}** Wallets\n€{wallet_balance:,.0f} Balance", 
-                     width="stretch", key="dash_wallet"):
+                     use_container_width=True, key="dash_wallet"):
             set_module('wallet')
             st.rerun()
     
     with col4:
         if st.button(f" Subscriptions\n\nManage Plans\n& Billing", 
-                     width="stretch", key="dash_subs"):
+                     use_container_width=True, key="dash_subs"):
             set_module('subscriptions')
             st.rerun()
     
@@ -640,19 +640,19 @@ def render_interactive_dashboard(set_module):
     
     with col1:
         if st.button(f" NTSP™\n\n**{talents:,}** Talents\nScouting Platform", 
-                     width="stretch", key="dash_ntsp"):
+                     use_container_width=True, key="dash_ntsp"):
             set_module('ntsp')
             st.rerun()
     
     with col2:
         if st.button(f" Transfers\n\n**{transfers_count:,}** Transfers\n€{transfer_value:,.0f} Value", 
-                     width="stretch", key="dash_transfers"):
+                     use_container_width=True, key="dash_transfers"):
             set_module('transfers')
             st.rerun()
     
     with col3:
         if st.button(f" Academy\n\n**{academies:,}** Academies\nNational Network", 
-                     width="stretch", key="dash_academy"):
+                     use_container_width=True, key="dash_academy"):
             set_module('academy')
             st.rerun()
     
@@ -665,7 +665,7 @@ def render_interactive_dashboard(set_module):
             fandorpen_count = volunteers_count = 0
         
         if st.button(f" FanDorpen\n\n**{fandorpen_count}** Dorpen\n{volunteers_count} Vrijwilligers", 
-                     width="stretch", key="dash_fandorpen"):
+                     use_container_width=True, key="dash_fandorpen"):
             set_module('fandorpen')
             st.rerun()
     
@@ -682,19 +682,19 @@ def render_interactive_dashboard(set_module):
     
     with col1:
         if st.button(f" Consulate Hub\n\nDigital Services\nFor 5,5M Diaspora", 
-                     width="stretch", key="dash_consulate"):
+                     use_container_width=True, key="dash_consulate"):
             set_module('consulate')
             st.rerun()
     
     with col2:
         if st.button(f" WK 2030 Travel\n\nMobility Packages\nTransport & Hotels", 
-                     width="stretch", key="dash_mobility"):
+                     use_container_width=True, key="dash_mobility"):
             set_module('mobility')
             st.rerun()
     
     with col3:
         if st.button(f" Identity Shield\n\n**{identities:,}** Protected\n24/7 Monitoring", 
-                     width="stretch", key="dash_identity"):
+                     use_container_width=True, key="dash_identity"):
             set_module('identity')
             st.rerun()
     
@@ -711,19 +711,19 @@ def render_interactive_dashboard(set_module):
     
     with col1:
         if st.button(f" Hayat Health\n\nHealth Initiative\nWellbeing Programs", 
-                     width="stretch", key="dash_hayat"):
+                     use_container_width=True, key="dash_hayat"):
             set_module('hayat')
             st.rerun()
     
     with col2:
         if st.button(f" Women & Para\n\nInclusion Programs\nEqual Opportunities", 
-                     width="stretch", key="dash_inclusion"):
+                     use_container_width=True, key="dash_inclusion"):
             set_module('inclusion')
             st.rerun()
     
     with col3:
         if st.button(f" Anti-Hate Shield\n\nContent Protection\nDigital Peace", 
-                     width="stretch", key="dash_antihate"):
+                     use_container_width=True, key="dash_antihate"):
             set_module('antihate')
             st.rerun()
     
