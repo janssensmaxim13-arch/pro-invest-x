@@ -324,71 +324,69 @@ def generate_data():
             c.execute("SELECT COUNT(*) FROM tm_players")
             if c.fetchone()[0] > 0:
                 return
+            
             for i, p in enumerate(PLAYERS):
-                name, club, pos, nat, age, val, num = p[0], p[1], p[2], p[3], p[4], p[5], p[6] if len(p) > 6 else random.randint(1,99)
+                name, club, pos, nat, age, val = p[0], p[1], p[2], p[3], p[4], p[5]
+                num = p[6] if len(p) > 6 else random.randint(1, 99)
                 pid = f"TM-{i+1:05d}"
                 contract = (date.today() + timedelta(days=random.randint(180, 1500))).isoformat()
-                # Split name into first and last
-                name_parts = name.split(" ", 1)
-                first_name = name_parts[0]
-                last_name = name_parts[1] if len(name_parts) > 1 else ""
-                dob = (date.today() - timedelta(days=age*365 + random.randint(0, 364))).isoformat()
-                league = CLUBS.get(club, {}).get("league", "Unknown")
-                agent = random.choice(["Jorge Mendes", "Mino Raiola Agency", "Stellar Group", "CAA Base", "Wasserman", None])
                 foot = random.choice(["Right", "Left", "Both"])
                 height = random.randint(168, 198)
-                weight = random.randint(65, 95)
-                national_team = nat if random.random() > 0.3 else None
-                is_moroccan = 1 if nat == "Morocco" else 0
+                highest_val = val * random.uniform(1.0, 1.3)
                 
                 c.execute("""INSERT OR IGNORE INTO tm_players 
-                    (player_id, first_name, last_name, date_of_birth, nationality, position, 
-                     current_club, current_league, market_value, contract_until, agent, foot, 
-                     height_cm, weight_kg, national_team, is_moroccan, created_at)
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                    (pid, first_name, last_name, dob, nat, pos, club, league, val*1e6, contract, 
-                     agent, foot, height, weight, national_team, is_moroccan, date.today().isoformat()))
+                    (player_id, full_name, age, nationality, position, foot, height_cm,
+                     current_club, jersey_number, contract_until, market_value, highest_value, status)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    (pid, name, age, nat, pos, foot, height, club, num, contract, 
+                     val * 1e6, highest_val * 1e6, 'Active'))
+                
+                # Value history
+                for m in range(12):
+                    hist_date = (date.today() - timedelta(days=m*30)).isoformat()
+                    hist_val = val * 1e6 * random.uniform(0.85, 1.15)
+                    c.execute("INSERT INTO tm_value_history (player_id, date, value) VALUES (?,?,?)", 
+                              (pid, hist_date, hist_val))
+                
+                # Statistics
+                c.execute("""INSERT INTO tm_statistics 
+                    (player_id, season, competition, appearances, goals, assists, minutes) 
+                    VALUES (?,?,?,?,?,?,?)""",
+                    (pid, "2024/25", CLUBS.get(club, {}).get("league", "Unknown"),
+                     random.randint(10, 30), random.randint(0, 20), random.randint(0, 15), 
+                     random.randint(500, 2500)))
+                
+                # Transfers (random past transfer)
+                if random.random() > 0.5:
+                    prev_clubs = [c for c in CLUBS.keys() if c != club]
+                    if prev_clubs:
+                        prev_club = random.choice(prev_clubs)
+                        transfer_date = (date.today() - timedelta(days=random.randint(100, 800))).isoformat()
+                        c.execute("""INSERT INTO tm_transfers 
+                            (player_id, date, from_club, to_club, fee, type) VALUES (?,?,?,?,?,?)""",
+                            (pid, transfer_date, prev_club, club, val * 1e6 * random.uniform(0.7, 1.0), "Permanent"))
             
-            # Value history
-            for m in range(12):
-                hist_date = (date.today() - timedelta(days=m*30)).isoformat()
-                hist_val = val * random.uniform(0.85, 1.05) * 1e6
-                c.execute("INSERT INTO tm_value_history (player_id, date, value) VALUES (?,?,?)", (pid, hist_date, hist_val))
-            # Stats
-            goals = random.randint(12,35) if pos in ["ST","CF"] else random.randint(8,20) if pos in ["LW","RW","CAM"] else random.randint(2,10) if pos in ["CM","CDM"] else random.randint(0,3)
-            assists = random.randint(5,18) if pos in ["CAM","LW","RW","CM"] else random.randint(2,8)
-            apps = random.randint(20,45)
-            c.execute("INSERT INTO tm_statistics (player_id, season, competition, appearances, goals, assists, minutes) VALUES (?,?,?,?,?,?,?)",
-                (pid, "2024/25", league, apps, goals, assists, apps*random.randint(60,90)))
-            # Transfer history
-            prev_clubs = ["Ajax", "Benfica", "Monaco", "Dortmund", "Salzburg", "Porto", "Sporting CP", "Lyon", "Lille"]
-            prev = random.choice(prev_clubs) if random.random() < 0.7 else None
-            fee = val * random.uniform(0.3, 0.8) if prev else None
-            if prev:
-                t_date = (date.today() - timedelta(days=random.randint(365, 1500))).isoformat()
-                c.execute("INSERT INTO tm_transfers (player_id, date, from_club, to_club, fee, type) VALUES (?,?,?,?,?,?)",
-                    (pid, t_date, prev, club, fee*1e6, "Permanent"))
-        # Rumours - safe insert with error handling
-        rumours = [
-            ("Vinicius Junior","Real Madrid","PSG","High",280),("Florian Wirtz","Bayer Leverkusen","Real Madrid","High",130),
-            ("Alexander Isak","Newcastle","Arsenal","Medium",120),("Mohamed Salah","Liverpool","Al-Ittihad","Medium",45),
-            ("Alphonso Davies","Bayern Munich","Real Madrid","High",50),("Xavi Simons","RB Leipzig","Barcelona","Medium",100),
-            ("Victor Osimhen","Galatasaray","Chelsea","High",80),("Jonathan Tah","Bayer Leverkusen","Bayern Munich","High",30),
-            ("Jamal Musiala","Bayern Munich","Manchester City","Low",150),("Lautaro Martinez","Inter Milan","Barcelona","Low",130),
-        ]
-        for name, fr, to, prob, fee in rumours:
-            try:
+            # Rumours
+            rumours = [
+                ("Vinicius Junior", "Real Madrid", "PSG", "High", 280),
+                ("Florian Wirtz", "Bayer Leverkusen", "Real Madrid", "High", 130),
+                ("Alexander Isak", "Newcastle", "Arsenal", "Medium", 120),
+                ("Mohamed Salah", "Liverpool", "Al-Ittihad", "Medium", 45),
+                ("Jamal Musiala", "Bayern Munich", "Manchester City", "Low", 150),
+            ]
+            for name, fr, to, prob, fee in rumours:
                 c.execute("SELECT player_id FROM tm_players WHERE full_name=?", (name,))
                 r = c.fetchone()
                 if r:
-                    c.execute("INSERT OR IGNORE INTO tm_rumours VALUES (?,?,?,?,?,?,?,?)",
-                        (f"RUM-{name[:3]}-{random.randint(100,999)}", r[0], fr, to, prob,
-                         random.choice(["Fabrizio Romano","Sky Sports","Marca","L'Equipe","BILD","The Athletic"]), fee*1e6, "Active"))
-            except Exception:
-                pass  # Skip if player not found
+                    c.execute("""INSERT OR IGNORE INTO tm_rumours 
+                        (rumour_id, player_id, from_club, to_club, probability, source, estimated_fee, status)
+                        VALUES (?,?,?,?,?,?,?,?)""",
+                        (f"RUM-{random.randint(1000,9999)}", r[0], fr, to, prob,
+                         random.choice(["Fabrizio Romano", "Sky Sports", "Marca"]), fee * 1e6, "Active"))
+            
             conn.commit()
-    except Exception:
-        pass  # Table might not exist yet
+    except Exception as e:
+        pass  # Silent fail - tables will be created on next run
 
 def format_value(v):
     if v >= 1e9: return f"{v/1e9:.2f}B"
