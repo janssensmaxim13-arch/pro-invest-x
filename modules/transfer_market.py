@@ -318,75 +318,69 @@ def init_tables():
         conn.commit()
 
 def generate_data():
+    """Generate player data if table is empty."""
     try:
         with get_connection() as conn:
             c = conn.cursor()
-            c.execute("SELECT COUNT(*) FROM tm_players")
-            if c.fetchone()[0] > 0:
-                return
             
+            # Check if data exists
+            c.execute("SELECT COUNT(*) FROM tm_players")
+            count = c.fetchone()[0]
+            if count > 0:
+                return  # Data already exists
+            
+            # Insert all players
             for i, p in enumerate(PLAYERS):
-                name, club, pos, nat, age, val = p[0], p[1], p[2], p[3], p[4], p[5]
+                name = p[0]
+                club = p[1]
+                pos = p[2]
+                nat = p[3]
+                age = p[4]
+                val = p[5]
                 num = p[6] if len(p) > 6 else random.randint(1, 99)
+                
                 pid = f"TM-{i+1:05d}"
                 contract = (date.today() + timedelta(days=random.randint(180, 1500))).isoformat()
                 foot = random.choice(["Right", "Left", "Both"])
                 height = random.randint(168, 198)
                 highest_val = val * random.uniform(1.0, 1.3)
                 
-                c.execute("""INSERT OR IGNORE INTO tm_players 
-                    (player_id, full_name, age, nationality, position, foot, height_cm,
-                     current_club, jersey_number, contract_until, market_value, highest_value, status)
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                    (pid, name, age, nat, pos, foot, height, club, num, contract, 
-                     val * 1e6, highest_val * 1e6, 'Active'))
+                try:
+                    c.execute("""INSERT INTO tm_players 
+                        (player_id, full_name, age, nationality, position, foot, height_cm,
+                         current_club, jersey_number, contract_until, market_value, highest_value, status)
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                        (pid, name, age, nat, pos, foot, height, club, num, contract, 
+                         val * 1e6, highest_val * 1e6, 'Active'))
+                except:
+                    pass
                 
                 # Value history
-                for m in range(12):
-                    hist_date = (date.today() - timedelta(days=m*30)).isoformat()
-                    hist_val = val * 1e6 * random.uniform(0.85, 1.15)
-                    c.execute("INSERT INTO tm_value_history (player_id, date, value) VALUES (?,?,?)", 
-                              (pid, hist_date, hist_val))
+                try:
+                    for m in range(6):
+                        hist_date = (date.today() - timedelta(days=m*30)).isoformat()
+                        hist_val = val * 1e6 * random.uniform(0.85, 1.15)
+                        c.execute("INSERT INTO tm_value_history (player_id, date, value) VALUES (?,?,?)", 
+                                  (pid, hist_date, hist_val))
+                except:
+                    pass
                 
                 # Statistics
-                c.execute("""INSERT INTO tm_statistics 
-                    (player_id, season, competition, appearances, goals, assists, minutes) 
-                    VALUES (?,?,?,?,?,?,?)""",
-                    (pid, "2024/25", CLUBS.get(club, {}).get("league", "Unknown"),
-                     random.randint(10, 30), random.randint(0, 20), random.randint(0, 15), 
-                     random.randint(500, 2500)))
-                
-                # Transfers (random past transfer)
-                if random.random() > 0.5:
-                    prev_clubs = [c for c in CLUBS.keys() if c != club]
-                    if prev_clubs:
-                        prev_club = random.choice(prev_clubs)
-                        transfer_date = (date.today() - timedelta(days=random.randint(100, 800))).isoformat()
-                        c.execute("""INSERT INTO tm_transfers 
-                            (player_id, date, from_club, to_club, fee, type) VALUES (?,?,?,?,?,?)""",
-                            (pid, transfer_date, prev_club, club, val * 1e6 * random.uniform(0.7, 1.0), "Permanent"))
-            
-            # Rumours
-            rumours = [
-                ("Vinicius Junior", "Real Madrid", "PSG", "High", 280),
-                ("Florian Wirtz", "Bayer Leverkusen", "Real Madrid", "High", 130),
-                ("Alexander Isak", "Newcastle", "Arsenal", "Medium", 120),
-                ("Mohamed Salah", "Liverpool", "Al-Ittihad", "Medium", 45),
-                ("Jamal Musiala", "Bayern Munich", "Manchester City", "Low", 150),
-            ]
-            for name, fr, to, prob, fee in rumours:
-                c.execute("SELECT player_id FROM tm_players WHERE full_name=?", (name,))
-                r = c.fetchone()
-                if r:
-                    c.execute("""INSERT OR IGNORE INTO tm_rumours 
-                        (rumour_id, player_id, from_club, to_club, probability, source, estimated_fee, status)
-                        VALUES (?,?,?,?,?,?,?,?)""",
-                        (f"RUM-{random.randint(1000,9999)}", r[0], fr, to, prob,
-                         random.choice(["Fabrizio Romano", "Sky Sports", "Marca"]), fee * 1e6, "Active"))
+                try:
+                    league = CLUBS.get(club, {}).get("league", "Unknown")
+                    c.execute("""INSERT INTO tm_statistics 
+                        (player_id, season, competition, appearances, goals, assists, minutes) 
+                        VALUES (?,?,?,?,?,?,?)""",
+                        (pid, "2024/25", league,
+                         random.randint(10, 30), random.randint(0, 15), random.randint(0, 10), 
+                         random.randint(500, 2500)))
+                except:
+                    pass
             
             conn.commit()
-    except Exception as e:
-        pass  # Silent fail - tables will be created on next run
+            
+    except Exception:
+        pass  # Silent fail
 
 def format_value(v):
     if v >= 1e9: return f"{v/1e9:.2f}B"
@@ -407,8 +401,15 @@ def render(username: str = None):
     </div>""", unsafe_allow_html=True)
     
     df = get_data("tm_players")
+    
     if df.empty:
-        st.warning("Loading...")
+        st.info("Initializing Transfer Market database... Please refresh the page.")
+        
+        # Try to generate data again
+        generate_data()
+        
+        if st.button("Refresh Data"):
+            st.rerun()
         return
     
     c1,c2,c3,c4,c5,c6 = st.columns(6)
