@@ -335,13 +335,13 @@ def render(username: str):
     register_antihate_tables()
     
     page_header(
-        "️ Anti-Hate Shield",
+        " Anti-Hate Shield",
         "Dossier 15/27 | Bescherming tegen online haat | Social Media Monitoring | Legal Support"
     )
     
     # Waarschuwing
     st.warning("""
-    **️ Gevoelige Module**: Deze module bevat referenties naar hatelijke content.
+    ** Gevoelige Module**: Deze module bevat referenties naar hatelijke content.
     Alle content wordt gehashed opgeslagen voor privacy en juridische doeleinden.
     """)
     
@@ -349,7 +349,7 @@ def render(username: str):
         " Dashboard",
         " Monitoring",
         " Incidenten",
-        "️ Legal",
+        " Legal",
         " Wellness",
         " Analytics"
     ])
@@ -414,7 +414,7 @@ def render_dashboard():
         st.caption(f" {total_incidents} totaal")
     
     with col4:
-        st.metric("️ Open Legal Cases", open_legal)
+        st.metric(" Open Legal Cases", open_legal)
     
     st.markdown("<br>", unsafe_allow_html=True)
     
@@ -503,12 +503,12 @@ def render_monitoring(username: str):
             
             metric_row([
                 (" Totaal", len(df)),
-                ("️ High Priority", len(df[df['priority_level'] == 'HIGH'])),
+                (" High Priority", len(df[df['priority_level'] == 'HIGH'])),
             ])
             
             # Table
             for _, athlete in df.iterrows():
-                active_emoji = "" if athlete['monitoring_active'] else "⏸️"
+                active_emoji = "" if athlete['monitoring_active'] else ""
                 priority_emoji = {"HIGH": "", "NORMAL": "", "LOW": ""}.get(athlete['priority_level'], "")
                 
                 with st.expander(f"{active_emoji} {athlete['athlete_name']} {priority_emoji}"):
@@ -527,7 +527,7 @@ def render_monitoring(username: str):
                     
                     # Toggle monitoring
                     if st.button(
-                        "⏸️ Pause" if athlete['monitoring_active'] else "▶️ Activate",
+                        " Pause" if athlete['monitoring_active'] else " Activate",
                         key=f"toggle_{athlete['monitor_id']}"
                     ):
                         new_status = 0 if athlete['monitoring_active'] else 1
@@ -747,7 +747,7 @@ def render_incidents(username: str):
 def render_legal(username: str):
     """Render legal case management."""
     
-    st.subheader("️ Legal Cases")
+    st.subheader(" Legal Cases")
     
     if not check_permission(["SuperAdmin", "Official", "Security Staff"], silent=True):
         st.warning(" Legal cases zijn beperkt toegankelijk.")
@@ -761,7 +761,7 @@ def render_legal(username: str):
     with tab1:
         if not df.empty:
             metric_row([
-                ("️ Totaal Cases", len(df)),
+                (" Totaal Cases", len(df)),
                 (" Open", len(df[df['status'] == 'OPEN'])),
                 (" Legal Costs", f"€ {df['legal_costs'].sum():,.0f}"),
             ])
@@ -795,7 +795,7 @@ def render_legal(username: str):
             
             description = st.text_area("Beschrijving")
             
-            if st.form_submit_button("️ OPEN CASE", width="stretch"):
+            if st.form_submit_button(" OPEN CASE", width="stretch"):
                 case_id = generate_uuid("LGL")
                 
                 run_query("""
@@ -839,7 +839,7 @@ def render_wellness(username: str):
         ])
         
         if not pending.empty:
-            st.warning(f"️ {len(pending)} wellness checks wachten op actie!")
+            st.warning(f" {len(pending)} wellness checks wachten op actie!")
             
             for _, check in pending.iterrows():
                 with st.expander(f"⏳ {check['athlete_name']} - {check['urgency']}"):
@@ -918,7 +918,7 @@ def render_antihate_analytics():
     col1, col2 = st.columns(2)
     
     with col1:
-        st.write("#### ️ Severity Verdeling")
+        st.write("####  Severity Verdeling")
         st.bar_chart(df_incidents['severity'].value_counts())
     
     with col2:

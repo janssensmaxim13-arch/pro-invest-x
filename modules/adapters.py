@@ -26,7 +26,7 @@ def render_sport(username: str):
     """Render de Sport Adapter module."""
     
     page_header(
-        "️ Sport Adapter",
+        " Sport Adapter",
         "National AMS | Athlete Management System - FRMF Integration Ready"
     )
     
@@ -221,7 +221,7 @@ def render_health(username: str):
     """Render de Health Adapter module."""
     
     page_header(
-        "️ Health Adapter",
+        " Health Adapter",
         "Medical Records Management | Secure Health Information System with GDPR Compliance"
     )
     

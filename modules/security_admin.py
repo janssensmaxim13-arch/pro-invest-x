@@ -30,7 +30,7 @@ def render_security_center(username: str, user_role: str):
     )
     
     if user_role not in ["SuperAdmin", "Security Staff"]:
-        st.warning("️ This module requires Security Staff or SuperAdmin privileges.")
+        st.warning(" This module requires Security Staff or SuperAdmin privileges.")
         return
     
     tab1, tab2, tab3 = st.tabs([" Audit Logs", " Security Alerts", " Compliance Reports"])
@@ -148,7 +148,7 @@ def render_security_alerts():
         metric_row([
             (" Total Alerts", total),
             (" Active", active),
-            ("️ High Priority", high),
+            (" High Priority", high),
             (" Resolved Today", resolved_today),
         ])
         
@@ -170,7 +170,7 @@ def render_compliance_reports():
     
     st.subheader(" Compliance & Regulatory Reports")
     
-    st.write("### ️ GDPR Compliance Status")
+    st.write("###  GDPR Compliance Status")
     
     df_identities = get_data("identity_shield")
     df_health = get_data("health_records")
@@ -203,7 +203,7 @@ def render_compliance_reports():
         if status:
             st.success(f" {item}")
         else:
-            st.warning(f"️ {item} - Requires Implementation")
+            st.warning(f" {item} - Requires Implementation")
 
 
 # =============================================================================
@@ -222,7 +222,7 @@ def render_admin_panel(username: str, user_role: str):
         st.error(" Access Denied. This module requires SuperAdmin privileges.")
         return
     
-    tab1, tab2 = st.tabs([" User Management", "️ System Settings"])
+    tab1, tab2 = st.tabs([" User Management", " System Settings"])
     
     with tab1:
         render_user_management(username)
@@ -297,7 +297,7 @@ def render_user_management(admin_username: str):
                     (deact_user,)
                 )
                 if success:
-                    st.warning(f"️ User {deact_user} deactivated")
+                    st.warning(f" User {deact_user} deactivated")
                     log_audit(admin_username, "USER_DEACTIVATED", "Admin", 
                              details=f"User: {deact_user}")
                     st.rerun()
@@ -310,7 +310,7 @@ def render_system_settings():
     from config import DB_FILE, VAULT_DIR, ALLOWED_TABLES
     from auth.security import BCRYPT_AVAILABLE
     
-    st.subheader("️ System Configuration")
+    st.subheader(" System Configuration")
     
     st.write("###  Security Settings")
     
@@ -323,9 +323,9 @@ def render_system_settings():
     
     st.info(f"""
     **Current Configuration:**
-    - Password Hashing: {'bcrypt ( Secure)' if BCRYPT_AVAILABLE else 'SHA256 (️ Upgrade to bcrypt)'}
+    - Password Hashing: {'bcrypt ( Secure)' if BCRYPT_AVAILABLE else 'SHA256 ( Upgrade to bcrypt)'}
     - QR Code Generation: {'Enabled ' if qr_available else 'Disabled (install qrcode)'}
-    - Blockchain Secret: {'Environment Variable ' if 'TICKETCHAIN_SECRET' in os.environ else 'Default (️ Set in production)'}
+    - Blockchain Secret: {'Environment Variable ' if 'TICKETCHAIN_SECRET' in os.environ else 'Default ( Set in production)'}
     - Database Indexes: Enabled  (16 indexes)
     - Audit Logging: Enabled 
     - Foundation Rate: 0.5% (Masterplan Compliant )
@@ -351,5 +351,5 @@ def render_system_settings():
         (" Total Records", f"{total_records:,}"),
         (" Database Size", f"{db_size:.1f} MB"),
         (" Vault Size", f"{vault_size:.1f} MB"),
-        ("️ Modules Active", "11/11"),
+        (" Modules Active", "11/11"),
     ])

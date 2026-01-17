@@ -223,10 +223,10 @@ def render(username: str):
     )
     
     tab1, tab2, tab3, tab4 = st.tabs([
-        "️ Events", 
-        "️ Minting", 
+        " Events", 
+        " Minting", 
         " Validator", 
-        "⭐ Loyalty System"
+        " Loyalty System"
     ])
     
     with tab1:
@@ -245,7 +245,7 @@ def render(username: str):
 def render_events(username: str):
     """Render event management."""
     
-    st.subheader("️ Event Management")
+    st.subheader(" Event Management")
     
     with st.form("new_event"):
         col1, col2 = st.columns(2)
@@ -308,7 +308,7 @@ def render_events(username: str):
 def render_minting(username: str):
     """Render ticket minting."""
     
-    st.subheader("️ Mint Smart Tickets")
+    st.subheader(" Mint Smart Tickets")
     
     # Session state voor laatste ticket
     if 'last_minted_ticket' not in st.session_state:
@@ -318,11 +318,11 @@ def render_minting(username: str):
     id_map = get_identity_names_map()
     
     if events_df.empty:
-        st.warning("️ No events available. Create an event first.")
+        st.warning(" No events available. Create an event first.")
         return
     
     if not id_map:
-        st.warning("️ No verified identities. Register buyers in Identity Shield first.")
+        st.warning(" No verified identities. Register buyers in Identity Shield first.")
         return
     
     event_options = dict(zip(events_df['event_id'], events_df['name']))
@@ -431,7 +431,7 @@ Minted: {res['timestamp']}
             st.write(f"Foundation (0.5%): {res['foundation']:.2f} MAD")
             st.write(f"Net: {res['net']:.2f} MAD")
             
-            st.markdown(f"#### ⭐ Loyalty Reward")
+            st.markdown(f"####  Loyalty Reward")
             st.write(f"+{res['loyalty_points']} points earned!")
         
         # QR Code + Download
@@ -505,16 +505,16 @@ def render_validator(username: str):
                             "Used At": result[7] if result[7] else "Not used yet"
                         })
                     elif status == "USED":
-                        st.warning("️ TICKET ALREADY USED")
+                        st.warning(" TICKET ALREADY USED")
                         st.write(f"Used at: {result[7]}")
                     else:
                         st.info(f"Status: {status}")
                 else:
                     st.error(" INVALID - NOT FOUND IN BLOCKCHAIN")
-                    st.warning("️ POSSIBLE FRAUD DETECTED")
+                    st.warning(" POSSIBLE FRAUD DETECTED")
     
     with col2:
-        if st.button("️ MARK AS USED", width="stretch"):
+        if st.button(" MARK AS USED", width="stretch"):
             if not check_hash or len(check_hash.strip()) != 64:
                 st.error(" Invalid hash format.")
             else:
@@ -529,7 +529,7 @@ def render_validator(username: str):
                 if not result:
                     st.error(" Ticket not found.")
                 elif result[0] == "USED":
-                    st.warning("️ Already marked as used.")
+                    st.warning(" Already marked as used.")
                 else:
                     cursor.execute(
                         "UPDATE ticketchain_tickets SET status = 'USED', used_at = ? WHERE ticket_hash = ?",
@@ -563,7 +563,7 @@ def render_validator(username: str):
 def render_loyalty():
     """Render loyalty program."""
     
-    st.subheader("⭐ Fan Loyalty & Rewards Program")
+    st.subheader(" Fan Loyalty & Rewards Program")
     
     df_loyalty = get_data("loyalty_points")
     
@@ -577,12 +577,12 @@ def render_loyalty():
             medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
             col1.write(medal)
             col2.write(f"**{fan['identity_id']}**")
-            col3.write(f"⭐ {fan['points_balance']} pts")
-            col4.write(f"️ {fan['tier']}")
+            col3.write(f" {fan['points_balance']} pts")
+            col4.write(f" {fan['tier']}")
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        st.write("### ️ Tier Distribution")
+        st.write("###  Tier Distribution")
         tier_counts = df_loyalty['tier'].value_counts()
         st.bar_chart(tier_counts)
         

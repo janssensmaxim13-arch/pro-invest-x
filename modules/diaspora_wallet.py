@@ -170,7 +170,7 @@ def render_new_wallet(username: str):
     identities = get_identity_names_map()
     
     if not identities:
-        st.warning("️ Geen identiteiten. Registreer eerst in Identity Shield.")
+        st.warning(" Geen identiteiten. Registreer eerst in Identity Shield.")
         return
     
     # Check bestaande wallets
@@ -307,7 +307,7 @@ def render_investments(username: str):
     -  Bedrijven
     -  Landbouw
     -  Sport faciliteiten
-    - ️ Infrastructuur
+    -  Infrastructuur
     """)
     
     wallets = get_wallets_dropdown()

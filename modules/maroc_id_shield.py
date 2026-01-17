@@ -92,11 +92,11 @@ ROLE_TYPES = [
     ("DONOR", "Donor/Sponsor", "", 2),
     ("AGENT", "Makelaar/Agent", "", 3),
     ("CLUB_MANAGER", "Club Manager", "", 3),
-    ("CONSULATE_STAFF", "Consulaat Medewerker", "️", 3),
+    ("CONSULATE_STAFF", "Consulaat Medewerker", "", 3),
     ("MEDICAL_STAFF", "Medisch Personeel", "", 2),
     ("SCOUT", "Scout", "", 2),
     ("ACADEMY_STAFF", "Academy Staff", "", 2),
-    ("SECURITY", "Beveiliging", "️", 3),
+    ("SECURITY", "Beveiliging", "", 3),
     ("AUDITOR", "Auditor", "", 3),
 ]
 
@@ -107,11 +107,11 @@ ORG_TYPES = [
     ("ACADEMY", "Academy", ""),
     ("SPONSOR", "Sponsor", ""),
     ("SUPPLIER", "Leverancier", ""),
-    ("CONSULATE", "Consulaat", "️"),
+    ("CONSULATE", "Consulaat", ""),
     ("FOUNDATION", "Stichting", ""),
     ("AGENCY", "Agency/Bureau", ""),
     ("MEDIA", "Media Partner", ""),
-    ("GOVERNMENT", "Overheidsinstantie", "️"),
+    ("GOVERNMENT", "Overheidsinstantie", ""),
 ]
 
 # Document Types voor verificatie
@@ -152,7 +152,7 @@ PMA_STATUSES = [
     ("APPROVED", " Goedgekeurd", COLORS['success']),
     ("FLAGGED", " Gemarkeerd", COLORS['error']),
     ("BLOCKED", " Geblokkeerd", '#FF0000'),
-    ("MANUAL_REVIEW", "️ Handmatige Review", COLORS['info']),
+    ("MANUAL_REVIEW", " Handmatige Review", COLORS['info']),
 ]
 
 
@@ -531,7 +531,7 @@ def render(username: str):
         <div style='background: linear-gradient(135deg, #C41E3A 0%, #006233 50%, #C41E3A 100%);
                     padding: 2rem; border-radius: 12px; margin-bottom: 1.5rem; text-align: center;'>
             <h1 style='color: white; margin: 0; font-family: Rajdhani, sans-serif;'>
-                ️ MAROC ID SHIELD
+                 MAROC ID SHIELD
             </h1>
             <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0; font-size: 1.1rem;'>
                 النظام الوطني للهوية الرقمية | Nationale Mobile Identity & Verification
@@ -547,7 +547,7 @@ def render(username: str):
     col1.metric("🆔 Identiteiten", stats['identities'])
     col2.metric(" Organisaties", stats['organizations'])
     col3.metric(" Certificaten", stats['certificates'])
-    col4.metric("️ Handtekeningen", stats['signatures'])
+    col4.metric(" Handtekeningen", stats['signatures'])
     col5.metric("⏳ PMA Pending", stats['pma_pending'])
     
     # Tabs
@@ -556,9 +556,9 @@ def render(username: str):
         " Levels Overview",
         " Organisaties",
         " Rol Certificaten",
-        "️ Transaction Signing",
+        " Transaction Signing",
         " PMA Dashboard",
-        "️ Beheer"
+        " Beheer"
     ])
     
     with tabs[0]:
@@ -1046,17 +1046,17 @@ def render_transaction_signing(username: str):
         <div style='background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%);
                     padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;
                     border: 1px solid rgba(139, 92, 246, 0.3);'>
-            <h3 style='color: {COLORS["purple"]}; margin: 0;'>️ Transaction Signing</h3>
+            <h3 style='color: {COLORS["purple"]}; margin: 0;'> Transaction Signing</h3>
             <p style='color: {COLORS["text_muted"]}; margin: 0.5rem 0 0 0;'>
                 Digitale handtekening met biometrische bevestiging
             </p>
         </div>
     """, unsafe_allow_html=True)
     
-    tab1, tab2 = st.tabs(["️ Teken Transactie", " Handtekening Historie"])
+    tab1, tab2 = st.tabs([" Teken Transactie", " Handtekening Historie"])
     
     with tab1:
-        st.markdown("### ️ Nieuwe Transactie Ondertekenen")
+        st.markdown("###  Nieuwe Transactie Ondertekenen")
         
         with st.form("sign_transaction"):
             col1, col2 = st.columns(2)
@@ -1076,7 +1076,7 @@ def render_transaction_signing(username: str):
             biometric = st.checkbox(" Ik bevestig deze transactie met mijn biometrische gegevens")
             pin = st.text_input("PIN Code", type="password", max_chars=6)
             
-            if st.form_submit_button("️ Ondertekenen", width="stretch", type="primary"):
+            if st.form_submit_button(" Ondertekenen", width="stretch", type="primary"):
                 if not biometric or not pin:
                     st.error("Bevestig met biometrie en PIN")
                 elif len(pin) < 4:
@@ -1120,7 +1120,7 @@ def render_transaction_signing(username: str):
                                 margin-bottom: 0.5rem; border-left: 3px solid {status_color};'>
                         <div style='display: flex; justify-content: space-between;'>
                             <span style='color: {COLORS["gold"]}; font-weight: 600;'>
-                                ️ {sig.get('transaction_type', 'N/A')}
+                                 {sig.get('transaction_type', 'N/A')}
                             </span>
                             <span style='color: {COLORS["text_muted"]}; font-size: 0.8rem;'>
                                 {sig.get('signed_at', '')[:16] if sig.get('signed_at') else ''}
@@ -1300,7 +1300,7 @@ def render_pma_dashboard(username: str):
             st.markdown("---")
             col_a, col_b = st.columns(2)
             col_a.metric(" Totaal Volume", f"€{total_amount:,.0f}")
-            col_b.metric("️ Gem. Risk Score", f"{avg_risk:.1f}")
+            col_b.metric(" Gem. Risk Score", f"{avg_risk:.1f}")
         else:
             st.info("Nog geen PMA data beschikbaar.")
 
@@ -1313,21 +1313,21 @@ def render_admin(username: str):
     """Admin functies voor MAROC ID SHIELD."""
     
     if not check_permission(["SuperAdmin", "Official", "Security Staff"], silent=True):
-        st.warning("️ Alleen admins hebben toegang tot deze sectie.")
+        st.warning(" Alleen admins hebben toegang tot deze sectie.")
         return
     
     st.markdown(f"""
         <div style='background: linear-gradient(135deg, rgba(245, 101, 101, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
                     padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;
                     border: 1px solid rgba(245, 101, 101, 0.3);'>
-            <h3 style='color: {COLORS["error"]}; margin: 0;'>️ Admin Beheer</h3>
+            <h3 style='color: {COLORS["error"]}; margin: 0;'> Admin Beheer</h3>
             <p style='color: {COLORS["text_muted"]}; margin: 0.5rem 0 0 0;'>
                 Systeem configuratie en audit
             </p>
         </div>
     """, unsafe_allow_html=True)
     
-    tab1, tab2, tab3 = st.tabs([" Verificatie Requests", " Audit Log", "️ Configuratie"])
+    tab1, tab2, tab3 = st.tabs([" Verificatie Requests", " Audit Log", " Configuratie"])
     
     with tab1:
         st.markdown("###  Openstaande Verificatie Requests")
@@ -1401,7 +1401,7 @@ def render_admin(username: str):
             st.info("Geen audit logs beschikbaar.")
     
     with tab3:
-        st.markdown("### ️ Systeem Configuratie")
+        st.markdown("###  Systeem Configuratie")
         
         st.markdown("#### Verificatie Limieten")
         

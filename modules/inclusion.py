@@ -354,7 +354,7 @@ def render(username: str):
     """)
     
     tabs = st.tabs([
-        "️ Women Hubs",
+        " Women Hubs",
         " Women Players",
         " Paralympics",
         " Programma's",
@@ -388,7 +388,7 @@ def render(username: str):
 def render_women_hubs(username: str):
     """Render Women Football Hubs overzicht."""
     
-    st.subheader("️ 12 Women Football Hubs")
+    st.subheader(" 12 Women Football Hubs")
     
     df_hubs = get_data("women_hubs")
     
@@ -400,7 +400,7 @@ def render_women_hubs(username: str):
         total_teams = df_hubs['teams_count'].sum()
         
         metric_row([
-            ("️ Totaal Hubs", total_hubs),
+            (" Totaal Hubs", total_hubs),
             (" Actief", active_hubs),
             (" Speelsters", int(total_players)),
             (" Teams", int(total_teams)),
@@ -409,7 +409,7 @@ def render_women_hubs(username: str):
         st.markdown("<br>", unsafe_allow_html=True)
         
         # Hub kaart (simpele weergave)
-        st.write("### ️ Hub Overzicht")
+        st.write("###  Hub Overzicht")
         
         col1, col2 = st.columns(2)
         
@@ -417,7 +417,7 @@ def render_women_hubs(username: str):
             col = col1 if i % 2 == 0 else col2
             
             with col:
-                status_emoji = "" if hub['status'] == 'ACTIVE' else "⏸️"
+                status_emoji = "" if hub['status'] == 'ACTIVE' else ""
                 
                 with st.expander(f"{status_emoji} {hub['name']}"):
                     st.write(f"**Regio:** {hub['region']}")
@@ -436,13 +436,13 @@ def render_women_hubs(username: str):
                     
                     # Update knop
                     if check_permission(["SuperAdmin", "Academy Admin"], silent=True):
-                        if st.button(f"️ Bewerk", key=f"edit_hub_{hub['hub_id']}"):
+                        if st.button(f" Bewerk", key=f"edit_hub_{hub['hub_id']}"):
                             st.session_state['edit_hub'] = hub['hub_id']
         
         # Edit hub form
         if 'edit_hub' in st.session_state:
             st.markdown("---")
-            st.write("### ️ Hub Bewerken")
+            st.write("###  Hub Bewerken")
             
             hub_id = st.session_state['edit_hub']
             hub_data = df_hubs[df_hubs['hub_id'] == hub_id].iloc[0]

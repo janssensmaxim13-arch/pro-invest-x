@@ -197,7 +197,7 @@ def render_new_transfer(username: str):
     talents = get_talents_for_transfer()
     
     if not talents:
-        st.warning("️ Geen talenten. Registreer eerst in NTSP™.")
+        st.warning(" Geen talenten. Registreer eerst in NTSP™.")
         return
     
     with st.form("transfer_form"):

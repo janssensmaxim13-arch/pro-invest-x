@@ -77,7 +77,7 @@ def render(username: str):
     """Render de Identity Shield module."""
     
     page_header(
-        "️ Identity Shield™",
+        " Identity Shield™",
         "Digital Protection Layer | 24/7 AI-Powered Identity Verification & Fraud Detection"
     )
     
@@ -145,7 +145,7 @@ def render_identity_registry(username: str):
     st.divider()
     
     # Identity list
-    st.write("### ️ Verified Identity Registry")
+    st.write("###  Verified Identity Registry")
     df = get_data("identity_shield")
     
     if not df.empty:
@@ -317,7 +317,7 @@ def render_analytics():
         high_risk = df[df['fraud_score'] >= 50].sort_values('fraud_score', ascending=False)
         
         if not high_risk.empty:
-            st.warning("️ **High-Risk Identities Requiring Attention:**")
+            st.warning(" **High-Risk Identities Requiring Attention:**")
             st.dataframe(
                 high_risk[['id', 'name', 'fraud_score', 'risk_level']], 
                 width="stretch", 

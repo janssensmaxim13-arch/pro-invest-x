@@ -54,7 +54,7 @@ def render():
         " TicketChain", 
         " Financial", 
         " Talent",
-        "️ Security"
+        " Security"
     ])
     
     with tab1:
@@ -96,9 +96,9 @@ def render_ticketchain_analytics():
     
     cols = st.columns(5)
     kpis = [
-        ("️", "Tickets", f"{total_tickets:,}"),
+        ("", "Tickets", f"{total_tickets:,}"),
         ("", "Revenue", f"€{total_revenue:,.0f}"),
-        ("️", "Tax", f"€{total_tax:,.0f}"),
+        ("", "Tax", f"€{total_tax:,.0f}"),
         ("", "Foundation", f"€{total_foundation:,.0f}"),
         ("", "Avg Price", f"€{avg_ticket:,.0f}"),
     ]
@@ -151,7 +151,7 @@ def render_ticketchain_analytics():
                 st.plotly_chart(fig, width="stretch")
         
         # Event fill rate
-        st.markdown("#### ️ Stadium Fill Rate")
+        st.markdown("####  Stadium Fill Rate")
         if not df_events.empty:
             df_events['fill_rate'] = (df_events['tickets_sold'] / df_events['capacity'] * 100).round(1)
             
@@ -196,7 +196,7 @@ def render_financial_analytics():
     cols = st.columns(4)
     kpis = [
         ("", "Financial Flow", f"€{total_transactions:,.0f}"),
-        ("️", "Donations", f"€{total_donations:,.0f}"),
+        ("", "Donations", f"€{total_donations:,.0f}"),
         ("", "Auto 0.5%", f"€{total_auto:,.0f}"),
         ("", "Wallet Balance", f"€{total_wallet_balance:,.0f}"),
     ]
@@ -289,7 +289,7 @@ def render_talent_analytics():
     kpis = [
         ("", "Talenten", f"{total_talents:,}"),
         ("", "Diaspora", f"{diaspora:,}"),
-        ("⭐", "Avg Score", f"{avg_score:.1f}"),
+        ("", "Avg Score", f"{avg_score:.1f}"),
         ("", "Avg Potential", f"{avg_potential:.1f}"),
         ("", "Market Value", f"€{total_market/1000000:.1f}M"),
     ]
@@ -384,7 +384,7 @@ def render_talent_analytics():
 def render_security_analytics():
     """Render security analytics."""
     
-    st.markdown("### ️ Security & Compliance")
+    st.markdown("###  Security & Compliance")
     
     df_audit = get_data("audit_logs")
     df_identity = get_data("identity_shield")

@@ -234,7 +234,7 @@ def render_talent_database(username: str):
         metric_row([
             (" Totaal Talenten", total),
             (" Diaspora", diaspora),
-            ("⭐ Hoge Prioriteit", high_priority),
+            (" Hoge Prioriteit", high_priority),
             (" Gem. Score", f"{avg_score:.1f}"),
         ])
         
@@ -336,7 +336,7 @@ def render_talent_detail(talent_id: str):
         st.metric("Geschatte Marktwaarde", f"€ {talent['market_value_estimate']:,.0f}" if talent['market_value_estimate'] else "-")
     
     with col4:
-        st.markdown("#### ️ Status")
+        st.markdown("####  Status")
         st.write(f"**Status:** {talent['talent_status']}")
         st.write(f"**Prioriteit:** {talent['priority_level']}")
         st.write(f"**Diaspora:** {'Ja' if talent['is_diaspora'] else 'Nee'}")
@@ -475,7 +475,7 @@ def render_new_talent(username: str):
             parent_email = st.text_input("E-mail Ouder", placeholder="parent@email.com")
         
         st.markdown("---")
-        st.markdown("### ️ Status & Prioriteit")
+        st.markdown("###  Status & Prioriteit")
         
         col18, col19, col20 = st.columns(3)
         
@@ -1026,7 +1026,7 @@ def render_mental(username: str):
             communication = st.slider("Communicatie", 1, 10, 5)
         
         st.markdown("---")
-        st.markdown("### ️ Risico Factoren")
+        st.markdown("###  Risico Factoren")
         
         col8, col9, col10 = st.columns(3)
         
@@ -1247,7 +1247,7 @@ def render_scouts(username: str):
             metric_row([
                 (" Totaal Scouts", total),
                 (" Actief", active),
-                ("️ FRMF Gecertificeerd", frmf),
+                (" FRMF Gecertificeerd", frmf),
             ])
             
             st.markdown("<br>", unsafe_allow_html=True)
@@ -1302,7 +1302,7 @@ def render_analytics():
             st.bar_chart(pos_dist)
     
     with col2:
-        st.write("#### ️ Talenten per Status")
+        st.write("####  Talenten per Status")
         if 'talent_status' in df_talents.columns:
             status_dist = df_talents['talent_status'].value_counts()
             st.bar_chart(status_dist)
@@ -1321,7 +1321,7 @@ def render_analytics():
             st.info("Geen diaspora data.")
     
     with col4:
-        st.write("#### ⭐ Score Verdeling")
+        st.write("####  Score Verdeling")
         if 'overall_score' in df_talents.columns:
             scores = df_talents[df_talents['overall_score'] > 0]['overall_score']
             if not scores.empty:

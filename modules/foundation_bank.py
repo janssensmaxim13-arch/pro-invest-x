@@ -58,7 +58,7 @@ def render(username: str):
             margin-bottom: 2rem;
             text-align: center;
         '>
-            <div style='font-size: 3rem; margin-bottom: 0.5rem;'>️</div>
+            <div style='font-size: 3rem; margin-bottom: 0.5rem;'></div>
             <h1 style='
                 font-family: Rajdhani, sans-serif;
                 font-size: 2rem;
@@ -93,7 +93,7 @@ def render(username: str):
     tab1, tab2, tab3, tab4 = st.tabs([
         t("overview"), 
         " Transactions", 
-        "️ Donations", 
+        " Donations", 
         " Analytics"
     ])
     
@@ -121,9 +121,9 @@ def render_foundation_summary():
     total_pool = contributions + donations
     
     kpis = [
-        ("️", "Foundation Pool", f"€{total_pool:,.0f}", "Auto 0.5% + Donations"),
+        ("", "Foundation Pool", f"€{total_pool:,.0f}", "Auto 0.5% + Donations"),
         ("", "Auto Contributions", f"€{contributions:,.0f}", f"{FOUNDATION_RATE*100}% from transactions"),
-        ("️", "Donations", f"€{donations:,.0f}", "Direct charitable giving"),
+        ("", "Donations", f"€{donations:,.0f}", "Direct charitable giving"),
         ("", "Financial Flow", f"€{transactions:,.0f}", "Total platform volume"),
     ]
     
@@ -141,7 +141,7 @@ def render_overview():
         """The Foundation automatically receives 0.5% of all platform transactions (transfers, tickets, subscriptions). 
         This "Sadaka Jaaria" (continuous charity) model ensures sustainable funding for youth sports, 
         education, and infrastructure projects across Morocco.""",
-        "️"
+        ""
     )
     
     if PLOTLY_AVAILABLE:
@@ -333,7 +333,7 @@ def render_donations(username: str):
             margin-bottom: 1.5rem;
             text-align: center;
         '>
-            <div style='font-size: 2rem;'>️</div>
+            <div style='font-size: 2rem;'></div>
             <h3 style='color: {COLORS["text_primary"]}; margin: 0.5rem 0;'>Donation Portal</h3>
             <p style='color: {COLORS["text_muted"]}; font-size: 0.9rem;'>
                 Support Moroccan youth sports, education, and community development
@@ -343,7 +343,7 @@ def render_donations(username: str):
     
     id_map = get_identity_names_map()
     
-    form_section("Make a Donation", "️")
+    form_section("Make a Donation", "")
     
     with st.form("donation_form"):
         col1, col2 = st.columns(2)
@@ -391,7 +391,7 @@ def render_donations(username: str):
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        if st.form_submit_button("️ DONATE NOW", width="stretch", type="primary"):
+        if st.form_submit_button(" DONATE NOW", width="stretch", type="primary"):
             if donation_amt <= 0:
                 st.error(" Amount must be positive.")
             else:

@@ -316,7 +316,7 @@ def render_ownership_control():
     
     # Cross-reference met Identity Shield
     st.divider()
-    st.markdown("### 🔗 Identity Shield Cross-Reference")
+    st.markdown("###  Identity Shield Cross-Reference")
     
     if not df_identities.empty:
         # Toon identities met hoog risico

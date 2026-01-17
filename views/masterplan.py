@@ -41,7 +41,7 @@ MASTERPLAN_DOSSIERS = {
     "Financial Ecosystem": [
         {"id": 6, "name": "TicketChain™ Blockchain", "icon": "", "budget": "€30M",
          "desc": "Fraudebestendige ticketing met blockchain verificatie en QR-authenticatie."},
-        {"id": 7, "name": "Foundation Bank", "icon": "️", "budget": "€20M",
+        {"id": 7, "name": "Foundation Bank", "icon": "", "budget": "€20M",
          "desc": "0.5% automatische bijdrage op alle transacties - Sadaka Jaaria principe."},
         {"id": 8, "name": "Fiscal Framework", "icon": "", "budget": "€5M",
          "desc": "Belastingcompliance en transparante financiële rapportage aan overheid."},
@@ -51,7 +51,7 @@ MASTERPLAN_DOSSIERS = {
          "desc": "B2B en B2C abonnementen voor platform toegang en premium features."},
     ],
     "Diaspora Services": [
-        {"id": 11, "name": "Digital Consulate Hub™", "icon": "️", "budget": "€35M",
+        {"id": 11, "name": "Digital Consulate Hub™", "icon": "", "budget": "€35M",
          "desc": "Complete consulaire diensten: documenten, beurzen, en emergency support."},
         {"id": 12, "name": "Global Return Program", "icon": "", "budget": "€20M",
          "desc": "Reïntegratie programma voor terugkerende diaspora met job matching."},
@@ -61,7 +61,7 @@ MASTERPLAN_DOSSIERS = {
          "desc": "Wereldwijd netwerk van supporter hubs voor Marokkaanse communities."},
     ],
     "Identity & Security": [
-        {"id": 15, "name": "Identity Shield™", "icon": "️", "budget": "€25M",
+        {"id": 15, "name": "Identity Shield™", "icon": "", "budget": "€25M",
          "desc": "24/7 AI-powered identiteitsbescherming en fraud detectie."},
         {"id": 16, "name": "Anti-Hate Shield", "icon": "", "budget": "€10M",
          "desc": "Content filtering en bescherming tegen online haat en discriminatie."},
@@ -79,19 +79,19 @@ MASTERPLAN_DOSSIERS = {
          "desc": "Beurzen en opleidingen voor talent zonder sportcarrière."},
     ],
     "Mobility & Events": [
-        {"id": 22, "name": "WK 2030 Travel Hub", "icon": "️", "budget": "€100M",
+        {"id": 22, "name": "WK 2030 Travel Hub", "icon": "", "budget": "€100M",
          "desc": "Complete reisoplossingen voor WK bezoekers met transport en accommodatie."},
         {"id": 23, "name": "VIP Transport Services", "icon": "", "budget": "€25M",
          "desc": "Premium transport voor officials, investeerders, en VIP gasten."},
-        {"id": 24, "name": "ProInvestiX Air", "icon": "️", "budget": "€200M",
+        {"id": 24, "name": "ProInvestiX Air", "icon": "", "budget": "€200M",
          "desc": "Charter vluchten en partnerships met airlines voor events."},
         {"id": 25, "name": "Aïd Al Wahda Festival", "icon": "", "budget": "€20M",
          "desc": "Jaarlijks nationaal eenheidsfestival met sport en cultuur."},
     ],
     "Industry & Infrastructure": [
-        {"id": 26, "name": "Phosphate Partnership", "icon": "️", "budget": "€500M",
+        {"id": 26, "name": "Phosphate Partnership", "icon": "", "budget": "€500M",
          "desc": "OCP samenwerking voor industriële ontwikkeling en export."},
-        {"id": 27, "name": "Sahara Development", "icon": "️", "budget": "€300M",
+        {"id": 27, "name": "Sahara Development", "icon": "", "budget": "€300M",
          "desc": "Infrastructuur en toerisme ontwikkeling in zuidelijke provincies."},
         {"id": 28, "name": "Energy & Sustainability", "icon": "", "budget": "€250M",
          "desc": "Groene energie projecten en duurzame stadions."},
@@ -107,7 +107,7 @@ MASTERPLAN_DOSSIERS = {
          "desc": "Competitive gaming met nationale teams en tournaments."},
     ],
     "Governance": [
-        {"id": 33, "name": "Legal Framework", "icon": "️", "budget": "€10M",
+        {"id": 33, "name": "Legal Framework", "icon": "", "budget": "€10M",
          "desc": "Juridische structuur en compliance met internationale standaarden."},
     ],
 }

@@ -193,12 +193,12 @@ def paginated_dataframe(df: pd.DataFrame, per_page: int = 20, key_prefix: str = 
     col1, col2, col3, col4, col5 = st.columns([1, 1, 2, 1, 1])
     
     with col1:
-        if st.button("⏮️ First", key=f"{key_prefix}_first", disabled=current_page == 0):
+        if st.button("⏮ First", key=f"{key_prefix}_first", disabled=current_page == 0):
             st.session_state[page_key] = 0
             st.rerun()
     
     with col2:
-        if st.button("◀️ Prev", key=f"{key_prefix}_prev", disabled=current_page == 0):
+        if st.button(" Prev", key=f"{key_prefix}_prev", disabled=current_page == 0):
             st.session_state[page_key] = current_page - 1
             st.rerun()
     
@@ -210,12 +210,12 @@ def paginated_dataframe(df: pd.DataFrame, per_page: int = 20, key_prefix: str = 
         """, unsafe_allow_html=True)
     
     with col4:
-        if st.button("Next ▶️", key=f"{key_prefix}_next", disabled=current_page >= total_pages - 1):
+        if st.button("Next ", key=f"{key_prefix}_next", disabled=current_page >= total_pages - 1):
             st.session_state[page_key] = current_page + 1
             st.rerun()
     
     with col5:
-        if st.button("Last ⏭️", key=f"{key_prefix}_last", disabled=current_page >= total_pages - 1):
+        if st.button("Last ⏭", key=f"{key_prefix}_last", disabled=current_page >= total_pages - 1):
             st.session_state[page_key] = total_pages - 1
             st.rerun()
 
@@ -426,7 +426,7 @@ def error_message(message: str, details: str = None):
     """, unsafe_allow_html=True)
 
 
-def info_box(title: str, content: str, icon: str = "ℹ️"):
+def info_box(title: str, content: str, icon: str = "ℹ"):
     """
     Render an info box - LIGHT THEME.
     
@@ -615,7 +615,7 @@ def action_button_row(buttons: List[Tuple]):
                 results[key] = st.button(label, key=key, type="primary", width="stretch")
             elif btn_type == 'danger':
                 # Custom red button via markdown + button
-                results[key] = st.button(f"🗑️ {label}", key=key, width="stretch")
+                results[key] = st.button(f"🗑 {label}", key=key, width="stretch")
             else:
                 results[key] = st.button(label, key=key, width="stretch")
     

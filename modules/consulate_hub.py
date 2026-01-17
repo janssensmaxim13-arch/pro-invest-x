@@ -24,7 +24,7 @@ def render(username: str):
     """Render de Digital Consulate Hub module."""
     
     page_header(
-        "️ Digital Consulate Hub™",
+        " Digital Consulate Hub™",
         "Complete Consular Services: Documents, Scholarships, Investments & Assistance"
     )
     
@@ -140,9 +140,9 @@ def render_document_vault(username: str):
                     except:
                         c4.write("")
                 else:
-                    c4.write("️")
+                    c4.write("")
                 
-                if c5.button("️", key=f"del_{row['id']}"):
+                if c5.button("", key=f"del_{row['id']}"):
                     try:
                         if os.path.exists(fpath):
                             os.remove(fpath)

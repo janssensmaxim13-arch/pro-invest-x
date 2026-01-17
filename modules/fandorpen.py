@@ -128,11 +128,11 @@ BADGES = {
     "welkom_expert": ("", "Welkomst Expert", "5+ positieve beoordelingen"),
     "cultureel": ("", "Cultureel Ambassadeur", "Cultuur training afgerond"),
     "ehbo": ("", "EHBO Certified", "Medische training afgerond"),
-    "meertalig": ("️", "Meertalig", "3+ talen vloeiend"),
-    "top_performer": ("⭐", "Top Performer", "95%+ tevredenheid"),
-    "veiligheid": ("️", "Veiligheid Pro", "Nood & Conflict training"),
+    "meertalig": ("", "Meertalig", "3+ talen vloeiend"),
+    "top_performer": ("", "Top Performer", "95%+ tevredenheid"),
+    "veiligheid": ("", "Veiligheid Pro", "Nood & Conflict training"),
     "vip": ("", "VIP Service", "VIP Protocol certified"),
-    "veteraan": ("️", "Veteraan", "50+ shifts voltooid"),
+    "veteraan": ("", "Veteraan", "50+ shifts voltooid"),
     "mentor": ("‍", "Mentor", "5+ nieuwe vrijwilligers begeleid"),
     "innovator": ("", "Innovator", "Verbetervoorstel geïmplementeerd"),
 }
@@ -324,7 +324,7 @@ def render(username: str):
     
     # Header
     premium_header(
-        "️ FANDORPEN",
+        " FANDORPEN",
         "WK2030 Internationale Supporter Governance"
     )
     
@@ -333,7 +333,7 @@ def render(username: str):
     
     # KPI Row
     col1, col2, col3, col4, col5 = st.columns(5)
-    col1.metric("️ FanDorpen", stats['fandorpen'])
+    col1.metric(" FanDorpen", stats['fandorpen'])
     col2.metric(" Vrijwilligers", stats['volunteers'])
     col3.metric(" Actief", stats['active_volunteers'])
     col4.metric(" Diensten", stats['shifts'])
@@ -341,7 +341,7 @@ def render(username: str):
     
     # Tabs
     tabs = st.tabs([
-        "️ FanDorpen",
+        " FanDorpen",
         " Vrijwilligers", 
         " Training & Badges",
         " QR Check-in",
@@ -387,7 +387,7 @@ def render_fandorpen_management(username: str):
         <div style='background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
                     padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;
                     border: 1px solid rgba(212, 175, 55, 0.3);'>
-            <h3 style='color: {COLORS["gold"]}; margin: 0;'>️ FanDorpen Management</h3>
+            <h3 style='color: {COLORS["gold"]}; margin: 0;'> FanDorpen Management</h3>
             <p style='color: {COLORS["text_muted"]}; margin: 0.5rem 0 0 0;'>
                 Officieel georganiseerde supporterzones voor WK2030 bezoekers
             </p>
@@ -404,7 +404,7 @@ def render_fandorpen_management(username: str):
             st.markdown("###  Actieve FanDorpen")
             
             for _, row in df.iterrows():
-                with st.expander(f"{row.get('country_flag', '️')} FanDorp {row['country_name']} - {row['location']}"):
+                with st.expander(f"{row.get('country_flag', '')} FanDorp {row['country_name']} - {row['location']}"):
                     col_a, col_b = st.columns(2)
                     with col_a:
                         st.write(f"**Land:** {row['country_name']} ({row['country_code']})")
@@ -434,7 +434,7 @@ def render_fandorpen_management(username: str):
             # Capaciteit
             capacity = st.number_input("Capaciteit", min_value=100, max_value=5000, value=500, step=100)
             
-            if st.form_submit_button("️ Aanmaken", width="stretch"):
+            if st.form_submit_button(" Aanmaken", width="stretch"):
                 # Find country details
                 idx = country_options.index(selected_country)
                 country = WK2030_COUNTRIES[idx]
@@ -944,7 +944,7 @@ def render_training_badges(username: str):
                 
                 col1, col2 = st.columns(2)
                 with col1:
-                    if st.button(f"▶️ Start Training", key=f"start_{mod_id}"):
+                    if st.button(f" Start Training", key=f"start_{mod_id}"):
                         st.info(f"Training '{mod_name}' wordt geladen...")
                         # Simuleer training completion
                         import random
@@ -962,7 +962,7 @@ def render_training_badges(username: str):
                         if passed:
                             st.success(f" Training voltooid! Score: {score}%")
                         else:
-                            st.warning(f"️ Score: {score}% - Minimaal 70% nodig. Probeer opnieuw.")
+                            st.warning(f" Score: {score}% - Minimaal 70% nodig. Probeer opnieuw.")
                 
                 with col2:
                     st.write(f"**Module ID:** `{mod_id}`")
@@ -1003,7 +1003,7 @@ def render_training_badges(username: str):
         
         # Check earned badges for current user
         st.markdown("---")
-        st.markdown("### ️ Mijn Badges")
+        st.markdown("###  Mijn Badges")
         
         volunteers_df = get_data("fandorp_volunteers")
         if not volunteers_df.empty:
@@ -1405,7 +1405,7 @@ def render_chat(username: str):
                         else:
                             st.error("Voer een bericht in.")
         else:
-            st.warning("️ Alleen coördinatoren en admins kunnen broadcasts versturen.")
+            st.warning(" Alleen coördinatoren en admins kunnen broadcasts versturen.")
 
 
 # ============================================================================
@@ -1451,7 +1451,7 @@ def render_dashboard(username: str):
                     <div style='background: {COLORS["bg_card"]}; padding: 1rem; border-radius: 8px;
                                 border: 1px solid rgba(212, 175, 55, 0.2); margin-bottom: 1rem;'>
                         <h4 style='color: {COLORS["gold"]}; margin: 0;'>
-                            {fp.get('country_flag', '️')} FanDorp {fp['country_name']}
+                            {fp.get('country_flag', '')} FanDorp {fp['country_name']}
                         </h4>
                         <p style='color: {COLORS["text_muted"]}; font-size: 0.9rem; margin: 0.25rem 0;'>
                              {fp['location']}
@@ -1461,7 +1461,7 @@ def render_dashboard(username: str):
                              Vrijwilligers: <strong>{vol_count}</strong> ({active_vol} actief)
                         </p>
                         <p style='color: {COLORS["text_secondary"]}; margin: 0.25rem 0;'>
-                            ️ {fp.get('languages', 'N/A')}
+                             {fp.get('languages', 'N/A')}
                         </p>
                         <p style='color: {COLORS["text_secondary"]}; margin: 0.25rem 0;'>
                              Capaciteit: {fp.get('capacity', 500)}

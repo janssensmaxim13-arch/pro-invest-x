@@ -106,7 +106,7 @@ def render_landing_page(navigate_to: Callable):
     st.write("")
     
     # Countdown using Streamlit columns
-    st.subheader("⏱️ WK 2030 Countdown")
+    st.subheader("⏱ WK 2030 Countdown")
     col1, col2, col3 = st.columns(3)
     
     with col1:
@@ -173,7 +173,7 @@ def render_landing_page(navigate_to: Callable):
     st.divider()
     
     # CTA Section
-    st.subheader("🤝 Join the Movement")
+    st.subheader(" Join the Movement")
     st.info("**\"We work FOR Morocco, WITH Morocco\"** - Building a lasting legacy through sport, technology, and the power of 5,5 million diaspora members worldwide.")
     
     # CTA Buttons

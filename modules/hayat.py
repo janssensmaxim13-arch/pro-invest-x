@@ -302,7 +302,7 @@ def render(username: str):
         " Sessies",
         " Revalidatie",
         " Analytics",
-        "️ Beheer"
+        " Beheer"
     ])
     
     with tabs[0]:
@@ -571,7 +571,7 @@ def render_wellbeing_dashboard(username: str):
                     st.success(" Check-in opgeslagen!")
                     
                     if needs_attention:
-                        st.warning("️ Je scores wijzen op mogelijke problemen. Overweeg contact met een psycholoog.")
+                        st.warning(" Je scores wijzen op mogelijke problemen. Overweeg contact met een psycholoog.")
                     
                     log_audit(username, "WELLBEING_CHECKIN", "Hayat")
     
@@ -615,7 +615,7 @@ def render_wellbeing_dashboard(username: str):
                 # Alerts
                 needs_attention = talent_data[talent_data['needs_attention'] == 1]
                 if not needs_attention.empty:
-                    st.warning(f"️ {len(needs_attention)} check-ins met zorgwekkende scores")
+                    st.warning(f" {len(needs_attention)} check-ins met zorgwekkende scores")
             else:
                 st.info("Nog geen check-ins voor dit talent.")
         else:
@@ -924,7 +924,7 @@ def render_hayat_analytics():
 def render_hayat_admin(username: str):
     """Render Hayat beheer (alleen voor admins)."""
     
-    st.subheader("️ Hayat Beheer")
+    st.subheader(" Hayat Beheer")
     
     if not check_permission(["SuperAdmin", "Psychologist"], silent=True):
         st.warning(" Alleen toegankelijk voor Hayat administrators.")

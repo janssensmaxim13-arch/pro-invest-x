@@ -263,7 +263,7 @@ def render_top_kpis():
         ("", "Transfers", f"{total_transfers:,}", f"€{transfer_volume/1000000:.1f}M volume"),
         ("", "Tickets", f"{total_tickets:,}", f"€{ticket_revenue/1000:.0f}K omzet"),
         ("", "Wallets", f"{total_wallets:,}", "Diaspora actief"),
-        ("️", "Foundation", f"€{foundation_total:,.0f}", "Sadaka Jaaria"),
+        ("", "Foundation", f"€{foundation_total:,.0f}", "Sadaka Jaaria"),
     ]
     
     cols = st.columns(len(kpis))
@@ -644,10 +644,10 @@ def render_quick_stats():
     
     stats = [
         ("", t("status"), "Operational"),
-        ("⏱️", "Uptime", "99.9%"),
+        ("⏱", "Uptime", "99.9%"),
         ("", "Security", "Level A"),
         ("", "Version", f"v{VERSION}"),
-        ("️", "Database", "SQLite"),
+        ("", "Database", "SQLite"),
         ("", "Response", "<100ms"),
     ]
     

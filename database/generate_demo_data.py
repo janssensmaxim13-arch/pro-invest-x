@@ -289,7 +289,7 @@ def run():
     print("   300 evaluations created")
     
     # === FANDORPEN (WK2030 Supporter Governance) ===
-    print("\n️ Generating FanDorpen data...")
+    print("\n Generating FanDorpen data...")
     
     # FanDorpen tabellen aanmaken
     c.execute("""CREATE TABLE IF NOT EXISTS fandorpen (
@@ -353,7 +353,7 @@ def run():
     TRAINING_MODULES = ["Welkom & Gastvrijheid", "Culturele Sensitiviteit", "Noodprocedures", 
                         "Taalvaardigheden", "Conflict Resolutie", "Medische Basis", "VIP Protocol"]
     BADGES = [" Welkomst Expert", " Cultureel Ambassadeur", " EHBO Certified", 
-              "️ Meertalig", "⭐ Top Performer", "️ Veiligheid Pro", " VIP Service"]
+              " Meertalig", " Top Performer", " Veiligheid Pro", " VIP Service"]
     INCIDENT_TYPES = ["Verloren voorwerp", "Medische hulp", "Taalprobleem", "Vervoerprobleem",
                       "Accommodatie issue", "Ticket probleem", "Oplichting poging", "Cultureel misverstand"]
     SERVICE_TYPES = ["Informatie", "Vertaling", "Begeleiding", "Medische hulp", "Transport", "VIP Service"]
@@ -512,7 +512,7 @@ def run():
     print("   100 Chat messages created")
     
     # === MAROC ID SHIELD DATA ===
-    print("\n️ Generating MAROC ID SHIELD data...")
+    print("\n Generating MAROC ID SHIELD data...")
     
     # Create MAROC ID tables
     c.execute("""CREATE TABLE IF NOT EXISTS maroc_identities (

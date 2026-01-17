@@ -314,7 +314,7 @@ def render_main_app():
         current_selection = f"{LANGUAGES[current_lang]['flag']} {LANGUAGES[current_lang]['name']}"
         
         selected_lang = st.selectbox(
-            "🌐 Language / Taal / Langue / اللغة",
+            " Language / Taal / Langue / اللغة",
             options=lang_options,
             index=lang_options.index(current_selection) if current_selection in lang_options else 0,
             key="lang_selector"
@@ -527,7 +527,7 @@ def render_interactive_dashboard(set_module):
                     padding: 2rem; border-radius: 16px; margin-bottom: 2rem;
                     border: 1px solid rgba(212, 175, 55, 0.3);'>
             <h1 style='color: {COLORS['gold']}; font-family: Rajdhani, sans-serif; margin: 0;'>
-                ️ EXECUTIVE DASHBOARD
+                 EXECUTIVE DASHBOARD
             </h1>
             <p style='color: white; margin: 0.5rem 0 0 0;'>
                 Welcome back, <strong style='color: #FBBF24;'>{st.session_state['username']}</strong> | 
@@ -643,7 +643,7 @@ def render_interactive_dashboard(set_module):
         except:
             fandorpen_count = volunteers_count = 0
         
-        if st.button(f"️ FanDorpen\n\n**{fandorpen_count}** Dorpen\n{volunteers_count} Vrijwilligers", 
+        if st.button(f" FanDorpen\n\n**{fandorpen_count}** Dorpen\n{volunteers_count} Vrijwilligers", 
                      width="stretch", key="dash_fandorpen"):
             set_module('fandorpen')
             st.rerun()
@@ -660,19 +660,19 @@ def render_interactive_dashboard(set_module):
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        if st.button(f"️ Consulate Hub\n\nDigital Services\nFor 5,5M Diaspora", 
+        if st.button(f" Consulate Hub\n\nDigital Services\nFor 5,5M Diaspora", 
                      width="stretch", key="dash_consulate"):
             set_module('consulate')
             st.rerun()
     
     with col2:
-        if st.button(f"️ WK 2030 Travel\n\nMobility Packages\nTransport & Hotels", 
+        if st.button(f" WK 2030 Travel\n\nMobility Packages\nTransport & Hotels", 
                      width="stretch", key="dash_mobility"):
             set_module('mobility')
             st.rerun()
     
     with col3:
-        if st.button(f"️ Identity Shield\n\n**{identities:,}** Protected\n24/7 Monitoring", 
+        if st.button(f" Identity Shield\n\n**{identities:,}** Protected\n24/7 Monitoring", 
                      width="stretch", key="dash_identity"):
             set_module('identity')
             st.rerun()
@@ -701,7 +701,7 @@ def render_interactive_dashboard(set_module):
             st.rerun()
     
     with col3:
-        if st.button(f"️ Anti-Hate Shield\n\nContent Protection\nDigital Peace", 
+        if st.button(f" Anti-Hate Shield\n\nContent Protection\nDigital Peace", 
                      width="stretch", key="dash_antihate"):
             set_module('antihate')
             st.rerun()

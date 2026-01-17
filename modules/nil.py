@@ -33,16 +33,16 @@ def t(key):
 # =============================================================================
 
 MANIPULATION_TYPES = [
-    ("FAKE_QUOTE", "Fake Quote / Nepquote", "🗣️"),
+    ("FAKE_QUOTE", "Fake Quote / Nepquote", "🗣"),
     ("EDITED_CLIP", "Edited Video Clip", "🎬"),
     ("DEEPFAKE", "AI Deepfake", "🤖"),
     ("BOT_ATTACK", "Coordinated Bot Attack", "🤖"),
     ("IMPERSONATION", "Account Impersonation", ""),
     ("CONTEXT_MANIPULATION", "Context Manipulation", ""),
-    ("COORDINATED_CAMPAIGN", "Coordinated Campaign", "📢"),
+    ("COORDINATED_CAMPAIGN", "Coordinated Campaign", ""),
     ("REFEREE_HARASSMENT", "Referee/Official Harassment", ""),
     ("FALSE_NEWS", "False Breaking News", "📰"),
-    ("IMAGE_MANIPULATION", "Manipulated Image", "🖼️"),
+    ("IMAGE_MANIPULATION", "Manipulated Image", "🖼"),
     ("HATE_SPEECH", "Hate Speech / Racism", "🚫"),
     ("MISINFORMATION", "General Misinformation", ""),
 ]
@@ -59,10 +59,10 @@ PLATFORMS = [
     ("INSTAGRAM", "Instagram", "📷"),
     ("TWITTER", "Twitter/X", "🐦"),
     ("TIKTOK", "TikTok", "🎵"),
-    ("YOUTUBE", "YouTube", "▶️"),
-    ("WHATSAPP", "WhatsApp", "💬"),
-    ("TELEGRAM", "Telegram", "✈️"),
-    ("OTHER", "Other", "🌐"),
+    ("YOUTUBE", "YouTube", ""),
+    ("WHATSAPP", "WhatsApp", ""),
+    ("TELEGRAM", "Telegram", "✈"),
+    ("OTHER", "Other", ""),
 ]
 
 SIGNAL_STATUSES = [
@@ -85,9 +85,9 @@ SOURCE_CATEGORIES = [
 ]
 
 CRISIS_LEVELS = [
-    ("LOW", "🟢 Low", 24*60),
-    ("MEDIUM", "🟠 Medium", 4*60),
-    ("HIGH", "🔴 High", 60),
+    ("LOW", " Low", 24*60),
+    ("MEDIUM", " Medium", 4*60),
+    ("HIGH", " High", 60),
     ("CRITICAL", "🚨 Critical", 30),
 ]
 
@@ -314,7 +314,7 @@ def render_signal_monitor(username: str):
     for _, row in df.head(10).iterrows():
         risk_color = next((r[2] for r in RISK_LEVELS if r[0] == row.get('risk_level')), "#A0AEC0")
         status_color = next((s[2] for s in SIGNAL_STATUSES if s[0] == row.get('status', 'DETECTED')), "#4299E1")
-        platform_icon = next((p[2] for p in PLATFORMS if p[0] == row.get('platform')), "🌐")
+        platform_icon = next((p[2] for p in PLATFORMS if p[0] == row.get('platform')), "")
         
         with st.container(border=True):
             c1, c2, c3 = st.columns([3, 1, 1])
@@ -464,7 +464,7 @@ def render_source_registry(username: str):
                         st.rerun()
 
 def render_evidence_vault(username: str):
-    st.markdown("### 🗃️ Evidence Vault")
+    st.markdown("### 🗃 Evidence Vault")
     info_box("Blockchain Secured", "All evidence is SHA256 hashed and HMAC signed.", "")
     
     df = get_data("nil_evidence")
@@ -641,13 +641,13 @@ def render(username: str = None):
         ("", "Active Signals", str(stats['active_signals']), "Real-time"),
         ("", "Critical", str(stats['critical_signals']), "< 30 min"),
         ("📄", "Fact Cards", str(stats['total_fact_cards']), "Issued"),
-        ("🗃️", "Evidence", str(stats['total_evidence']), "Archived"),
+        ("🗃", "Evidence", str(stats['total_evidence']), "Archived"),
         ("🚨", "Crises", str(stats['active_crises']), "Open"),
     ])
     
     st.divider()
     
-    tabs = st.tabs([" Signals", "🔬 Forensics", " Sources", "🗃️ Evidence", "📄 Fact Cards", "🚨 Crisis", " KPIs"])
+    tabs = st.tabs([" Signals", "🔬 Forensics", " Sources", "🗃 Evidence", "📄 Fact Cards", "🚨 Crisis", " KPIs"])
     
     with tabs[0]: render_signal_monitor(username)
     with tabs[1]: render_content_forensics(username)

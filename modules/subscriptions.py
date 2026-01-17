@@ -513,7 +513,7 @@ def render_my_subscriptions(username: str):
             st.markdown("<br>", unsafe_allow_html=True)
             
             for _, sub in user_subs.iterrows():
-                status_emoji = "" if sub['status'] == 'ACTIVE' else "⏸️" if sub['status'] == 'PAUSED' else ""
+                status_emoji = "" if sub['status'] == 'ACTIVE' else "" if sub['status'] == 'PAUSED' else ""
                 
                 with st.expander(f"{status_emoji} {sub['plan_name']} - {sub['status']}"):
                     col1, col2 = st.columns(2)
@@ -537,7 +537,7 @@ def render_my_subscriptions(username: str):
                         col1, col2 = st.columns(2)
                         
                         with col1:
-                            if st.button("⏸️ Pauzeren", key=f"pause_{sub['subscription_id']}"):
+                            if st.button(" Pauzeren", key=f"pause_{sub['subscription_id']}"):
                                 run_query(
                                     "UPDATE subscriptions SET status = 'PAUSED' WHERE subscription_id = ?",
                                     (sub['subscription_id'],)
@@ -840,7 +840,7 @@ def render_subscription_analytics():
         (" Totaal Subscriptions", total_subs),
         (" Actief", active_subs),
         (" Totale Revenue", f"€ {total_revenue:,.2f}"),
-        ("️ Foundation Bijdrage", f"€ {total_foundation:,.2f}"),
+        (" Foundation Bijdrage", f"€ {total_foundation:,.2f}"),
     ])
     
     st.markdown("<br>", unsafe_allow_html=True)
