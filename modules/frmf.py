@@ -55,6 +55,149 @@ INCIDENT_TYPES = [
     "Goal Disallowed", "VAR Review", "Injury Time Added", "Match Abandoned"
 ]
 
+# RefereeChain - Certification Types
+CERTIFICATIONS = [
+    ("FIFA_BADGE", "FIFA International Badge", "Highest level certification"),
+    ("CAF_ELITE", "CAF Elite Panel", "Continental elite status"),
+    ("VAR_CERTIFIED", "VAR Operator Certified", "Video Assistant Referee qualified"),
+    ("FITNESS_A", "Fitness Level A", "Top physical condition"),
+    ("MEDICAL_TRAINED", "Medical Response Trained", "Emergency medical certification"),
+    ("ANTI_RACISM", "Anti-Racism Ambassador", "Completed anti-discrimination training")
+]
+
+# RefereeChain - Audit Event Types
+AUDIT_EVENT_TYPES = [
+    ("REGISTRATION", "New Registration", "Referee registered in system"),
+    ("CERTIFICATION_ADDED", "Certification Added", "New certification granted"),
+    ("CERTIFICATION_EXPIRED", "Certification Expired", "Certification validity ended"),
+    ("MATCH_ASSIGNED", "Match Assigned", "Assigned to officiate match"),
+    ("MATCH_COMPLETED", "Match Completed", "Successfully completed match"),
+    ("RATING_SUBMITTED", "Rating Submitted", "Performance rating received"),
+    ("SUSPENSION", "Suspension", "Referee suspended"),
+    ("REINSTATEMENT", "Reinstatement", "Suspension lifted"),
+    ("PROMOTION", "Level Promotion", "Promoted to higher license level"),
+    ("INCIDENT_REPORTED", "Incident Reported", "Match incident logged")
+]
+
+# =============================================================================
+# REFEREECHAIN BLOCKCHAIN HELPERS
+# =============================================================================
+
+def generate_block_hash(data: dict) -> str:
+    """Generate a hash for audit trail block."""
+    import json
+    data_string = json.dumps(data, sort_keys=True, default=str)
+    return hashlib.sha256(data_string.encode()).hexdigest()[:16]
+
+def get_previous_block_hash(referee_id: str) -> str:
+    """Get the hash of the previous block for a referee."""
+    import sqlite3
+    from config import DB_FILE
+    
+    try:
+        conn = sqlite3.connect(DB_FILE)
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT block_hash FROM frmf_refereechain 
+            WHERE referee_id = ? 
+            ORDER BY block_number DESC LIMIT 1
+        """, (referee_id,))
+        result = cursor.fetchone()
+        conn.close()
+        return result[0] if result else "GENESIS"
+    except:
+        return "GENESIS"
+
+def add_to_refereechain(referee_id: str, event_type: str, event_data: dict, username: str) -> bool:
+    """Add a new block to the RefereeChain audit trail."""
+    import sqlite3
+    from config import DB_FILE
+    
+    try:
+        conn = sqlite3.connect(DB_FILE)
+        cursor = conn.cursor()
+        
+        # Get next block number
+        cursor.execute("""
+            SELECT COALESCE(MAX(block_number), 0) + 1 
+            FROM frmf_refereechain WHERE referee_id = ?
+        """, (referee_id,))
+        block_number = cursor.fetchone()[0]
+        
+        # Get previous hash
+        prev_hash = get_previous_block_hash(referee_id)
+        
+        # Create block data
+        import json
+        block_data = {
+            "referee_id": referee_id,
+            "block_number": block_number,
+            "prev_hash": prev_hash,
+            "event_type": event_type,
+            "event_data": event_data,
+            "timestamp": datetime.now().isoformat(),
+            "created_by": username
+        }
+        
+        # Generate hash
+        block_hash = generate_block_hash(block_data)
+        
+        # Insert block
+        cursor.execute("""
+            INSERT INTO frmf_refereechain 
+            (block_id, referee_id, block_number, prev_hash, block_hash,
+             event_type, event_data, created_by, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            generate_uuid("BLK"),
+            referee_id,
+            block_number,
+            prev_hash,
+            block_hash,
+            event_type,
+            json.dumps(event_data),
+            username,
+            datetime.now().isoformat()
+        ))
+        
+        conn.commit()
+        conn.close()
+        return True
+    except Exception as e:
+        print(f"RefereeChain error: {e}")
+        return False
+
+def verify_refereechain(referee_id: str) -> tuple:
+    """Verify the integrity of a referee's chain."""
+    import sqlite3
+    from config import DB_FILE
+    
+    try:
+        conn = sqlite3.connect(DB_FILE)
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT block_number, prev_hash, block_hash, event_type, event_data, created_at
+            FROM frmf_refereechain 
+            WHERE referee_id = ?
+            ORDER BY block_number ASC
+        """, (referee_id,))
+        blocks = cursor.fetchall()
+        conn.close()
+        
+        if not blocks:
+            return (True, "No blocks to verify", 0)
+        
+        # Verify chain
+        prev_hash = "GENESIS"
+        for block in blocks:
+            if block[1] != prev_hash:
+                return (False, f"Chain broken at block {block[0]}", block[0])
+            prev_hash = block[2]
+        
+        return (True, "Chain verified", len(blocks))
+    except Exception as e:
+        return (False, str(e), 0)
+
 # =============================================================================
 # DATABASE INITIALIZATION
 # =============================================================================
@@ -88,6 +231,39 @@ def init_frmf_tables():
             email TEXT,
             photo_url TEXT,
             created_at TEXT NOT NULL
+        )
+    ''')
+    
+    # RefereeChain - Blockchain Audit Trail
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_refereechain (
+            block_id TEXT PRIMARY KEY,
+            referee_id TEXT NOT NULL,
+            block_number INTEGER NOT NULL,
+            prev_hash TEXT NOT NULL,
+            block_hash TEXT NOT NULL,
+            event_type TEXT NOT NULL,
+            event_data TEXT,
+            created_by TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (referee_id) REFERENCES frmf_referees(referee_id)
+        )
+    ''')
+    
+    # Referee Certifications
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_certifications (
+            cert_id TEXT PRIMARY KEY,
+            referee_id TEXT NOT NULL,
+            cert_type TEXT NOT NULL,
+            cert_name TEXT NOT NULL,
+            issued_date TEXT NOT NULL,
+            expiry_date TEXT,
+            issued_by TEXT,
+            status TEXT DEFAULT 'ACTIVE',
+            document_hash TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (referee_id) REFERENCES frmf_referees(referee_id)
         )
     ''')
     
@@ -326,7 +502,7 @@ def render_referee_registry(username: str):
                 experience = st.number_input("Years Experience", 0, 40, 5)
                 region = st.text_input("Region")
             
-            if st.form_submit_button("Register Referee", type="primary", width="stretch"):
+            if st.form_submit_button("Register Referee", type="primary", use_container_width=True):
                 if first_name and last_name:
                     referee_id = generate_uuid("REF")
                     level_code = next((l[0] for l in REFEREE_LEVELS if l[1] == level), "FRMF_B")
@@ -340,11 +516,177 @@ def render_referee_registry(username: str):
                           experience, region, datetime.now().isoformat()))
                     
                     if success:
+                        # Add to RefereeChain
+                        add_to_refereechain(referee_id, "REGISTRATION", {
+                            "first_name": first_name,
+                            "last_name": last_name,
+                            "license_level": level_code,
+                            "region": region
+                        }, username)
+                        
                         success_message("Referee Registered!", referee_id)
                         log_audit(username, "REFEREE_REGISTERED", "FRMF", referee_id)
                         st.rerun()
                 else:
                     st.error("First name and last name are required")
+
+
+def render_refereechain(username: str):
+    """Render the RefereeChain audit trail tab."""
+    st.markdown("### RefereeChain - Audit Trail")
+    st.caption("Immutable blockchain-style record of all referee activities")
+    
+    # Get referees for selection
+    df_referees = get_data("frmf_referees")
+    if df_referees.empty:
+        df_referees = generate_demo_referees()
+    
+    # Stats
+    col1, col2, col3, col4 = st.columns(4)
+    
+    # Count total blocks
+    df_chain = get_data("frmf_refereechain")
+    total_blocks = len(df_chain) if not df_chain.empty else 0
+    
+    with col1:
+        st.metric("Total Blocks", total_blocks)
+    with col2:
+        unique_refs = df_chain['referee_id'].nunique() if not df_chain.empty and 'referee_id' in df_chain.columns else 0
+        st.metric("Referees Tracked", unique_refs)
+    with col3:
+        st.metric("Chain Status", "Valid")
+    with col4:
+        st.metric("Last Update", datetime.now().strftime("%H:%M"))
+    
+    st.divider()
+    
+    # Referee selection for chain view
+    if not df_referees.empty and 'name' in df_referees.columns:
+        ref_options = df_referees['name'].tolist()
+    else:
+        ref_options = ["Select Referee"]
+    
+    selected_ref = st.selectbox("View Chain for Referee", ["All Referees"] + ref_options)
+    
+    # Chain verification
+    col1, col2 = st.columns([3, 1])
+    with col2:
+        if st.button("Verify Chain Integrity", type="primary"):
+            if selected_ref != "All Referees":
+                ref_row = df_referees[df_referees['name'] == selected_ref]
+                if not ref_row.empty:
+                    ref_id = ref_row.iloc[0]['referee_id']
+                    valid, message, blocks = verify_refereechain(ref_id)
+                    if valid:
+                        st.success(f"Chain Valid - {blocks} blocks verified")
+                    else:
+                        st.error(f"Chain Invalid: {message}")
+            else:
+                st.info("Select a specific referee to verify their chain")
+    
+    st.divider()
+    
+    # Display chain
+    st.markdown("#### Audit Trail Blocks")
+    
+    if not df_chain.empty:
+        # Filter by referee if selected
+        if selected_ref != "All Referees":
+            ref_row = df_referees[df_referees['name'] == selected_ref]
+            if not ref_row.empty:
+                ref_id = ref_row.iloc[0]['referee_id']
+                df_chain = df_chain[df_chain['referee_id'] == ref_id]
+        
+        # Sort by created_at descending
+        if 'created_at' in df_chain.columns:
+            df_chain = df_chain.sort_values('created_at', ascending=False)
+        
+        # Display blocks
+        for _, block in df_chain.head(20).iterrows():
+            event_type = block.get('event_type', 'UNKNOWN')
+            event_name = next((e[1] for e in AUDIT_EVENT_TYPES if e[0] == event_type), event_type)
+            
+            # Color based on event type
+            if event_type in ['REGISTRATION', 'CERTIFICATION_ADDED', 'PROMOTION']:
+                border_color = "#48BB78"  # Green
+            elif event_type in ['SUSPENSION', 'CERTIFICATION_EXPIRED']:
+                border_color = "#F56565"  # Red
+            else:
+                border_color = "#8B5CF6"  # Purple
+            
+            st.markdown(f"""
+                <div style='
+                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                    border-left: 4px solid {border_color};
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin-bottom: 0.5rem;
+                '>
+                    <div style='display: flex; justify-content: space-between; align-items: center;'>
+                        <div>
+                            <span style='color: {border_color}; font-weight: 600;'>{event_name}</span>
+                            <span style='color: #888; font-size: 0.8rem; margin-left: 1rem;'>
+                                Block #{block.get('block_number', 0)}
+                            </span>
+                        </div>
+                        <span style='color: #666; font-size: 0.75rem;'>
+                            {block.get('created_at', '')[:16]}
+                        </span>
+                    </div>
+                    <div style='margin-top: 0.5rem; color: #aaa; font-size: 0.85rem;'>
+                        Hash: <code style='color: #D4AF37;'>{block.get('block_hash', 'N/A')[:12]}...</code>
+                        | Prev: <code style='color: #888;'>{block.get('prev_hash', 'GENESIS')[:8]}...</code>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    else:
+        info_box("No Chain Data", "Start by registering referees or adding certifications to create audit trail blocks.")
+    
+    st.divider()
+    
+    # Add certification (creates chain block)
+    with st.expander("Add Certification", expanded=False):
+        with st.form("add_cert"):
+            col1, col2 = st.columns(2)
+            with col1:
+                cert_referee = st.selectbox("Referee *", ref_options, key="cert_ref")
+                cert_type = st.selectbox("Certification Type *", [c[1] for c in CERTIFICATIONS])
+            with col2:
+                issued_date = st.date_input("Issue Date")
+                expiry_date = st.date_input("Expiry Date (optional)", value=None)
+            
+            issued_by = st.text_input("Issued By", "FRMF")
+            
+            if st.form_submit_button("Add Certification", type="primary", use_container_width=True):
+                if cert_referee and cert_referee != "Select Referee":
+                    ref_row = df_referees[df_referees['name'] == cert_referee]
+                    if not ref_row.empty:
+                        ref_id = ref_row.iloc[0]['referee_id']
+                        cert_id = generate_uuid("CERT")
+                        cert_code = next((c[0] for c in CERTIFICATIONS if c[1] == cert_type), "OTHER")
+                        
+                        # Add to certifications table
+                        success = run_query("""
+                            INSERT INTO frmf_certifications 
+                            (cert_id, referee_id, cert_type, cert_name, issued_date, expiry_date, 
+                             issued_by, status, created_at)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, 'ACTIVE', ?)
+                        """, (cert_id, ref_id, cert_code, cert_type, str(issued_date),
+                              str(expiry_date) if expiry_date else None, issued_by,
+                              datetime.now().isoformat()))
+                        
+                        if success:
+                            # Add to RefereeChain
+                            add_to_refereechain(ref_id, "CERTIFICATION_ADDED", {
+                                "cert_type": cert_code,
+                                "cert_name": cert_type,
+                                "issued_by": issued_by,
+                                "expiry_date": str(expiry_date) if expiry_date else None
+                            }, username)
+                            
+                            success_message("Certification Added!", cert_id)
+                            log_audit(username, "CERTIFICATION_ADDED", "FRMF", f"{cert_referee} - {cert_type}")
+                            st.rerun()
 
 
 def render_match_assignments(username: str):
@@ -693,40 +1035,46 @@ def render(username: str):
     df_refs = get_data("frmf_referees")
     df_matches = get_data("frmf_match_assignments")
     df_var = get_data("frmf_var_vault")
+    df_chain = get_data("frmf_refereechain")
     
     ref_count = len(df_refs) if not df_refs.empty else 10
     match_count = len(df_matches) if not df_matches.empty else 15
     var_count = len(df_var) if not df_var.empty else 20
+    chain_blocks = len(df_chain) if not df_chain.empty else 0
     
     premium_kpi_row([
         ("", "Licensed Referees", str(ref_count), "Active officials"),
-        ("", "Match Assignments", str(match_count), "This season"),
+        ("", "Chain Blocks", str(chain_blocks), "Audit trail"),
         ("", "VAR Decisions", str(var_count), "Archived"),
         ("", "Avg Rating", "8.2", "Season average")
     ])
     
     st.divider()
     
-    # Tabs
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        " Referee Registry",
-        " Match Assignments", 
-        " VAR Vault",
-        " Performance",
-        " Incidents"
+    # Tabs - Added RefereeChain
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        "Referee Registry",
+        "RefereeChain",
+        "Match Assignments", 
+        "VAR Vault",
+        "Performance",
+        "Incidents"
     ])
     
     with tab1:
         render_referee_registry(username)
     
     with tab2:
-        render_match_assignments(username)
+        render_refereechain(username)
     
     with tab3:
-        render_var_vault(username)
+        render_match_assignments(username)
     
     with tab4:
-        render_referee_performance(username)
+        render_var_vault(username)
     
     with tab5:
+        render_referee_performance(username)
+    
+    with tab6:
         render_match_incidents(username)
