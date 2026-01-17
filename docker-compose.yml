@@ -1,0 +1,61 @@
+# ============================================================================
+# PROINVESTIX v5.1.2 ULTIMATE - DOCKER COMPOSE
+# ============================================================================
+# Usage:
+#   Development: docker-compose up
+#   Production:  docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# ============================================================================
+
+version: '3.8'
+
+services:
+  proinvestix:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: proinvestix
+    ports:
+      - "8501:8501"
+    environment:
+      - PROINVESTIX_ENV=${PROINVESTIX_ENV:-DEVELOPMENT}
+      - TICKETCHAIN_SECRET=${TICKETCHAIN_SECRET:-dev-secret-key-change-in-production}
+      - DB_FILE=/app/data/proinvestix_ultimate.db
+    volumes:
+      # Persist database
+      - proinvestix_data:/app/data
+      # Mount assets (optional, for custom logos)
+      - ./assets:/app/assets:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  proinvestix_data:
+    name: proinvestix_data
+
+# ============================================================================
+# PRODUCTION NOTES:
+# ============================================================================
+# For production, create docker-compose.prod.yml with:
+#
+# version: '3.8'
+# services:
+#   proinvestix:
+#     environment:
+#       - PROINVESTIX_ENV=PRODUCTION
+#       - TICKETCHAIN_SECRET=your-production-secret
+#     deploy:
+#       resources:
+#         limits:
+#           cpus: '2'
+#           memory: 2G
+#         reservations:
+#           cpus: '0.5'
+#           memory: 512M
+#
+# Then run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# ============================================================================

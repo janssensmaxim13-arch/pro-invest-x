@@ -1,0 +1,28 @@
+# ============================================================================
+# PROINVESTIX v5.1.2 ULTIMATE - REQUIREMENTS
+# ============================================================================
+
+# Core Framework
+streamlit>=1.28.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Security
+bcrypt>=4.0.0
+
+# QR Codes
+qrcode[pil]>=7.4.0
+Pillow>=10.0.0
+
+# Visualization
+plotly>=5.18.0
+
+# Date handling
+python-dateutil>=2.8.2
+
+# REST API
+fastapi>=0.109.0
+uvicorn>=0.27.0
+pydantic>=2.5.0

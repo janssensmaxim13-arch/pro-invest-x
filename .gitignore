@@ -1,0 +1,114 @@
+# ============================================================================
+# PROINVESTIX - GITIGNORE
+# ============================================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- Virtual Environments ---
+venv/
+ENV/
+env/
+.venv/
+
+# --- IDE ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# --- Environment Variables ---
+.env
+.env.local
+.env.*.local
+*.env
+
+# --- Database ---
+*.db
+*.sqlite
+*.sqlite3
+!proinvestix_ultimate.db
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Cache ---
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# --- OS ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Streamlit ---
+.streamlit/secrets.toml
+
+# --- Backups ---
+*.bak
+*.backup
+*_backup_*
+
+# --- Temporary ---
+tmp/
+temp/
+*.tmp
+
+# --- Consular Vault (sensitive documents) ---
+consular_vault/*
+!consular_vault/.gitkeep
+
+# --- Coverage ---
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# --- Documentation Build ---
+docs/_build/
+
+# --- Docker ---
+.docker/
+
+# ============================================================================
+# KEEP THESE FILES:
+# ============================================================================
+# !requirements.txt
+# !README.md
+# !DEPLOYMENT.md
+# !.env.example
+# !Dockerfile
+# !docker-compose.yml
+# !.streamlit/config.toml
+# !assets/logo_*.jpg
+# !proinvestix_ultimate.db (demo data)
+# ============================================================================
