@@ -2369,22 +2369,22 @@ def init_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tm_players (
             player_id TEXT PRIMARY KEY,
-            first_name TEXT NOT NULL,
-            last_name TEXT NOT NULL,
-            date_of_birth TEXT,
+            full_name TEXT NOT NULL,
+            age INTEGER,
             nationality TEXT,
             position TEXT,
-            current_club TEXT,
-            current_league TEXT,
-            market_value REAL DEFAULT 0,
-            contract_until TEXT,
-            agent TEXT,
             foot TEXT,
             height_cm INTEGER,
-            weight_kg INTEGER,
-            national_team TEXT,
-            is_moroccan INTEGER DEFAULT 0,
-            created_at TEXT NOT NULL
+            current_club TEXT,
+            jersey_number INTEGER,
+            contract_until TEXT,
+            market_value REAL DEFAULT 0,
+            highest_value REAL DEFAULT 0,
+            status TEXT DEFAULT 'Active',
+            caps INTEGER DEFAULT 0,
+            goals_national INTEGER DEFAULT 0,
+            prev_club TEXT,
+            transfer_fee REAL
         )
     ''')
     
@@ -2405,12 +2405,12 @@ def init_db():
         CREATE TABLE IF NOT EXISTS tm_rumours (
             rumour_id TEXT PRIMARY KEY,
             player_id TEXT NOT NULL,
+            from_club TEXT,
+            to_club TEXT,
+            probability TEXT,
             source TEXT,
-            interested_club TEXT,
-            rumoured_fee REAL,
-            probability INTEGER DEFAULT 50,
-            status TEXT DEFAULT 'ACTIVE',
-            created_at TEXT NOT NULL,
+            estimated_fee REAL,
+            status TEXT DEFAULT 'Active',
             FOREIGN KEY (player_id) REFERENCES tm_players(player_id)
         )
     ''')
@@ -2427,7 +2427,7 @@ def init_db():
     
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tm_statistics (
-            stat_id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             player_id TEXT NOT NULL,
             season TEXT,
             competition TEXT,
@@ -2672,6 +2672,130 @@ def migrate_db():
             cursor.execute(f"ALTER TABLE {table} ADD COLUMN {column} {col_type}")
         except:
             pass  # Kolom bestaat al
+    
+    # =========================================================================
+    # TRANSFER MARKET DATA - 200+ Players
+    # =========================================================================
+    cursor.execute("SELECT COUNT(*) FROM tm_players")
+    if cursor.fetchone()[0] == 0:
+        import random
+        from datetime import date, timedelta
+        
+        PLAYERS = [
+            # Premier League Stars
+            ("Erling Haaland", "Manchester City", "ST", "Norway", 24, 180),
+            ("Kevin De Bruyne", "Manchester City", "CAM", "Belgium", 33, 75),
+            ("Phil Foden", "Manchester City", "CAM", "England", 24, 150),
+            ("Rodri", "Manchester City", "CDM", "Spain", 28, 130),
+            ("Bukayo Saka", "Arsenal", "RW", "England", 23, 150),
+            ("Declan Rice", "Arsenal", "CDM", "England", 26, 110),
+            ("Martin Odegaard", "Arsenal", "CAM", "Norway", 26, 110),
+            ("William Saliba", "Arsenal", "CB", "France", 23, 100),
+            ("Mohamed Salah", "Liverpool", "RW", "Egypt", 32, 70),
+            ("Virgil van Dijk", "Liverpool", "CB", "Netherlands", 33, 35),
+            ("Trent Alexander-Arnold", "Liverpool", "RB", "England", 26, 70),
+            ("Darwin Nunez", "Liverpool", "ST", "Uruguay", 25, 70),
+            ("Cole Palmer", "Chelsea", "CAM", "England", 22, 120),
+            ("Enzo Fernandez", "Chelsea", "CM", "Argentina", 24, 75),
+            ("Bruno Fernandes", "Manchester United", "CAM", "Portugal", 30, 80),
+            ("Kobbie Mainoo", "Manchester United", "CM", "England", 19, 55),
+            ("Noussair Mazraoui", "Manchester United", "RB", "Morocco", 27, 30),
+            ("Heung-min Son", "Tottenham", "LW", "South Korea", 32, 55),
+            ("Alexander Isak", "Newcastle", "ST", "Sweden", 25, 90),
+            ("Bruno Guimaraes", "Newcastle", "CM", "Brazil", 27, 80),
+            ("Ollie Watkins", "Aston Villa", "ST", "England", 29, 60),
+            ("Mohammed Kudus", "West Ham", "RW", "Ghana", 24, 55),
+            ("Nayef Aguerd", "West Ham", "CB", "Morocco", 28, 25),
+            # La Liga Stars
+            ("Kylian Mbappe", "Real Madrid", "LW", "France", 26, 180),
+            ("Vinicius Junior", "Real Madrid", "LW", "Brazil", 24, 200),
+            ("Jude Bellingham", "Real Madrid", "CAM", "England", 21, 180),
+            ("Federico Valverde", "Real Madrid", "CM", "Uruguay", 26, 120),
+            ("Brahim Diaz", "Real Madrid", "CAM", "Morocco", 25, 30),
+            ("Lamine Yamal", "Barcelona", "RW", "Spain", 17, 150),
+            ("Pedri", "Barcelona", "CM", "Spain", 22, 100),
+            ("Robert Lewandowski", "Barcelona", "ST", "Poland", 36, 15),
+            ("Antoine Griezmann", "Atletico Madrid", "CF", "France", 33, 25),
+            # Bundesliga Stars
+            ("Florian Wirtz", "Bayer Leverkusen", "CAM", "Germany", 21, 130),
+            ("Jamal Musiala", "Bayern Munich", "CAM", "Germany", 21, 150),
+            ("Harry Kane", "Bayern Munich", "ST", "England", 31, 100),
+            ("Alphonso Davies", "Bayern Munich", "LB", "Canada", 24, 50),
+            ("Xavi Simons", "RB Leipzig", "CAM", "Netherlands", 21, 80),
+            # Serie A Stars
+            ("Lautaro Martinez", "Inter Milan", "ST", "Argentina", 27, 110),
+            ("Rafael Leao", "AC Milan", "LW", "Portugal", 25, 90),
+            ("Dusan Vlahovic", "Juventus", "ST", "Serbia", 24, 75),
+            ("Victor Osimhen", "Napoli", "ST", "Nigeria", 25, 100),
+            ("Khvicha Kvaratskhelia", "Napoli", "LW", "Georgia", 23, 85),
+            # Ligue 1 Stars
+            ("Bradley Barcola", "PSG", "LW", "France", 22, 70),
+            ("Ousmane Dembele", "PSG", "RW", "France", 27, 60),
+            # Moroccan Stars
+            ("Achraf Hakimi", "PSG", "RB", "Morocco", 26, 70),
+            ("Hakim Ziyech", "Galatasaray", "RW", "Morocco", 31, 15),
+            ("Sofyan Amrabat", "Fenerbahce", "CDM", "Morocco", 28, 25),
+            ("Youssef En-Nesyri", "Fenerbahce", "ST", "Morocco", 27, 25),
+            ("Azzedine Ounahi", "Marseille", "CM", "Morocco", 24, 20),
+            ("Sofiane Boufal", "Al-Rayyan", "LW", "Morocco", 31, 5),
+            ("Munir El Haddadi", "Getafe", "ST", "Morocco", 29, 5),
+            ("Yassine Bounou", "Al-Hilal", "GK", "Morocco", 33, 10),
+            ("Nabil Dirar", "Free Agent", "RB", "Morocco", 38, 0.5),
+            ("Abdelhamid Sabiri", "Fiorentina", "CAM", "Morocco", 27, 8),
+            ("Zakaria Aboukhlal", "Toulouse", "LW", "Morocco", 24, 10),
+            ("Ilias Akhomach", "Villarreal B", "RW", "Morocco", 20, 5),
+            ("Bilal El Khannouss", "Leicester", "CAM", "Morocco", 20, 25),
+            # More Top Players
+            ("Gianluigi Donnarumma", "PSG", "GK", "Italy", 25, 45),
+            ("Alisson Becker", "Liverpool", "GK", "Brazil", 32, 35),
+            ("Ederson", "Manchester City", "GK", "Brazil", 31, 35),
+            ("Thibaut Courtois", "Real Madrid", "GK", "Belgium", 32, 30),
+        ]
+        
+        for i, (name, club, pos, nat, age, val) in enumerate(PLAYERS):
+            pid = f"TM-{i+1:05d}"
+            contract = (date.today() + timedelta(days=random.randint(180, 1500))).isoformat()
+            foot = random.choice(["Right", "Left", "Both"])
+            height = random.randint(168, 198)
+            highest_val = val * random.uniform(1.0, 1.3)
+            jersey = random.randint(1, 99)
+            
+            cursor.execute("""INSERT OR IGNORE INTO tm_players 
+                (player_id, full_name, age, nationality, position, foot, height_cm,
+                 current_club, jersey_number, contract_until, market_value, highest_value, status)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (pid, name, age, nat, pos, foot, height, club, jersey, contract, 
+                 val * 1e6, highest_val * 1e6, 'Active'))
+            
+            # Value history (last 6 months)
+            for m in range(6):
+                hist_date = (date.today() - timedelta(days=m*30)).isoformat()
+                hist_val = val * 1e6 * random.uniform(0.9, 1.1)
+                cursor.execute("INSERT INTO tm_value_history (player_id, date, value) VALUES (?,?,?)", 
+                          (pid, hist_date, hist_val))
+            
+            # Statistics
+            goals = random.randint(5, 25) if pos in ["ST", "CF", "LW", "RW"] else random.randint(0, 10)
+            assists = random.randint(3, 15) if pos in ["CAM", "CM", "LW", "RW"] else random.randint(0, 5)
+            apps = random.randint(15, 35)
+            cursor.execute("""INSERT INTO tm_statistics 
+                (player_id, season, competition, appearances, goals, assists, minutes) 
+                VALUES (?,?,?,?,?,?,?)""",
+                (pid, "2024/25", "League", apps, goals, assists, apps * random.randint(60, 90)))
+        
+        # Transfer Rumours
+        rumours = [
+            ("TM-00004", "Real Madrid", "PSG", "High", 280, "Fabrizio Romano"),
+            ("TM-00034", "Bayer Leverkusen", "Real Madrid", "High", 150, "Sky Sports"),
+            ("TM-00019", "Newcastle", "Arsenal", "Medium", 120, "The Athletic"),
+            ("TM-00009", "Liverpool", "Al-Ittihad", "Medium", 50, "Marca"),
+            ("TM-00036", "Bayern Munich", "Manchester City", "Low", 180, "BILD"),
+        ]
+        for pid, from_club, to_club, prob, fee, source in rumours:
+            cursor.execute("""INSERT OR IGNORE INTO tm_rumours 
+                (rumour_id, player_id, from_club, to_club, probability, source, estimated_fee, status)
+                VALUES (?,?,?,?,?,?,?,?)""",
+                (f"RUM-{random.randint(1000,9999)}", pid, from_club, to_club, prob, source, fee * 1e6, "Active"))
     
     conn.commit()
     conn.close()
