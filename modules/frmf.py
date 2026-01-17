@@ -200,6 +200,43 @@ FITNESS_LEVELS = [
     ("E", "Level E - Recovery Phase")
 ]
 
+# Performance Analytics Constants
+PERFORMANCE_METRICS = [
+    ("GOALS", "Goals Scored"),
+    ("ASSISTS", "Assists"),
+    ("MINUTES", "Minutes Played"),
+    ("PASSES", "Passes Completed"),
+    ("PASS_ACC", "Pass Accuracy %"),
+    ("SHOTS", "Shots"),
+    ("SHOTS_ON_TARGET", "Shots on Target"),
+    ("TACKLES", "Tackles Won"),
+    ("INTERCEPTIONS", "Interceptions"),
+    ("CLEARANCES", "Clearances"),
+    ("DUELS_WON", "Duels Won"),
+    ("AERIAL_WON", "Aerial Duels Won"),
+    ("DRIBBLES", "Successful Dribbles"),
+    ("FOULS", "Fouls Committed"),
+    ("FOULED", "Fouls Suffered"),
+    ("OFFSIDES", "Offsides"),
+    ("SAVES", "Saves (GK)"),
+    ("CLEAN_SHEETS", "Clean Sheets (GK)")
+]
+
+MATCH_RATINGS = [
+    (10, "Perfect"),
+    (9, "Outstanding"),
+    (8, "Excellent"),
+    (7, "Good"),
+    (6, "Average"),
+    (5, "Below Average"),
+    (4, "Poor"),
+    (3, "Very Poor")
+]
+
+SEASON_OPTIONS = [
+    "2025-2026", "2024-2025", "2023-2024", "2022-2023", "2021-2022"
+]
+
 VAR_OUTCOMES = ["CONFIRMED", "OVERTURNED", "REVIEW_COMPLETE"]
 
 INCIDENT_TYPES = [
@@ -622,6 +659,84 @@ def init_frmf_tables():
             created_at TEXT NOT NULL,
             FOREIGN KEY (player_id) REFERENCES frmf_players(player_id),
             FOREIGN KEY (medical_id) REFERENCES frmf_player_medical(medical_id)
+        )
+    ''')
+    
+    # Player Match Performance (per match stats)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_match_performance (
+            performance_id TEXT PRIMARY KEY,
+            player_id TEXT NOT NULL,
+            match_id TEXT NOT NULL,
+            match_date TEXT,
+            opponent TEXT,
+            competition TEXT,
+            minutes_played INTEGER DEFAULT 0,
+            goals INTEGER DEFAULT 0,
+            assists INTEGER DEFAULT 0,
+            shots INTEGER DEFAULT 0,
+            shots_on_target INTEGER DEFAULT 0,
+            passes INTEGER DEFAULT 0,
+            pass_accuracy REAL DEFAULT 0,
+            tackles INTEGER DEFAULT 0,
+            interceptions INTEGER DEFAULT 0,
+            clearances INTEGER DEFAULT 0,
+            duels_won INTEGER DEFAULT 0,
+            aerial_won INTEGER DEFAULT 0,
+            dribbles INTEGER DEFAULT 0,
+            fouls INTEGER DEFAULT 0,
+            fouled INTEGER DEFAULT 0,
+            yellow_cards INTEGER DEFAULT 0,
+            red_cards INTEGER DEFAULT 0,
+            saves INTEGER DEFAULT 0,
+            rating REAL DEFAULT 6.0,
+            man_of_match INTEGER DEFAULT 0,
+            notes TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (player_id) REFERENCES frmf_players(player_id)
+        )
+    ''')
+    
+    # Season Statistics (aggregated)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_season_stats (
+            stat_id TEXT PRIMARY KEY,
+            player_id TEXT NOT NULL,
+            season TEXT NOT NULL,
+            competition TEXT,
+            appearances INTEGER DEFAULT 0,
+            starts INTEGER DEFAULT 0,
+            minutes_played INTEGER DEFAULT 0,
+            goals INTEGER DEFAULT 0,
+            assists INTEGER DEFAULT 0,
+            yellow_cards INTEGER DEFAULT 0,
+            red_cards INTEGER DEFAULT 0,
+            clean_sheets INTEGER DEFAULT 0,
+            avg_rating REAL DEFAULT 0,
+            man_of_match_awards INTEGER DEFAULT 0,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (player_id) REFERENCES frmf_players(player_id)
+        )
+    ''')
+    
+    # Team Performance
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS frmf_team_performance (
+            team_perf_id TEXT PRIMARY KEY,
+            club TEXT NOT NULL,
+            season TEXT NOT NULL,
+            competition TEXT,
+            matches_played INTEGER DEFAULT 0,
+            wins INTEGER DEFAULT 0,
+            draws INTEGER DEFAULT 0,
+            losses INTEGER DEFAULT 0,
+            goals_for INTEGER DEFAULT 0,
+            goals_against INTEGER DEFAULT 0,
+            goal_difference INTEGER DEFAULT 0,
+            points INTEGER DEFAULT 0,
+            position INTEGER,
+            form TEXT,
+            created_at TEXT NOT NULL
         )
     ''')
     
@@ -2325,6 +2440,335 @@ def render_medical_records(username: str):
                     st.rerun()
 
 
+def render_performance_analytics(username: str):
+    """Render performance analytics tab."""
+    st.markdown("### Performance Analytics")
+    st.caption("Match statistics, player metrics, and team performance")
+    
+    df_performance = get_data("frmf_match_performance")
+    df_players = get_data("frmf_players")
+    df_season = get_data("frmf_season_stats")
+    df_team = get_data("frmf_team_performance")
+    
+    # Generate demo data if empty
+    if df_performance.empty:
+        performances = []
+        for i in range(25):
+            performances.append({
+                "performance_id": f"PERF-{9000+i}",
+                "player_id": f"PLR-{4000+random.randint(0,15)}",
+                "player_name": f"Player {random.randint(1,20)}",
+                "match_id": f"MATCH-{1000+i}",
+                "opponent": random.choice(BOTOLA_CLUBS[:8]),
+                "competition": random.choice(COMPETITIONS[:4]),
+                "minutes_played": random.randint(45, 90),
+                "goals": random.randint(0, 2),
+                "assists": random.randint(0, 2),
+                "shots": random.randint(0, 5),
+                "shots_on_target": random.randint(0, 3),
+                "passes": random.randint(20, 80),
+                "pass_accuracy": round(random.uniform(70, 95), 1),
+                "tackles": random.randint(0, 8),
+                "interceptions": random.randint(0, 5),
+                "rating": round(random.uniform(5.5, 9.5), 1),
+                "man_of_match": 1 if random.random() > 0.9 else 0,
+                "match_date": (datetime.now() - timedelta(days=random.randint(1, 60))).strftime("%Y-%m-%d"),
+                "created_at": datetime.now().isoformat()
+            })
+        df_performance = pd.DataFrame(performances)
+        info_box("Demo Mode", "Showing demo performance data.")
+    
+    # Stats
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Match Records", len(df_performance))
+    with col2:
+        total_goals = df_performance['goals'].sum() if 'goals' in df_performance.columns else 0
+        st.metric("Total Goals", int(total_goals))
+    with col3:
+        total_assists = df_performance['assists'].sum() if 'assists' in df_performance.columns else 0
+        st.metric("Total Assists", int(total_assists))
+    with col4:
+        avg_rating = df_performance['rating'].mean() if 'rating' in df_performance.columns else 0
+        st.metric("Avg Rating", f"{avg_rating:.1f}")
+    
+    st.divider()
+    
+    # Sub-tabs
+    perf_tab1, perf_tab2, perf_tab3, perf_tab4 = st.tabs([
+        "Player Stats", "Leaderboards", "Team Stats", "Log Performance"
+    ])
+    
+    with perf_tab1:
+        st.markdown("#### Recent Match Performances")
+        
+        # Filter
+        col1, col2 = st.columns(2)
+        with col1:
+            comp_filter = st.selectbox("Competition", ["All"] + COMPETITIONS[:6], key="perf_comp")
+        with col2:
+            season_filter = st.selectbox("Season", SEASON_OPTIONS, key="perf_season")
+        
+        # Sort by date
+        if 'match_date' in df_performance.columns:
+            df_sorted = df_performance.sort_values('match_date', ascending=False)
+        else:
+            df_sorted = df_performance
+        
+        # Display performances
+        for _, perf in df_sorted.head(10).iterrows():
+            rating = perf.get('rating', 6.0)
+            goals = perf.get('goals', 0)
+            assists = perf.get('assists', 0)
+            mom = perf.get('man_of_match', 0)
+            
+            # Rating color
+            if rating >= 8:
+                rating_color = "#48BB78"
+            elif rating >= 7:
+                rating_color = "#68D391"
+            elif rating >= 6:
+                rating_color = "#ECC94B"
+            else:
+                rating_color = "#F56565"
+            
+            mom_badge = " MOTM" if mom else ""
+            
+            st.markdown(f"""
+                <div style='
+                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                    border-left: 4px solid {rating_color};
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin-bottom: 0.5rem;
+                '>
+                    <div style='display: flex; justify-content: space-between; align-items: center;'>
+                        <div>
+                            <span style='font-weight: 600; color: #E2E8F0;'>
+                                {perf.get('player_name', perf.get('player_id', 'Unknown'))}
+                            </span>
+                            <span style='color: #A0AEC0; margin-left: 0.5rem;'>
+                                vs {perf.get('opponent', 'N/A')}
+                            </span>
+                            {f"<span style='background: #D4AF37; color: #1a1a2e; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.7rem; margin-left: 0.5rem; font-weight: 600;'>{mom_badge}</span>" if mom else ""}
+                        </div>
+                        <span style='
+                            background: {rating_color};
+                            color: white;
+                            padding: 0.3rem 0.6rem;
+                            border-radius: 8px;
+                            font-weight: 700;
+                            font-size: 1rem;
+                        '>{rating}</span>
+                    </div>
+                    <div style='margin-top: 0.5rem; color: #A0AEC0; font-size: 0.85rem;'>
+                        <span style='color: #D4AF37;'>{goals}G</span> |
+                        <span style='color: #48BB78;'>{assists}A</span> |
+                        {perf.get('minutes_played', 0)}' |
+                        {perf.get('passes', 0)} passes ({perf.get('pass_accuracy', 0)}%) |
+                        {perf.get('match_date', 'N/A')}
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    with perf_tab2:
+        st.markdown("#### Season Leaderboards")
+        
+        # Goals leaderboard
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**Top Scorers**")
+            if 'goals' in df_performance.columns and 'player_name' in df_performance.columns:
+                goals_df = df_performance.groupby('player_name')['goals'].sum().sort_values(ascending=False).head(5)
+                for i, (player, goals) in enumerate(goals_df.items()):
+                    medal = ["", "", ""][i] if i < 3 else ""
+                    st.markdown(f"""
+                        <div style='
+                            background: #1a1a2e;
+                            border-radius: 8px;
+                            padding: 0.5rem 1rem;
+                            margin-bottom: 0.25rem;
+                            display: flex;
+                            justify-content: space-between;
+                        '>
+                            <span style='color: #E2E8F0;'>{medal} {i+1}. {player}</span>
+                            <span style='color: #D4AF37; font-weight: 600;'>{int(goals)} goals</span>
+                        </div>
+                    """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("**Top Assists**")
+            if 'assists' in df_performance.columns and 'player_name' in df_performance.columns:
+                assists_df = df_performance.groupby('player_name')['assists'].sum().sort_values(ascending=False).head(5)
+                for i, (player, assists) in enumerate(assists_df.items()):
+                    medal = ["", "", ""][i] if i < 3 else ""
+                    st.markdown(f"""
+                        <div style='
+                            background: #1a1a2e;
+                            border-radius: 8px;
+                            padding: 0.5rem 1rem;
+                            margin-bottom: 0.25rem;
+                            display: flex;
+                            justify-content: space-between;
+                        '>
+                            <span style='color: #E2E8F0;'>{medal} {i+1}. {player}</span>
+                            <span style='color: #48BB78; font-weight: 600;'>{int(assists)} assists</span>
+                        </div>
+                    """, unsafe_allow_html=True)
+        
+        st.divider()
+        
+        # Rating leaderboard
+        st.markdown("**Highest Rated Players**")
+        if 'rating' in df_performance.columns and 'player_name' in df_performance.columns:
+            rating_df = df_performance.groupby('player_name')['rating'].mean().sort_values(ascending=False).head(5)
+            for i, (player, rating) in enumerate(rating_df.items()):
+                pct = (rating / 10) * 100
+                st.markdown(f"""
+                    <div style='margin-bottom: 0.5rem;'>
+                        <div style='display: flex; justify-content: space-between; margin-bottom: 0.25rem;'>
+                            <span style='color: #E2E8F0;'>{i+1}. {player}</span>
+                            <span style='color: #8B5CF6; font-weight: 600;'>{rating:.2f}</span>
+                        </div>
+                        <div style='background: #2D3748; border-radius: 4px; height: 6px;'>
+                            <div style='background: #8B5CF6; width: {pct}%; height: 100%; border-radius: 4px;'></div>
+                        </div>
+                    </div>
+                """, unsafe_allow_html=True)
+    
+    with perf_tab3:
+        st.markdown("#### Team Statistics")
+        
+        if df_team.empty:
+            # Generate demo team data
+            teams = []
+            for i, club in enumerate(BOTOLA_CLUBS[:8]):
+                wins = random.randint(5, 15)
+                draws = random.randint(2, 8)
+                losses = random.randint(2, 10)
+                gf = random.randint(20, 50)
+                ga = random.randint(15, 40)
+                
+                teams.append({
+                    "club": club,
+                    "matches_played": wins + draws + losses,
+                    "wins": wins,
+                    "draws": draws,
+                    "losses": losses,
+                    "goals_for": gf,
+                    "goals_against": ga,
+                    "goal_difference": gf - ga,
+                    "points": (wins * 3) + draws,
+                    "form": "".join(random.choices(["W", "D", "L"], k=5))
+                })
+            df_team = pd.DataFrame(teams)
+            df_team = df_team.sort_values('points', ascending=False)
+        
+        # League table
+        st.markdown("**Botola Pro Standings**")
+        
+        for i, (_, team) in enumerate(df_team.iterrows()):
+            form = team.get('form', 'WWDLL')
+            form_badges = ""
+            for f in form:
+                if f == 'W':
+                    form_badges += "<span style='background: #48BB78; color: white; padding: 0.1rem 0.3rem; border-radius: 4px; margin-right: 2px; font-size: 0.7rem;'>W</span>"
+                elif f == 'D':
+                    form_badges += "<span style='background: #A0AEC0; color: white; padding: 0.1rem 0.3rem; border-radius: 4px; margin-right: 2px; font-size: 0.7rem;'>D</span>"
+                else:
+                    form_badges += "<span style='background: #F56565; color: white; padding: 0.1rem 0.3rem; border-radius: 4px; margin-right: 2px; font-size: 0.7rem;'>L</span>"
+            
+            pos_color = "#D4AF37" if i < 3 else "#48BB78" if i < 6 else "#E2E8F0" if i < 12 else "#F56565"
+            
+            st.markdown(f"""
+                <div style='
+                    background: #1a1a2e;
+                    border-left: 4px solid {pos_color};
+                    border-radius: 8px;
+                    padding: 0.75rem 1rem;
+                    margin-bottom: 0.5rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                '>
+                    <div style='display: flex; align-items: center;'>
+                        <span style='color: {pos_color}; font-weight: 700; width: 30px;'>{i+1}</span>
+                        <span style='color: #E2E8F0; font-weight: 600;'>{team.get('club', 'Unknown')}</span>
+                    </div>
+                    <div style='display: flex; align-items: center; gap: 1rem;'>
+                        <span style='color: #A0AEC0; font-size: 0.85rem;'>
+                            {team.get('matches_played', 0)}P | 
+                            {team.get('wins', 0)}W {team.get('draws', 0)}D {team.get('losses', 0)}L |
+                            GD: {team.get('goal_difference', 0):+d}
+                        </span>
+                        <span style='margin-left: 0.5rem;'>{form_badges}</span>
+                        <span style='color: #D4AF37; font-weight: 700; font-size: 1.1rem; min-width: 40px; text-align: right;'>
+                            {team.get('points', 0)}
+                        </span>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    with perf_tab4:
+        st.markdown("#### Log Match Performance")
+        
+        # Get players for dropdown
+        if not df_players.empty and 'first_name' in df_players.columns:
+            player_options = [f"{r['first_name']} {r['last_name']}" for _, r in df_players.iterrows()]
+        else:
+            player_options = [f"Player {i+1}" for i in range(10)]
+        
+        with st.form("add_performance"):
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                player = st.selectbox("Player *", player_options, key="perf_player")
+                opponent = st.selectbox("Opponent *", BOTOLA_CLUBS)
+                competition = st.selectbox("Competition", COMPETITIONS[:6])
+            with col2:
+                match_date = st.date_input("Match Date")
+                minutes_played = st.number_input("Minutes Played", 0, 120, 90)
+                rating = st.slider("Match Rating", 1.0, 10.0, 6.5, 0.1)
+            with col3:
+                goals = st.number_input("Goals", 0, 10, 0)
+                assists = st.number_input("Assists", 0, 10, 0)
+                man_of_match = st.checkbox("Man of the Match")
+            
+            col4, col5 = st.columns(2)
+            with col4:
+                shots = st.number_input("Shots", 0, 20, 0)
+                shots_on_target = st.number_input("Shots on Target", 0, 20, 0)
+                passes = st.number_input("Passes", 0, 150, 40)
+                pass_accuracy = st.slider("Pass Accuracy %", 0, 100, 80)
+            with col5:
+                tackles = st.number_input("Tackles", 0, 20, 0)
+                interceptions = st.number_input("Interceptions", 0, 20, 0)
+                yellow_cards = st.number_input("Yellow Cards", 0, 2, 0)
+                red_cards = st.number_input("Red Cards", 0, 1, 0)
+            
+            if st.form_submit_button("Log Performance", type="primary", use_container_width=True):
+                if player and opponent:
+                    perf_id = generate_uuid("PERF")
+                    
+                    success = run_query("""
+                        INSERT INTO frmf_match_performance 
+                        (performance_id, player_id, match_id, match_date, opponent, competition,
+                         minutes_played, goals, assists, shots, shots_on_target, passes, pass_accuracy,
+                         tackles, interceptions, yellow_cards, red_cards, rating, man_of_match, created_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (perf_id, player, generate_uuid("MATCH"), str(match_date), opponent, competition,
+                          minutes_played, goals, assists, shots, shots_on_target, passes, pass_accuracy,
+                          tackles, interceptions, yellow_cards, red_cards, rating, 
+                          1 if man_of_match else 0, datetime.now().isoformat()))
+                    
+                    if success:
+                        success_message("Performance Logged!", perf_id)
+                        log_audit(username, "PERFORMANCE_LOGGED", "FRMF", f"{player} vs {opponent}")
+                        st.rerun()
+                else:
+                    st.error("Player and Opponent are required")
+
+
 def render_match_incidents(username: str):
     """Render match incidents tab."""
     st.markdown("### Match Incidents Log")
@@ -2438,15 +2882,16 @@ def render(username: str):
     st.divider()
     
     # Tabs - Full FRMF Module
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
         "Referee Registry",
         "RefereeChain",
         "Player Profiles",
         "Contracts",
         "Medical",
+        "Analytics",
         "Match Assignments", 
         "VAR Vault",
-        "Performance",
+        "Ref Performance",
         "Incidents"
     ])
     
@@ -2466,13 +2911,16 @@ def render(username: str):
         render_medical_records(username)
     
     with tab6:
-        render_match_assignments(username)
+        render_performance_analytics(username)
     
     with tab7:
-        render_var_vault(username)
+        render_match_assignments(username)
     
     with tab8:
-        render_referee_performance(username)
+        render_var_vault(username)
     
     with tab9:
+        render_referee_performance(username)
+    
+    with tab10:
         render_match_incidents(username)
