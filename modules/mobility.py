@@ -30,7 +30,7 @@ def render(username=None):
     </div>
     """, unsafe_allow_html=True)
     
-    tabs = st.tabs(["📦 Packages", "🚌 Shuttle", "🚘 VIP Transfer"])
+    tabs = st.tabs([" Packages", " Shuttle", "🚘 VIP Transfer"])
     
     with tabs[0]:
         st.subheader("WK 2030 Travel Packages")

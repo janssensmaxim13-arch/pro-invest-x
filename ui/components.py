@@ -393,7 +393,7 @@ def success_message(message: str, details: str = None):
             margin: 1rem 0;
         '>
             <div style='color: #065F46; font-weight: 600;'>
-                ✅ {message}
+                 {message}
             </div>
             {details_html}
         </div>
@@ -419,7 +419,7 @@ def error_message(message: str, details: str = None):
             margin: 1rem 0;
         '>
             <div style='color: #991B1B; font-weight: 600;'>
-                ❌ {message}
+                 {message}
             </div>
             {details_html}
         </div>
@@ -470,7 +470,7 @@ def warning_box(title: str, content: str):
             margin: 1rem 0;
         '>
             <div style='color: #92400E; font-weight: 600; margin-bottom: 0.5rem;'>
-                ⚠️ {title}
+                 {title}
             </div>
             <div style='color: #78350F; font-size: 0.9rem; line-height: 1.5;'>
                 {content}

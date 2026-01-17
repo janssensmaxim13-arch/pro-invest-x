@@ -93,7 +93,7 @@ def render_landing_page(navigate_to: Callable):
     # WK 2030 Badge
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        st.markdown('<div style="text-align: center;"><span class="landing-badge">🏆 OFFICIAL WK 2030 PARTNER</span></div>', unsafe_allow_html=True)
+        st.markdown('<div style="text-align: center;"><span class="landing-badge"> OFFICIAL WK 2030 PARTNER</span></div>', unsafe_allow_html=True)
     
     st.write("")
     
@@ -116,58 +116,58 @@ def render_landing_page(navigate_to: Callable):
     with col3:
         st.metric(label="Months", value=countdown['months'])
     
-    st.caption("Until WK 2030 Opening Ceremony 🇲🇦")
+    st.caption("Until WK 2030 Opening Ceremony ")
     
     st.divider()
     
     # Platform Impact
-    st.subheader("📊 Platform Impact")
+    st.subheader(" Platform Impact")
     st.caption("Real-time statistics from the ProInvestiX ecosystem")
     
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric(label="⚽ Talents Tracked", value="80,000+")
+        st.metric(label=" Talents Tracked", value="80,000+")
     with col2:
-        st.metric(label="🌍 Diaspora Connected", value="5,5M+")
+        st.metric(label=" Diaspora Connected", value="5,5M+")
     with col3:
-        st.metric(label="💰 Investment Potential", value="€2B+")
+        st.metric(label=" Investment Potential", value="€2B+")
     with col4:
         st.metric(label="📁 Integrated Dossiers", value="33")
     
     st.divider()
     
     # Platform Capabilities
-    st.subheader("🚀 Platform Capabilities")
+    st.subheader(" Platform Capabilities")
     st.caption("Comprehensive national infrastructure for sport, economy & identity")
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         with st.container(border=True):
-            st.markdown("### ⚽ NTSP™ Talent Scouting")
+            st.markdown("###  NTSP™ Talent Scouting")
             st.write("AI-powered national talent identification system tracking 80,000+ players.")
         
         with st.container(border=True):
-            st.markdown("### 🎫 TicketChain™ Blockchain")
+            st.markdown("###  TicketChain™ Blockchain")
             st.write("Fraud-proof ticketing system with blockchain verification.")
     
     with col2:
         with st.container(border=True):
-            st.markdown("### 🏦 Foundation Bank")
+            st.markdown("###  Foundation Bank")
             st.write("Automated 0.5% contribution. Sadaka Jaaria - continuous charity.")
         
         with st.container(border=True):
-            st.markdown("### 🛡️ Identity Shield™")
+            st.markdown("###  Identity Shield™")
             st.write("24/7 AI-powered identity protection and fraud detection.")
     
     with col3:
         with st.container(border=True):
-            st.markdown("### 🏛️ Digital Consulate Hub™")
+            st.markdown("###  Digital Consulate Hub™")
             st.write("Complete diaspora services: documents, scholarships, assistance.")
         
         with st.container(border=True):
-            st.markdown("### 💳 Diaspora Wallet™")
+            st.markdown("###  Diaspora Wallet™")
             st.write("Digital financial identity for the global Moroccan community.")
     
     st.divider()
@@ -180,19 +180,19 @@ def render_landing_page(navigate_to: Callable):
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        if st.button("📈 Investor Portal", width="stretch", key="cta_investor"):
+        if st.button(" Investor Portal", width="stretch", key="cta_investor"):
             navigate_to('investor_portal')
     
     with col2:
-        if st.button("📋 Full Masterplan", width="stretch", key="cta_masterplan"):
+        if st.button(" Full Masterplan", width="stretch", key="cta_masterplan"):
             navigate_to('masterplan')
     
     with col3:
-        if st.button("🔐 Login", width="stretch", key="cta_login"):
+        if st.button(" Login", width="stretch", key="cta_login"):
             navigate_to('login')
     
     with col4:
-        if st.button("✨ Register", width="stretch", key="cta_register"):
+        if st.button(" Register", width="stretch", key="cta_register"):
             navigate_to('register')
     
     # Footer
@@ -206,7 +206,7 @@ def render_landing_page(navigate_to: Callable):
                     <span style="color: #4C1D95;">PROINVESTI</span><span style="color: #8B5CF6;">X</span>
                 </div>
                 <div style="color: #6B7280; font-size: 0.85rem;">
-                    National Investment Platform | Morocco 🇲🇦
+                    National Investment Platform | Morocco 
                 </div>
                 <div style="color: #9CA3AF; font-size: 0.75rem; margin-top: 5px;">
                     v{VERSION} ULTIMATE | Enterprise Ready | WK 2030 Partner

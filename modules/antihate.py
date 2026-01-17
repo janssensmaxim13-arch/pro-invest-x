@@ -263,11 +263,23 @@ def init_antihate_tables():
         )
     ''')
     
-    # Indexes
-    cursor.execute("CREATE INDEX IF NOT EXISTS idx_incident_athlete ON antihate_incidents(monitor_id)")
-    cursor.execute("CREATE INDEX IF NOT EXISTS idx_incident_status ON antihate_incidents(status)")
-    cursor.execute("CREATE INDEX IF NOT EXISTS idx_incident_severity ON antihate_incidents(severity)")
-    cursor.execute("CREATE INDEX IF NOT EXISTS idx_legal_status ON antihate_legal_cases(status)")
+    # Indexes - wrapped in try/except for compatibility with existing databases
+    try:
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_incident_monitor ON antihate_incidents(monitor_id)")
+    except:
+        pass
+    try:
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_incident_status ON antihate_incidents(status)")
+    except:
+        pass
+    try:
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_incident_severity ON antihate_incidents(severity)")
+    except:
+        pass
+    try:
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_legal_status ON antihate_legal_cases(status)")
+    except:
+        pass
     
     conn.commit()
     conn.close()

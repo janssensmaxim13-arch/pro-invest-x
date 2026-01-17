@@ -300,12 +300,11 @@ def run():
     )""")
     
     c.execute("""CREATE TABLE IF NOT EXISTS fandorp_volunteers (
-        volunteer_id TEXT PRIMARY KEY, identity_id TEXT, first_name TEXT NOT NULL, last_name TEXT NOT NULL,
+        volunteer_id TEXT PRIMARY KEY, fandorp_id TEXT, first_name TEXT NOT NULL, last_name TEXT NOT NULL,
         email TEXT, phone TEXT, nationality_1 TEXT DEFAULT 'Moroccan', nationality_2 TEXT,
-        languages TEXT, role TEXT, fandorp_id TEXT, clearance_level TEXT DEFAULT 'BASIC',
+        languages TEXT, role TEXT, clearance_level TEXT DEFAULT 'BASIC',
         verified INTEGER DEFAULT 0, background_check INTEGER DEFAULT 0, training_completed INTEGER DEFAULT 0,
-        training_score INTEGER DEFAULT 0, badges TEXT, qr_code TEXT,
-        status TEXT DEFAULT 'PENDING', registered_at TEXT, updated_at TEXT
+        status TEXT DEFAULT 'PENDING', registered_at TEXT, joined_at TEXT, updated_at TEXT
     )""")
     
     c.execute("""CREATE TABLE IF NOT EXISTS fandorp_shifts (
@@ -341,11 +340,11 @@ def run():
     # WK2030 Pilot landen
     PILOT_COUNTRIES = [
         ("België", "BE", "🇧🇪", "Casablanca", "Nederlands, Frans, Arabisch, Darija"),
-        ("Nederland", "NL", "🇳🇱", "Rabat", "Nederlands, Arabisch, Darija"),
-        ("Frankrijk", "FR", "🇫🇷", "Marrakech", "Frans, Arabisch, Darija"),
+        ("Nederland", "NL", "", "Rabat", "Nederlands, Arabisch, Darija"),
+        ("Frankrijk", "FR", "", "Marrakech", "Frans, Arabisch, Darija"),
         ("Duitsland", "DE", "🇩🇪", "Tangier", "Duits, Arabisch, Darija"),
         ("Spanje", "ES", "🇪🇸", "Fes", "Spaans, Arabisch, Darija"),
-        ("Engeland", "UK", "🇬🇧", "Agadir", "Engels, Arabisch, Darija"),
+        ("Engeland", "UK", "", "Agadir", "Engels, Arabisch, Darija"),
     ]
     
     VOLUNTEER_ROLES = ["Welkomst Coördinator", "Taalassistent", "Culturele Gids", "Transport Helper", 
@@ -403,7 +402,7 @@ def run():
         verified = 1 if status == "ACTIVE" else random.choice([0, 1])
         bg_check = 1 if status == "ACTIVE" else random.choice([0, 1])
         training = 1 if status == "ACTIVE" and random.random() > 0.2 else 0
-        training_score = random.randint(70, 100) if training else 0
+        training_completed = random.randint(70, 100) if training else 0
         
         # Badges (alleen voor actieve getrainde vrijwilligers)
         earned_badges = random.sample(BADGES, random.randint(0, 4)) if training else []
@@ -413,15 +412,15 @@ def run():
         qr_code = gen_hash(qr_data)[:16].upper()
         
         c.execute("""INSERT INTO fandorp_volunteers 
-            (volunteer_id, first_name, last_name, email, phone, nationality_1, nationality_2,
-             languages, role, fandorp_id, clearance_level, verified, background_check,
-             training_completed, training_score, badges, qr_code, status, registered_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, 'Moroccan', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            (vid, fn, ln, f"{fn.lower()}.{ln.lower().replace(' ','')}@email.com", 
+            (volunteer_id, fandorp_id, first_name, last_name, email, phone, nationality_1, nationality_2,
+             languages, role, clearance_level, verified, background_check,
+             training_completed, status, registered_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (vid, fid, fn, ln, f"{fn.lower()}.{ln.lower().replace(' ','')}@email.com", 
              f"+212 6{random.randint(10000000, 99999999)}",
-             country_name, ", ".join(base_langs), random.choice(VOLUNTEER_ROLES), fid,
+             'Moroccan', country_name, ", ".join(base_langs), random.choice(VOLUNTEER_ROLES),
              random.choices(CLEARANCE_LEVELS, weights=[40, 30, 15, 10, 5])[0],
-             verified, bg_check, training, training_score, ", ".join(earned_badges), qr_code,
+             verified, bg_check, training,
              status, rand_datetime(180), datetime.now().isoformat()))
     print(f"   200 Vrijwilligers created")
     
@@ -468,12 +467,11 @@ def run():
         status = random.choices(["OPEN", "RESOLVED", "ESCALATED"], weights=[20, 70, 10])[0]
         
         c.execute("""INSERT INTO fandorp_incidents 
-            (incident_id, fandorp_id, volunteer_id, incident_type, description, supporter_nationality,
-             severity, status, resolution, reported_at, resolved_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (incident_id, fandorp_id, reporter_id, incident_type, description, supporter_nationality,
+             severity, status, reported_at, resolved_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (gen_id("INC"), fid, vid, random.choice(INCIDENT_TYPES),
              f"Incident reported at FanDorp {country_name}", country_name, severity, status,
-             "Successfully resolved" if status == "RESOLVED" else None,
              rand_datetime(30), rand_datetime(15) if status == "RESOLVED" else None))
     print("   50 Incidents created")
     
@@ -483,12 +481,10 @@ def run():
         vid = random.choice(volunteer_ids[:100])
         
         c.execute("""INSERT INTO fandorp_services 
-            (service_id, fandorp_id, volunteer_id, service_type, supporter_nationality,
-             language_used, description, satisfaction_score, served_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            (gen_id("SVC"), fid, vid, random.choice(SERVICE_TYPES), country_name,
-             random.choice(["Nederlands", "Frans", "Duits", "Engels", "Spaans", "Arabisch"]),
-             f"Service provided to {country_name} supporter", random.randint(3, 5), rand_datetime(30)))
+            (service_id, fandorp_id, service_type, description, price, is_active, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (gen_id("SVC"), fid, random.choice(SERVICE_TYPES),
+             f"Service for {country_name} supporter", random.randint(0, 50), 1, rand_datetime(30)))
     print("   500 Service records created")
     
     # Chat berichten genereren (100 berichten)
@@ -600,19 +596,16 @@ def run():
         
         c.execute("""INSERT INTO maroc_identities 
             (identity_id, first_name, last_name, date_of_birth, nationality_primary, nationality_secondary,
-             residence_country, phone, phone_verified, email, email_verified,
-             document_type, document_number, document_verified, liveness_check_passed,
-             face_match_score, verification_level, status, risk_score, watchlist_checked,
-             created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+             residence_country, phone, email, document_type, document_number,
+             verification_level, is_verified, is_diaspora, status, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (mid, fn, ln, rand_date(1970, 2005), "Moroccan",
              random.choice(["Dutch", "Belgian", "French", "Spanish", "German", None]),
              random.choice(DIASPORA_COUNTRIES + ["Morocco"]),
-             f"+212 6{random.randint(10000000, 99999999)}", phone_verified,
-             f"{fn.lower()}.{ln.lower().replace(' ','')}@email.com", email_verified,
-             random.choice(DOCUMENT_TYPES), f"MA{random.randint(100000, 999999)}", doc_verified, liveness,
-             round(random.uniform(0.85, 0.99), 2) if liveness else None,
-             level, status, risk, 1 if level >= 2 else 0,
+             f"+212 6{random.randint(10000000, 99999999)}",
+             f"{fn.lower()}.{ln.lower().replace(' ','')}@email.com",
+             random.choice(DOCUMENT_TYPES), f"MA{random.randint(100000, 999999)}",
+             level, 1 if level >= 2 else 0, 1 if random.random() > 0.3 else 0, status,
              rand_datetime(365), datetime.now().isoformat()))
     print(f"   500 MAROC ID identities created")
     
@@ -630,30 +623,28 @@ def run():
         
         c.execute("""INSERT INTO maroc_organizations 
             (org_id, org_type, name, registration_number, registration_country,
-             beneficial_owner_name, bank_account_iban, verification_level, verified,
-             status, risk_score, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+             beneficial_owner_name, bank_account_iban, verification_level, is_verified,
+             status, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (oid, random.choice(ORG_TYPES), f"{org_name} {i+1}" if i >= 15 else org_name,
              f"RC{random.randint(10000, 99999)}", "Morocco",
              f"{random.choice(MOROCCAN_FIRST_NAMES_M)} {random.choice(MOROCCAN_LAST_NAMES)}",
              f"MA{random.randint(10, 99)} {random.randint(1000, 9999)} {random.randint(1000, 9999)} {random.randint(1000, 9999)}",
              random.choice([1, 2, 2, 3]), verified,
-             "VERIFIED" if verified else "PENDING", random.randint(0, 30),
+             "VERIFIED" if verified else "PENDING",
              rand_datetime(365), datetime.now().isoformat()))
     print(f"   {len(org_ids)} Organizations created")
     
     # Generate 200 role certificates
     for _ in range(200):
         c.execute("""INSERT INTO maroc_role_certificates 
-            (cert_id, identity_id, org_id, role_type, role_name, max_transaction_amount,
-             issued_at, valid_from, valid_until, status, required_level, issued_by)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (certificate_id, identity_id, organization_id, role, issued_at, expires_at, is_active)
+            VALUES (?, ?, ?, ?, ?, ?, ?)""",
             (gen_id("CRT"), random.choice(identity_ids), random.choice(org_ids),
-             random.choice(ROLE_TYPES), None, random.choice([5000, 10000, 50000, 100000]),
-             rand_datetime(180), rand_datetime(180), 
+             random.choice(ROLE_TYPES),
+             rand_datetime(180), 
              (datetime.now() + timedelta(days=random.randint(30, 365))).isoformat(),
-             random.choices(["ACTIVE", "REVOKED", "EXPIRED"], weights=[85, 10, 5])[0],
-             random.choice([2, 2, 3]), "SYSTEM"))
+             1 if random.random() > 0.15 else 0))
     print("   200 Role certificates created")
     
     # Generate 300 PMA entries
@@ -662,11 +653,12 @@ def run():
         status = "APPROVED" if auto else random.choice(PMA_STATUSES)
         
         c.execute("""INSERT INTO maroc_pma_queue 
-            (pma_id, entity_type, entity_id, transaction_type, amount, source, destination,
+            (pma_id, identity_id, entity_type, entity_id, transaction_type, request_type, amount, source, destination,
              description, risk_score, auto_approved, status, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            (gen_id("PMA"), random.choice(["PERSON", "ORGANIZATION", "TRANSACTION"]),
-             random.choice(identity_ids + org_ids), random.choice(TX_TYPES),
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (gen_id("PMA"), random.choice(identity_ids),
+             random.choice(["PERSON", "ORGANIZATION", "TRANSACTION"]),
+             random.choice(identity_ids + org_ids), random.choice(TX_TYPES), "STANDARD",
              round(random.uniform(100, 50000), 2),
              random.choice(["Morocco", "Netherlands", "Belgium", "France"]),
              random.choice(["Morocco", "Netherlands", "Belgium", "France"]),
@@ -681,12 +673,12 @@ def run():
         
         c.execute("""INSERT INTO maroc_transaction_signatures 
             (sig_id, identity_id, transaction_type, transaction_id, transaction_data,
-             signature_hash, signed_at, biometric_confirmed, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+             signature_hash, signed_at, biometric_confirmed, status, is_valid)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (gen_id("SIG"), random.choice(identity_ids[:200]),
              random.choice(["CONTRACT_SIGN", "TRANSFER_APPROVE", "FOUNDATION_DONATION_LARGE", "ROLE_ASSIGNMENT"]),
              gen_id("TXN"), f'{{"amount": {random.randint(500, 10000)}}}',
-             sig_hash, rand_datetime(90), 1, random.choice(["SIGNED", "APPROVED", "PENDING"])))
+             sig_hash, rand_datetime(90), 1, random.choice(["SIGNED", "APPROVED", "PENDING"]), 1))
     print("   150 Transaction signatures created")
     
     # =========================================================================

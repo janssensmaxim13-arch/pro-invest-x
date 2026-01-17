@@ -339,12 +339,12 @@ def render_main_app():
         # === DASHBOARD (Always visible) ===
         lang = st.session_state.get('language', 'en')
         
-        if st.button(get_text('nav_dashboard', lang), width="stretch", 
+        if st.button(get_text('dashboard', lang), width="stretch", 
                      type="primary" if st.session_state['current_module'] == 'dashboard' else "secondary"):
             set_module('dashboard')
             st.rerun()
         
-        if st.button(get_text('nav_analytics', lang), width="stretch",
+        if st.button(get_text('analytics', lang), width="stretch",
                      type="primary" if st.session_state['current_module'] == 'analytics' else "secondary"):
             set_module('analytics')
             st.rerun()
@@ -353,10 +353,10 @@ def render_main_app():
         
         # === GOVERNANCE & INTEGRITY ===
         st.markdown(f"<p style='color: {COLORS['gold']}; font-size: 0.7rem; font-weight: 600; margin: 0.75rem 0 0.25rem 0; text-transform: uppercase; letter-spacing: 1px;'>{get_text('section_governance', lang)}</p>", unsafe_allow_html=True)
-        if st.button(get_text('nav_nil', lang), width="stretch", key="nav_nil"):
+        if st.button(get_text('nil_monitor', lang), width="stretch", key="nil_monitor"):
             set_module('nil')
             st.rerun()
-        if st.button(get_text('nav_antilobby', lang), width="stretch", key="nav_antilobby"):
+        if st.button(get_text('antilobby', lang), width="stretch", key="antilobby"):
             set_module('antilobby')
             st.rerun()
         if st.button("FRMF Officials", width="stretch", key="nav_frmf"):

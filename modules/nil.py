@@ -37,14 +37,14 @@ MANIPULATION_TYPES = [
     ("EDITED_CLIP", "Edited Video Clip", "🎬"),
     ("DEEPFAKE", "AI Deepfake", "🤖"),
     ("BOT_ATTACK", "Coordinated Bot Attack", "🤖"),
-    ("IMPERSONATION", "Account Impersonation", "👤"),
-    ("CONTEXT_MANIPULATION", "Context Manipulation", "🔄"),
+    ("IMPERSONATION", "Account Impersonation", ""),
+    ("CONTEXT_MANIPULATION", "Context Manipulation", ""),
     ("COORDINATED_CAMPAIGN", "Coordinated Campaign", "📢"),
-    ("REFEREE_HARASSMENT", "Referee/Official Harassment", "⚽"),
+    ("REFEREE_HARASSMENT", "Referee/Official Harassment", ""),
     ("FALSE_NEWS", "False Breaking News", "📰"),
     ("IMAGE_MANIPULATION", "Manipulated Image", "🖼️"),
     ("HATE_SPEECH", "Hate Speech / Racism", "🚫"),
-    ("MISINFORMATION", "General Misinformation", "❌"),
+    ("MISINFORMATION", "General Misinformation", ""),
 ]
 
 RISK_LEVELS = [
@@ -275,7 +275,7 @@ def generate_demo_sources() -> pd.DataFrame:
 # =============================================================================
 
 def render_signal_monitor(username: str):
-    st.markdown("### 🔍 Real-time Signal Monitor")
+    st.markdown("###  Real-time Signal Monitor")
     st.caption("Monitoring viral content across platforms for manipulation")
     
     df = get_data("nil_signals")
@@ -307,7 +307,7 @@ def render_signal_monitor(username: str):
     if critical > 0:
         st.error(f"🚨 **{critical} CRITICAL** signals require immediate attention!")
     if high > 0:
-        st.warning(f"⚠️ **{high} HIGH** risk signals need review within 1 hour")
+        st.warning(f" **{high} HIGH** risk signals need review within 1 hour")
     
     st.divider()
     
@@ -366,7 +366,7 @@ def render_content_forensics(username: str):
         with st.form("forensics"):
             url = st.text_input("Content URL *")
             content_type = st.selectbox("Type", ["Video", "Image", "Text Post", "Audio"])
-            analyze_clicked = st.form_submit_button("🔍 Analyze", type="primary", width="stretch")
+            analyze_clicked = st.form_submit_button(" Analyze", type="primary", width="stretch")
         
         if analyze_clicked and url:
             import time, random
@@ -386,7 +386,7 @@ def render_content_forensics(username: str):
                 'content_type': content_type
             }
             
-            st.success("✅ Analysis Complete!")
+            st.success(" Analysis Complete!")
             
             m1, m2, m3 = st.columns(3)
             with m1: st.metric("Manipulation", f"{manip}%")
@@ -394,10 +394,10 @@ def render_content_forensics(username: str):
             with m3: st.metric("Clickbait", f"{clickbait}%")
             
             issues = []
-            if manip > 60: issues.append("⚠️ High manipulation probability")
-            if deepfake > 50: issues.append("⚠️ Potential AI-generated media")
-            if clickbait > 70: issues.append("⚠️ Clickbait patterns detected")
-            if not issues: issues.append("✅ Content appears authentic")
+            if manip > 60: issues.append(" High manipulation probability")
+            if deepfake > 50: issues.append(" Potential AI-generated media")
+            if clickbait > 70: issues.append(" Clickbait patterns detected")
+            if not issues: issues.append(" Content appears authentic")
             
             for i in issues: st.markdown(f"- {i}")
         
@@ -420,11 +420,11 @@ def render_content_forensics(username: str):
         st.metric("Analyses Today", "47")
         st.metric("Confirmed Fake", "23")
         st.divider()
-        for cap in ["✅ AI image detection", "✅ Deepfake analysis", "✅ Bot detection"]:
+        for cap in [" AI image detection", " Deepfake analysis", " Bot detection"]:
             st.markdown(f"<small>{cap}</small>", unsafe_allow_html=True)
 
 def render_source_registry(username: str):
-    st.markdown("### 📋 Source Registry")
+    st.markdown("###  Source Registry")
     
     df = get_data("nil_sources")
     if df.empty:
@@ -465,7 +465,7 @@ def render_source_registry(username: str):
 
 def render_evidence_vault(username: str):
     st.markdown("### 🗃️ Evidence Vault")
-    info_box("Blockchain Secured", "All evidence is SHA256 hashed and HMAC signed.", "🔐")
+    info_box("Blockchain Secured", "All evidence is SHA256 hashed and HMAC signed.", "")
     
     df = get_data("nil_evidence")
     
@@ -503,8 +503,8 @@ def render_fact_cards(username: str):
     with c1:
         with st.form("fact_card"):
             title = st.text_input("Incident Title *")
-            facts = st.text_area("✅ Verified Facts *", height=80)
-            false_claims = st.text_area("❌ False Claims *", height=80)
+            facts = st.text_area(" Verified Facts *", height=80)
+            false_claims = st.text_area(" False Claims *", height=80)
             source = st.text_input("Official Source URL")
             level = st.selectbox("Response Level", RESPONSE_LEVELS)
             
@@ -519,13 +519,13 @@ def render_fact_cards(username: str):
                         success_message("Created!", fcid)
                         st.markdown(f"""
                         <div style='background:white;border:2px solid {COLORS["purple_light"]};border-radius:12px;padding:20px;margin-top:1rem;'>
-                            <h3 style='color:{COLORS["purple_light"]};'>📋 FACT CARD - {fcid}</h3>
+                            <h3 style='color:{COLORS["purple_light"]};'> FACT CARD - {fcid}</h3>
                             <h4>{title}</h4>
                             <div style='background:#F0FDF4;border-left:4px solid #22C55E;padding:1rem;margin:1rem 0;'>
-                                <strong>✅ VERIFIED:</strong><br>{facts}
+                                <strong> VERIFIED:</strong><br>{facts}
                             </div>
                             <div style='background:#FEF2F2;border-left:4px solid #EF4444;padding:1rem;margin:1rem 0;'>
-                                <strong>❌ FALSE:</strong><br>{false_claims}
+                                <strong> FALSE:</strong><br>{false_claims}
                             </div>
                         </div>
                         """, unsafe_allow_html=True)
@@ -571,7 +571,7 @@ def render_crisis_playbook(username: str):
                                   (datetime.now().isoformat(), row.get('incident_id')))
                         st.rerun()
     else:
-        st.success("✅ No active crises")
+        st.success(" No active crises")
     
     with st.expander("🚨 Declare Crisis"):
         with st.form("crisis"):
@@ -593,7 +593,7 @@ def render_crisis_playbook(username: str):
                         st.rerun()
 
 def render_kpi_dashboard():
-    st.markdown("### 📊 NIL Performance Metrics")
+    st.markdown("###  NIL Performance Metrics")
     
     stats = get_nil_stats()
     
@@ -609,11 +609,11 @@ def render_kpi_dashboard():
     
     k1, k2, k3 = st.columns(3)
     with k1:
-        st.markdown("**Time-to-Triage**\n- Target: < 60 min\n- Status: ✅")
+        st.markdown("**Time-to-Triage**\n- Target: < 60 min\n- Status: ")
     with k2:
-        st.markdown("**Time-to-FactCard**\n- Target: < 2 hours\n- Status: ✅")
+        st.markdown("**Time-to-FactCard**\n- Target: < 2 hours\n- Status: ")
     with k3:
-        st.markdown("**Virality Containment**\n- Target: -50% in 12h\n- Status: ✅")
+        st.markdown("**Virality Containment**\n- Target: -50% in 12h\n- Status: ")
 
 # =============================================================================
 # MAIN RENDER
@@ -626,7 +626,7 @@ def render(username: str = None):
         <div style='background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(79,70,229,0.1));
                     border:1px solid rgba(139,92,246,0.3);border-radius:16px;padding:2rem;
                     margin-bottom:2rem;text-align:center;'>
-            <div style='font-size:3rem;'>📡</div>
+            <div style='font-size:3rem;'></div>
             <h1 style='font-family:Rajdhani;font-size:2rem;color:{COLORS["purple_light"]};margin:0;'>
                 Narrative Integrity Layer (NIL™)</h1>
             <p style='color:{COLORS["text_secondary"]};'>Detectie • Verificatie • Response • Bewijsvoering</p>
@@ -638,8 +638,8 @@ def render(username: str = None):
     
     stats = get_nil_stats()
     premium_kpi_row([
-        ("🔍", "Active Signals", str(stats['active_signals']), "Real-time"),
-        ("⚠️", "Critical", str(stats['critical_signals']), "< 30 min"),
+        ("", "Active Signals", str(stats['active_signals']), "Real-time"),
+        ("", "Critical", str(stats['critical_signals']), "< 30 min"),
         ("📄", "Fact Cards", str(stats['total_fact_cards']), "Issued"),
         ("🗃️", "Evidence", str(stats['total_evidence']), "Archived"),
         ("🚨", "Crises", str(stats['active_crises']), "Open"),
@@ -647,7 +647,7 @@ def render(username: str = None):
     
     st.divider()
     
-    tabs = st.tabs(["🔍 Signals", "🔬 Forensics", "📋 Sources", "🗃️ Evidence", "📄 Fact Cards", "🚨 Crisis", "📊 KPIs"])
+    tabs = st.tabs([" Signals", "🔬 Forensics", " Sources", "🗃️ Evidence", "📄 Fact Cards", "🚨 Crisis", " KPIs"])
     
     with tabs[0]: render_signal_monitor(username)
     with tabs[1]: render_content_forensics(username)

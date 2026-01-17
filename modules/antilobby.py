@@ -223,7 +223,7 @@ def render_ownership_control():
     from database.connection import get_data, run_query
     from modules.identity_shield import calculate_fraud_score
     
-    st.markdown("### 👤 Ultimate Beneficial Owner (UBO) Registry")
+    st.markdown("###  Ultimate Beneficial Owner (UBO) Registry")
     st.caption("Track real ownership behind contracts - Linked to Identity Shield")
     
     info_box(
@@ -253,7 +253,7 @@ def render_ownership_control():
     st.dataframe(df_owners, width="stretch", hide_index=True)
     
     # Verify UBO against Identity Shield
-    with st.expander("🔍 Verify UBO via Identity Shield", expanded=False):
+    with st.expander(" Verify UBO via Identity Shield", expanded=False):
         st.markdown("**Link UBO to verified Identity Shield profile**")
         
         col1, col2 = st.columns(2)
@@ -296,19 +296,19 @@ def render_ownership_control():
                     import time
                     time.sleep(2)
                 
-                st.success("✅ UBO Verification Complete!")
+                st.success(" UBO Verification Complete!")
                 
                 result_col1, result_col2, result_col3 = st.columns(3)
                 with result_col1:
-                    st.metric("Sanctions Check", "✅ Clear")
-                    st.metric("PEP Check", "✅ Not a PEP")
+                    st.metric("Sanctions Check", " Clear")
+                    st.metric("PEP Check", " Not a PEP")
                 with result_col2:
-                    st.metric("Identity Shield", "✅ Verified" if selected_identity else "⚠️ Not Linked")
-                    st.metric("Ownership Valid", f"✅ {ownership_pct}%")
+                    st.metric("Identity Shield", " Verified" if selected_identity else " Not Linked")
+                    st.metric("Ownership Valid", f" {ownership_pct}%")
                 with result_col3:
                     risk = "Low" if ownership_pct < 25 else ("Medium" if ownership_pct < 50 else "High")
                     st.metric("Overall Risk", risk)
-                    st.metric("Compliance Status", "✅ Approved")
+                    st.metric("Compliance Status", " Approved")
                 
                 # Log de verificatie
                 from auth.security import log_audit
@@ -327,13 +327,13 @@ def render_ownership_control():
             st.dataframe(high_risk[['identity_id', 'name', 'risk_level']] if 'name' in high_risk.columns else high_risk, 
                         width="stretch", hide_index=True)
         else:
-            st.success("✅ No high-risk identities detected")
+            st.success(" No high-risk identities detected")
     else:
         st.info("No Identity Shield data available. Register identities to enable cross-referencing.")
 
 def render_payment_tracking():
     """Render Payment Tracking tab"""
-    st.markdown("### 💰 Payment Tracking")
+    st.markdown("###  Payment Tracking")
     st.caption("Monitor all contract-related payments")
     
     df = generate_demo_payments()
@@ -358,7 +358,7 @@ def render_payment_tracking():
     st.dataframe(df_display, width="stretch", hide_index=True)
     
     # Payment verification
-    with st.expander("✅ Verify Payment"):
+    with st.expander(" Verify Payment"):
         payment_id = st.text_input("Payment ID")
         
         if st.button("Verify Payment"):
@@ -366,7 +366,7 @@ def render_payment_tracking():
 
 def render_audit_dashboard():
     """Render Audit Dashboard tab"""
-    st.markdown("### 📊 Real-time Audit Dashboard")
+    st.markdown("###  Real-time Audit Dashboard")
     st.caption("Anomaly detection and compliance monitoring")
     
     # Anomaly alerts
@@ -378,7 +378,7 @@ def render_audit_dashboard():
     if critical_count > 0:
         st.error(f"🚨 {critical_count} CRITICAL anomalies detected!")
     if high_count > 0:
-        st.warning(f"⚠️ {high_count} HIGH severity anomalies require attention")
+        st.warning(f" {high_count} HIGH severity anomalies require attention")
     
     # Stats
     col1, col2, col3, col4 = st.columns(4)
@@ -424,7 +424,7 @@ def render_audit_dashboard():
 
 def render_reports():
     """Render Reports tab"""
-    st.markdown("### 📋 Compliance Reports")
+    st.markdown("###  Compliance Reports")
     st.caption("Generate audit and compliance reports")
     
     col1, col2 = st.columns([2, 1])
@@ -484,7 +484,7 @@ def render(username: str = None):
     page_header(
         t("antilobby_title"),
         t("antilobby_subtitle"),
-        icon="🔍"
+        icon=""
     )
     
     # KPIs
@@ -494,9 +494,9 @@ def render(username: str = None):
     
     premium_kpi_row([
         ("📑", t("active_contracts"), str(len(contracts)), f"MAD {contracts['value'].sum():,.0f}"),
-        ("👤", t("verified_ubos"), "47", t("compliance_100")),
-        ("💰", t("payments_tracked"), str(len(payments)), t("this_month")),
-        ("⚠️", t("open_anomalies"), str(len(anomalies[anomalies['status'] == 'Open'])), t("require_action"))
+        ("", t("verified_ubos"), "47", t("compliance_100")),
+        ("", t("payments_tracked"), str(len(payments)), t("this_month")),
+        ("", t("open_anomalies"), str(len(anomalies[anomalies['status'] == 'Open'])), t("require_action"))
     ])
     
     st.divider()

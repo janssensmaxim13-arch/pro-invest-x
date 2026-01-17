@@ -463,7 +463,7 @@ def load_demo_data():
     
     # First initialize the database
     if not init_database():
-        print("\n❌ Cannot proceed without database initialization")
+        print("\n Cannot proceed without database initialization")
         return
     
     conn = get_connection()
@@ -482,7 +482,7 @@ def load_demo_data():
         conn.commit()
         
         print("\n" + "="*60)
-        print("✅ Demo data loaded successfully!")
+        print(" Demo data loaded successfully!")
         print("="*60)
         print("\nSummary:")
         
@@ -510,7 +510,7 @@ def load_demo_data():
         print("\nStart de app met: streamlit run app.py")
         
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        print(f"\n Error: {e}")
         import traceback
         traceback.print_exc()
         conn.rollback()
@@ -555,7 +555,7 @@ def clear_demo_data():
     conn.commit()
     conn.close()
     
-    print("\n✅ All demo data cleared!")
+    print("\n All demo data cleared!")
     print("   User accounts are preserved.")
 
 def reset_demo_data():

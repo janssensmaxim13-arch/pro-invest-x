@@ -215,7 +215,7 @@ def render_wk_countdown_mini():
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
         '>
             <div style='display: flex; align-items: center; gap: 1rem;'>
-                <span style='font-size: 1.5rem;'>🏆</span>
+                <span style='font-size: 1.5rem;'></span>
                 <span style='color: #1F2937; font-weight: 600;'>WK 2030 Morocco</span>
             </div>
             <div style='display: flex; gap: 2rem;'>

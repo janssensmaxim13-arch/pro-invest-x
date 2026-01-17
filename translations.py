@@ -195,23 +195,23 @@ TRANSLATIONS = {
     # =========================================================================
     # SIDEBAR NAVIGATION
     # =========================================================================
-    "section_governance": {"nl": "🏛️ Governance & Integriteit", "fr": "🏛️ Gouvernance & Intégrité", "en": "🏛️ Governance & Integrity", "ar": "🏛️ الحوكمة والنزاهة"},
-    "section_financial": {"nl": "💰 Financieel Ecosysteem", "fr": "💰 Écosystème Financier", "en": "💰 Financial Ecosystem", "ar": "💰 النظام المالي"},
-    "section_sport": {"nl": "⚽ Sport Divisie", "fr": "⚽ Division Sport", "en": "⚽ Sport Division", "ar": "⚽ قسم الرياضة"},
-    "section_wk2030": {"nl": "🏆 WK2030 & Diaspora", "fr": "🏆 CdM2030 & Diaspora", "en": "🏆 WC2030 & Diaspora", "ar": "🏆 كأس العالم 2030"},
-    "section_social": {"nl": "❤️ Sociale Impact", "fr": "❤️ Impact Social", "en": "❤️ Social Impact", "ar": "❤️ الأثر الاجتماعي"},
-    "section_security": {"nl": "🔒 Identiteit & Beveiliging", "fr": "🔒 Identité & Sécurité", "en": "🔒 Identity & Security", "ar": "🔒 الهوية والأمان"},
-    "section_frmf": {"nl": "🦁 FRMF Integriteit", "fr": "🦁 Intégrité FRMF", "en": "🦁 FRMF Integrity", "ar": "🦁 نزاهة الجامعة"},
-    "section_logistics": {"nl": "📦 PMA Logistiek", "fr": "📦 Logistique PMA", "en": "📦 PMA Logistics", "ar": "📦 لوجستيات PMA"},
-    "nav_dashboard": {"nl": "📊 Dashboard", "fr": "📊 Tableau de bord", "en": "📊 Dashboard", "ar": "📊 لوحة التحكم"},
-    "nav_analytics": {"nl": "📈 Analytics", "fr": "📈 Analytique", "en": "📈 Analytics", "ar": "📈 التحليلات"},
-    "nav_nil": {"nl": "📡 NIL Monitor", "fr": "📡 Moniteur NIL", "en": "📡 NIL Monitor", "ar": "📡 مراقب NIL"},
-    "nav_antilobby": {"nl": "🔍 Anti-Lobby", "fr": "🔍 Anti-Lobby", "en": "🔍 Anti-Lobby", "ar": "🔍 مكافحة اللوبي"},
+    "section_governance": {"nl": " Governance & Integriteit", "fr": " Gouvernance & Intégrité", "en": " Governance & Integrity", "ar": " الحوكمة والنزاهة"},
+    "section_financial": {"nl": " Financieel Ecosysteem", "fr": " Écosystème Financier", "en": " Financial Ecosystem", "ar": " النظام المالي"},
+    "section_sport": {"nl": " Sport Divisie", "fr": " Division Sport", "en": " Sport Division", "ar": " قسم الرياضة"},
+    "section_wk2030": {"nl": " WK2030 & Diaspora", "fr": " CdM2030 & Diaspora", "en": " WC2030 & Diaspora", "ar": " كأس العالم 2030"},
+    "section_social": {"nl": " Sociale Impact", "fr": " Impact Social", "en": " Social Impact", "ar": " الأثر الاجتماعي"},
+    "section_security": {"nl": " Identiteit & Beveiliging", "fr": " Identité & Sécurité", "en": " Identity & Security", "ar": " الهوية والأمان"},
+    "section_frmf": {"nl": " FRMF Integriteit", "fr": " Intégrité FRMF", "en": " FRMF Integrity", "ar": " نزاهة الجامعة"},
+    "section_logistics": {"nl": " PMA Logistiek", "fr": " Logistique PMA", "en": " PMA Logistics", "ar": " لوجستيات PMA"},
+    "dashboard": {"nl": " Dashboard", "fr": " Tableau de bord", "en": " Dashboard", "ar": " لوحة التحكم"},
+    "analytics": {"nl": " Analytics", "fr": " Analytique", "en": " Analytics", "ar": " التحليلات"},
+    "nil_monitor": {"nl": " NIL Monitor", "fr": " Moniteur NIL", "en": " NIL Monitor", "ar": " مراقب NIL"},
+    "antilobby": {"nl": " Anti-Lobby", "fr": " Anti-Lobby", "en": " Anti-Lobby", "ar": " مكافحة اللوبي"},
 
     # =========================================================================
     # DASHBOARD MODULE
     # =========================================================================
-    "dashboard_title": {"nl": "📊 Dashboard", "fr": "📊 Tableau de bord", "en": "📊 Dashboard", "ar": "📊 لوحة التحكم"},
+    "dashboard_title": {"nl": " Dashboard", "fr": " Tableau de bord", "en": " Dashboard", "ar": " لوحة التحكم"},
     "dashboard_subtitle": {"nl": "Realtime overzicht van het ecosysteem", "fr": "Aperçu en temps réel de l'écosystème", "en": "Real-time ecosystem overview", "ar": "نظرة عامة على النظام البيئي"},
     "transfer_volume": {"nl": "Transfer Volume", "fr": "Volume des Transferts", "en": "Transfer Volume", "ar": "حجم الانتقالات"},
     "revenue_streams": {"nl": "Inkomstenstromen", "fr": "Flux de Revenus", "en": "Revenue Streams", "ar": "تدفقات الإيرادات"},
@@ -237,7 +237,7 @@ TRANSLATIONS = {
     # =========================================================================
     # ANALYTICS MODULE  
     # =========================================================================
-    "analytics_title": {"nl": "📈 Analytics Dashboard", "fr": "📈 Tableau Analytique", "en": "📈 Analytics Dashboard", "ar": "📈 لوحة التحليلات"},
+    "analytics_title": {"nl": " Analytics Dashboard", "fr": " Tableau Analytique", "en": " Analytics Dashboard", "ar": " لوحة التحليلات"},
     "analytics_subtitle": {"nl": "Gedetailleerde platformstatistieken", "fr": "Statistiques détaillées de la plateforme", "en": "Detailed platform statistics", "ar": "إحصائيات تفصيلية للمنصة"},
     "tab_overview": {"nl": "Overzicht", "fr": "Aperçu", "en": "Overview", "ar": "نظرة عامة"},
     "tab_financial": {"nl": "Financieel", "fr": "Financier", "en": "Financial", "ar": "مالي"},
@@ -255,7 +255,7 @@ TRANSLATIONS = {
     # =========================================================================
     # NIL MODULE (Narrative Integrity Layer)
     # =========================================================================
-    "nil_title": {"nl": "📡 Narrative Integrity Layer", "fr": "📡 Couche d'Intégrité Narrative", "en": "📡 Narrative Integrity Layer", "ar": "📡 طبقة نزاهة الرواية"},
+    "nil_title": {"nl": " Narrative Integrity Layer", "fr": " Couche d'Intégrité Narrative", "en": " Narrative Integrity Layer", "ar": " طبقة نزاهة الرواية"},
     "nil_subtitle": {"nl": "Sociale media monitoring & response", "fr": "Surveillance et réponse des médias sociaux", "en": "Social media monitoring & response", "ar": "مراقبة وسائل التواصل الاجتماعي"},
     "active_signals": {"nl": "Actieve Signalen", "fr": "Signaux Actifs", "en": "Active Signals", "ar": "الإشارات النشطة"},
     "critical_alerts": {"nl": "Kritieke Meldingen", "fr": "Alertes Critiques", "en": "Critical Alerts", "ar": "التنبيهات الحرجة"},
@@ -312,7 +312,7 @@ TRANSLATIONS = {
     # =========================================================================
     # ANTI-LOBBY MODULE
     # =========================================================================
-    "antilobby_title": {"nl": "🔍 Anti-Lobby & Transparantie Hub", "fr": "🔍 Hub Anti-Lobby & Transparence", "en": "🔍 Anti-Lobby & Transparency Hub", "ar": "🔍 مركز مكافحة اللوبي والشفافية"},
+    "antilobby_title": {"nl": " Anti-Lobby & Transparantie Hub", "fr": " Hub Anti-Lobby & Transparence", "en": " Anti-Lobby & Transparency Hub", "ar": " مركز مكافحة اللوبي والشفافية"},
     "antilobby_subtitle": {"nl": "Contract, eigendom en betalingstransparantie", "fr": "Transparence des contrats, propriété et paiements", "en": "Contract, ownership and payment transparency", "ar": "شفافية العقود والملكية والمدفوعات"},
     "active_contracts": {"nl": "Actieve Contracten", "fr": "Contrats Actifs", "en": "Active Contracts", "ar": "العقود النشطة"},
     "verified_ubos": {"nl": "Geverifieerde UBOs", "fr": "UBO Vérifiés", "en": "Verified UBOs", "ar": "المالكون المستفيدون الموثقون"},
@@ -355,7 +355,7 @@ TRANSLATIONS = {
     # =========================================================================
     # TICKETCHAIN MODULE
     # =========================================================================
-    "ticketchain_title": {"nl": "🎫 TicketChain", "fr": "🎫 TicketChain", "en": "🎫 TicketChain", "ar": "🎫 تيكت تشين"},
+    "ticketchain_title": {"nl": " TicketChain", "fr": " TicketChain", "en": " TicketChain", "ar": " تيكت تشين"},
     "ticketchain_subtitle": {"nl": "Blockchain ticketing voor WK2030", "fr": "Billetterie blockchain pour CDM2030", "en": "Blockchain ticketing for WC2030", "ar": "نظام التذاكر بالبلوكتشين لكأس العالم 2030"},
     "my_tickets": {"nl": "Mijn Tickets", "fr": "Mes Billets", "en": "My Tickets", "ar": "تذاكري"},
     "buy_tickets": {"nl": "Tickets Kopen", "fr": "Acheter des Billets", "en": "Buy Tickets", "ar": "شراء التذاكر"},
@@ -391,7 +391,7 @@ TRANSLATIONS = {
     # =========================================================================
     # FOUNDATION BANK MODULE
     # =========================================================================
-    "foundation_title": {"nl": "🏦 Foundation Bank", "fr": "🏦 Banque Fondation", "en": "🏦 Foundation Bank", "ar": "🏦 بنك المؤسسة"},
+    "foundation_title": {"nl": " Foundation Bank", "fr": " Banque Fondation", "en": " Foundation Bank", "ar": " بنك المؤسسة"},
     "foundation_subtitle": {"nl": "Transparant fondsbeheer", "fr": "Gestion transparente des fonds", "en": "Transparent fund management", "ar": "إدارة شفافة للأموال"},
     "transactions": {"nl": "Transacties", "fr": "Transactions", "en": "Transactions", "ar": "المعاملات"},
     "investments": {"nl": "Investeringen", "fr": "Investissements", "en": "Investments", "ar": "الاستثمارات"},
@@ -407,7 +407,7 @@ TRANSLATIONS = {
     # =========================================================================
     # DIASPORA WALLET MODULE
     # =========================================================================
-    "wallet_title": {"nl": "💳 Diaspora Wallet", "fr": "💳 Portefeuille Diaspora", "en": "💳 Diaspora Wallet", "ar": "💳 محفظة الشتات"},
+    "wallet_title": {"nl": " Diaspora Wallet", "fr": " Portefeuille Diaspora", "en": " Diaspora Wallet", "ar": " محفظة الشتات"},
     "wallet_subtitle": {"nl": "Uw digitale portemonnee", "fr": "Votre portefeuille numérique", "en": "Your digital wallet", "ar": "محفظتك الرقمية"},
     "wallet_overview": {"nl": "Wallet Overzicht", "fr": "Aperçu du Portefeuille", "en": "Wallet Overview", "ar": "نظرة عامة على المحفظة"},
     "send_money": {"nl": "Geld Versturen", "fr": "Envoyer de l'Argent", "en": "Send Money", "ar": "إرسال الأموال"},
@@ -426,7 +426,7 @@ TRANSLATIONS = {
     # =========================================================================
     # NTSP MODULE (Talent Scouting)
     # =========================================================================
-    "ntsp_title": {"nl": "⚽ NTSP Talent Scouting", "fr": "⚽ NTSP Détection de Talents", "en": "⚽ NTSP Talent Scouting", "ar": "⚽ استكشاف المواهب"},
+    "ntsp_title": {"nl": " NTSP Talent Scouting", "fr": " NTSP Détection de Talents", "en": " NTSP Talent Scouting", "ar": " استكشاف المواهب"},
     "ntsp_subtitle": {"nl": "Nationaal Talent Scouting Programma", "fr": "Programme National de Détection de Talents", "en": "National Talent Scouting Program", "ar": "البرنامج الوطني لاستكشاف المواهب"},
     "talent_pool": {"nl": "Talentenpool", "fr": "Vivier de Talents", "en": "Talent Pool", "ar": "مجموعة المواهب"},
     "talent_database": {"nl": "Talent Database", "fr": "Base de Données des Talents", "en": "Talent Database", "ar": "قاعدة بيانات المواهب"},
@@ -452,7 +452,7 @@ TRANSLATIONS = {
     # =========================================================================
     # TRANSFER MARKET MODULE
     # =========================================================================
-    "transfer_market_title": {"nl": "📊 Transfer Markt", "fr": "📊 Marché des Transferts", "en": "📊 Transfer Market", "ar": "📊 سوق الانتقالات"},
+    "transfer_market_title": {"nl": " Transfer Markt", "fr": " Marché des Transferts", "en": " Transfer Market", "ar": " سوق الانتقالات"},
     "transfer_fee": {"nl": "Transfersom", "fr": "Indemnité de Transfert", "en": "Transfer Fee", "ar": "رسوم الانتقال"},
     "player_search": {"nl": "Speler Zoeken", "fr": "Recherche de Joueur", "en": "Player Search", "ar": "البحث عن لاعب"},
     "club_profiles": {"nl": "Club Profielen", "fr": "Profils des Clubs", "en": "Club Profiles", "ar": "ملفات الأندية"},
@@ -467,7 +467,7 @@ TRANSLATIONS = {
     # =========================================================================
     # ACADEMY MODULE
     # =========================================================================
-    "academy_title": {"nl": "🎓 Academy Systeem", "fr": "🎓 Système d'Académie", "en": "🎓 Academy System", "ar": "🎓 نظام الأكاديمية"},
+    "academy_title": {"nl": " Academy Systeem", "fr": " Système d'Académie", "en": " Academy System", "ar": " نظام الأكاديمية"},
     "academies": {"nl": "Academies", "fr": "Académies", "en": "Academies", "ar": "الأكاديميات"},
     "students": {"nl": "Studenten", "fr": "Étudiants", "en": "Students", "ar": "الطلاب"},
     "coaches": {"nl": "Trainers", "fr": "Entraîneurs", "en": "Coaches", "ar": "المدربين"},
@@ -479,7 +479,7 @@ TRANSLATIONS = {
     # =========================================================================
     # FANDORPEN MODULE
     # =========================================================================
-    "fandorpen_title": {"nl": "🏘️ FanDorpen WK2030", "fr": "🏘️ Villages Fans CdM2030", "en": "🏘️ Fan Villages WC2030", "ar": "🏘️ قرى المشجعين"},
+    "fandorpen_title": {"nl": " FanDorpen WK2030", "fr": " Villages Fans CdM2030", "en": " Fan Villages WC2030", "ar": " قرى المشجعين"},
     "villages": {"nl": "Dorpen", "fr": "Villages", "en": "Villages", "ar": "القرى"},
     "book_now": {"nl": "Nu Boeken", "fr": "Réserver", "en": "Book Now", "ar": "احجز الآن"},
     "active_villages": {"nl": "Actieve FanDorpen", "fr": "Villages Fans Actifs", "en": "Active Fan Villages", "ar": "قرى المشجعين النشطة"},
@@ -492,7 +492,7 @@ TRANSLATIONS = {
     # =========================================================================
     # CONSULATE HUB MODULE
     # =========================================================================
-    "consulate_title": {"nl": "🏛️ Digitale Consulaat Hub", "fr": "🏛️ Hub Consulaire Digital", "en": "🏛️ Digital Consulate Hub", "ar": "🏛️ مركز القنصلية"},
+    "consulate_title": {"nl": " Digitale Consulaat Hub", "fr": " Hub Consulaire Digital", "en": " Digital Consulate Hub", "ar": " مركز القنصلية"},
     "documents": {"nl": "Documenten", "fr": "Documents", "en": "Documents", "ar": "الوثائق"},
     "appointments": {"nl": "Afspraken", "fr": "Rendez-vous", "en": "Appointments", "ar": "المواعيد"},
     "passport": {"nl": "Paspoort", "fr": "Passeport", "en": "Passport", "ar": "جواز السفر"},
@@ -504,7 +504,7 @@ TRANSLATIONS = {
     # =========================================================================
     # HAYAT HEALTH MODULE
     # =========================================================================
-    "hayat_title": {"nl": "🏥 Hayat Gezondheid", "fr": "🏥 Santé Hayat", "en": "🏥 Hayat Health", "ar": "🏥 صحة الحياة"},
+    "hayat_title": {"nl": " Hayat Gezondheid", "fr": " Santé Hayat", "en": " Hayat Health", "ar": " صحة الحياة"},
     "health_records": {"nl": "Medische Dossiers", "fr": "Dossiers Médicaux", "en": "Health Records", "ar": "السجلات الصحية"},
     "doctor": {"nl": "Arts", "fr": "Médecin", "en": "Doctor", "ar": "الطبيب"},
     "emergency": {"nl": "Noodgeval", "fr": "Urgence", "en": "Emergency", "ar": "طوارئ"},
@@ -518,7 +518,7 @@ TRANSLATIONS = {
     # =========================================================================
     # INCLUSION MODULE
     # =========================================================================
-    "inclusion_title": {"nl": "♿ Vrouwen & Paralympics", "fr": "♿ Femmes & Paralympics", "en": "♿ Women & Paralympics", "ar": "♿ النساء والبارالمبية"},
+    "inclusion_title": {"nl": " Vrouwen & Paralympics", "fr": " Femmes & Paralympics", "en": " Women & Paralympics", "ar": " النساء والبارالمبية"},
     "women_sports": {"nl": "Vrouwensport", "fr": "Sports Féminins", "en": "Women's Sports", "ar": "رياضة المرأة"},
     "women_football_hubs": {"nl": "Vrouwen Voetbal Hubs", "fr": "Hubs de Football Féminin", "en": "Women Football Hubs", "ar": "مراكز كرة القدم النسائية"},
     "hub_overview": {"nl": "Hub Overzicht", "fr": "Aperçu du Hub", "en": "Hub Overview", "ar": "نظرة عامة على المركز"},
@@ -528,7 +528,7 @@ TRANSLATIONS = {
     # =========================================================================
     # ANTI-HATE MODULE
     # =========================================================================
-    "antihate_title": {"nl": "🛡️ Anti-Hate Shield", "fr": "🛡️ Bouclier Anti-Haine", "en": "🛡️ Anti-Hate Shield", "ar": "🛡️ درع مكافحة الكراهية"},
+    "antihate_title": {"nl": " Anti-Hate Shield", "fr": " Bouclier Anti-Haine", "en": " Anti-Hate Shield", "ar": " درع مكافحة الكراهية"},
     "report_hate": {"nl": "Haatbericht Melden", "fr": "Signaler la Haine", "en": "Report Hate", "ar": "الإبلاغ عن الكراهية"},
     "shield_status": {"nl": "Shield Status", "fr": "État du Bouclier", "en": "Shield Status", "ar": "حالة الدرع"},
     "shield_dashboard": {"nl": "Shield Status Dashboard", "fr": "Tableau de Bord du Bouclier", "en": "Shield Status Dashboard", "ar": "لوحة حالة الدرع"},
@@ -538,7 +538,7 @@ TRANSLATIONS = {
     # =========================================================================
     # MAROC ID SHIELD MODULE
     # =========================================================================
-    "maroc_id_title": {"nl": "🇲🇦 MAROC ID SHIELD", "fr": "🇲🇦 MAROC ID SHIELD", "en": "🇲🇦 MAROC ID SHIELD", "ar": "🇲🇦 درع الهوية المغربية"},
+    "maroc_id_title": {"nl": " MAROC ID SHIELD", "fr": " MAROC ID SHIELD", "en": " MAROC ID SHIELD", "ar": " درع الهوية المغربية"},
     "verify_identity": {"nl": "Identiteit Verifiëren", "fr": "Vérifier l'Identité", "en": "Verify Identity", "ar": "التحقق من الهوية"},
     "new_verification": {"nl": "Nieuwe Verificatie", "fr": "Nouvelle Vérification", "en": "New Verification", "ar": "تحقق جديد"},
     "my_status": {"nl": "Mijn Status", "fr": "Mon Statut", "en": "My Status", "ar": "حالتي"},
@@ -548,7 +548,7 @@ TRANSLATIONS = {
     # =========================================================================
     # IDENTITY SHIELD MODULE
     # =========================================================================
-    "identity_shield_title": {"nl": "🔐 Identity Shield", "fr": "🔐 Bouclier d'Identité", "en": "🔐 Identity Shield", "ar": "🔐 درع الهوية"},
+    "identity_shield_title": {"nl": " Identity Shield", "fr": " Bouclier d'Identité", "en": " Identity Shield", "ar": " درع الهوية"},
     "identity_registry": {"nl": "Identiteitsregister", "fr": "Registre d'Identité", "en": "Identity Registry", "ar": "سجل الهوية"},
     "fraud_monitoring": {"nl": "Fraude Monitoring", "fr": "Surveillance de Fraude", "en": "Fraud Monitoring", "ar": "مراقبة الاحتيال"},
     "verified_identities": {"nl": "Geverifieerde Identiteiten", "fr": "Identités Vérifiées", "en": "Verified Identities", "ar": "الهويات الموثقة"},
@@ -558,7 +558,7 @@ TRANSLATIONS = {
     # =========================================================================
     # SECURITY ADMIN MODULE
     # =========================================================================
-    "security_title": {"nl": "🔐 Beveiligingscentrum", "fr": "🔐 Centre de Sécurité", "en": "🔐 Security Center", "ar": "🔐 مركز الأمان"},
+    "security_title": {"nl": " Beveiligingscentrum", "fr": " Centre de Sécurité", "en": " Security Center", "ar": " مركز الأمان"},
     "security_logs": {"nl": "Beveiligingslogs", "fr": "Journaux de Sécurité", "en": "Security Logs", "ar": "سجلات الأمان"},
     "audit_logs": {"nl": "Audit Logs", "fr": "Journaux d'Audit", "en": "Audit Logs", "ar": "سجلات التدقيق"},
     "security_alerts": {"nl": "Beveiligingsmeldingen", "fr": "Alertes de Sécurité", "en": "Security Alerts", "ar": "تنبيهات الأمان"},
@@ -567,7 +567,7 @@ TRANSLATIONS = {
     # =========================================================================
     # MOBILITY MODULE
     # =========================================================================
-    "mobility_title": {"nl": "🚌 Mobiliteit", "fr": "🚌 Mobilité", "en": "🚌 Mobility", "ar": "🚌 التنقل"},
+    "mobility_title": {"nl": " Mobiliteit", "fr": " Mobilité", "en": " Mobility", "ar": " التنقل"},
     "travel_packages": {"nl": "Reispakketten", "fr": "Forfaits Voyage", "en": "Travel Packages", "ar": "باقات السفر"},
     "shuttle": {"nl": "Shuttle", "fr": "Navette", "en": "Shuttle", "ar": "الحافلة"},
     "vip_transfer": {"nl": "VIP Transfer", "fr": "Transfert VIP", "en": "VIP Transfer", "ar": "نقل VIP"},
@@ -577,7 +577,7 @@ TRANSLATIONS = {
     # =========================================================================
     # ADAPTERS MODULE
     # =========================================================================
-    "adapters_title": {"nl": "🔌 Adapters & Integraties", "fr": "🔌 Adaptateurs & Intégrations", "en": "🔌 Adapters & Integrations", "ar": "🔌 المحولات والتكاملات"},
+    "adapters_title": {"nl": " Adapters & Integraties", "fr": " Adaptateurs & Intégrations", "en": " Adapters & Integrations", "ar": " المحولات والتكاملات"},
     "registered_athletes": {"nl": "Geregistreerde Atleten", "fr": "Athlètes Enregistrés", "en": "Registered Athletes", "ar": "الرياضيون المسجلون"},
     "athletes_by_status": {"nl": "Atleten per Status", "fr": "Athlètes par Statut", "en": "Athletes by Status", "ar": "الرياضيون حسب الحالة"},
     "fleet_management": {"nl": "Wagenparkbeheer", "fr": "Gestion de Flotte", "en": "Fleet Management", "ar": "إدارة الأسطول"},
@@ -587,7 +587,7 @@ TRANSLATIONS = {
     # =========================================================================
     # FRMF MODULE
     # =========================================================================
-    "frmf_title": {"nl": "🦁 FRMF Officials Integriteit", "fr": "🦁 Intégrité Officiels FRMF", "en": "🦁 FRMF Officials Integrity", "ar": "🦁 نزاهة مسؤولي الجامعة"},
+    "frmf_title": {"nl": " FRMF Officials Integriteit", "fr": " Intégrité Officiels FRMF", "en": " FRMF Officials Integrity", "ar": " نزاهة مسؤولي الجامعة"},
     "frmf_subtitle": {"nl": "RefereeChain & VAR Vault", "fr": "RefereeChain & VAR Vault", "en": "RefereeChain & VAR Vault", "ar": "سلسلة الحكام وخزنة VAR"},
     "referee_chain": {"nl": "RefereeChain", "fr": "RefereeChain", "en": "RefereeChain", "ar": "سلسلة الحكام"},
     "var_vault": {"nl": "VAR Vault", "fr": "VAR Vault", "en": "VAR Vault", "ar": "خزنة VAR"},
@@ -601,7 +601,7 @@ TRANSLATIONS = {
     # =========================================================================
     # PMA LOGISTICS MODULE
     # =========================================================================
-    "pma_title": {"nl": "📦 PMA Logistiek", "fr": "📦 Logistique PMA", "en": "📦 PMA Logistics", "ar": "📦 لوجستيات PMA"},
+    "pma_title": {"nl": " PMA Logistiek", "fr": " Logistique PMA", "en": " PMA Logistics", "ar": " لوجستيات PMA"},
     "pma_subtitle": {"nl": "Pre-Manifest Advance voor WK2030", "fr": "Pre-Manifest Advance pour CDM2030", "en": "Pre-Manifest Advance for WC2030", "ar": "التقدم المسبق لكأس العالم 2030"},
     "shipments": {"nl": "Zendingen", "fr": "Expéditions", "en": "Shipments", "ar": "الشحنات"},
     "containers": {"nl": "Containers", "fr": "Conteneurs", "en": "Containers", "ar": "الحاويات"},
@@ -625,10 +625,10 @@ TRANSLATIONS = {
 # LANGUAGE CONFIG
 # =============================================================================
 LANGUAGES = {
-    "nl": {"name": "Nederlands", "flag": "🇳🇱", "rtl": False},
-    "fr": {"name": "Français", "flag": "🇫🇷", "rtl": False},
-    "en": {"name": "English", "flag": "🇬🇧", "rtl": False},
-    "ar": {"name": "العربية", "flag": "🇲🇦", "rtl": True}
+    "nl": {"name": "Nederlands", "flag": "", "rtl": False},
+    "fr": {"name": "Français", "flag": "", "rtl": False},
+    "en": {"name": "English", "flag": "", "rtl": False},
+    "ar": {"name": "العربية", "flag": "", "rtl": True}
 }
 DEFAULT_LANGUAGE = "en"
 
