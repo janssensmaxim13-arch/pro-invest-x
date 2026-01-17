@@ -542,13 +542,14 @@ def render_interactive_dashboard(set_module):
     days_left = delta.days
     
     st.markdown(f"""
-        <div style='background: linear-gradient(135deg, #D4AF37 0%, #9B7B2E 100%);
-                    padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;'>
-            <span style='font-size: 0.9rem; color: #1a1a1a;'> WK 2030 MOROCCO</span>
-            <div style='font-size: 2.5rem; font-weight: 700; color: #1a1a1a; font-family: Rajdhani, sans-serif;'>
+        <div style='background: linear-gradient(135deg, #D4AF37 0%, #F4E5B2 50%, #D4AF37 100%);
+                    padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;
+                    border: 2px solid #B8860B; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);'>
+            <span style='font-size: 0.9rem; color: #4B5563; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;'>WK 2030 MOROCCO</span>
+            <div style='font-size: 2.5rem; font-weight: 700; color: #1F2937; font-family: Rajdhani, sans-serif;'>
                 {days_left:,} DAYS
             </div>
-            <span style='font-size: 0.8rem; color: #1a1a1a;'>Until Opening Ceremony</span>
+            <span style='font-size: 0.8rem; color: #4B5563;'>Until Opening Ceremony</span>
         </div>
     """, unsafe_allow_html=True)
     
