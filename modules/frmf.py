@@ -353,7 +353,7 @@ def add_to_refereechain(referee_id: str, event_type: str, event_data: dict, user
         conn.close()
         return True
     except Exception as e:
-        print(f"RefereeChain error: {e}")
+        # Log error silently in production
         return False
 
 def verify_refereechain(referee_id: str) -> tuple:
