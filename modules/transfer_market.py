@@ -327,13 +327,27 @@ def generate_data():
             name, club, pos, nat, age, val, num = p[0], p[1], p[2], p[3], p[4], p[5], p[6] if len(p) > 6 else random.randint(1,99)
             pid = f"TM-{i+1:05d}"
             contract = (date.today() + timedelta(days=random.randint(180, 1500))).isoformat()
-            status = "Free Agent" if club == "Free Agent" else ("Transfer Listed" if random.random() < 0.04 else "Active")
-            highest = val * random.uniform(1.0, 1.2)
-            prev_clubs = ["Ajax", "Benfica", "Monaco", "Dortmund", "Salzburg", "Porto", "Sporting CP", "Lyon", "Lille"]
-            prev = random.choice(prev_clubs) if random.random() < 0.7 else None
-            fee = val * random.uniform(0.3, 0.8) if prev else None
-            c.execute("""INSERT INTO tm_players VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                (pid, name, age, nat, pos, random.choice(["Right","Left","Both"]), random.randint(168,198), club, num, contract, val*1e6, highest*1e6, status, random.randint(0,120), random.randint(0,40), prev, fee*1e6 if fee else None))
+            # Split name into first and last
+            name_parts = name.split(" ", 1)
+            first_name = name_parts[0]
+            last_name = name_parts[1] if len(name_parts) > 1 else ""
+            dob = (date.today() - timedelta(days=age*365 + random.randint(0, 364))).isoformat()
+            league = CLUBS.get(club, {}).get("league", "Unknown")
+            agent = random.choice(["Jorge Mendes", "Mino Raiola Agency", "Stellar Group", "CAA Base", "Wasserman", None])
+            foot = random.choice(["Right", "Left", "Both"])
+            height = random.randint(168, 198)
+            weight = random.randint(65, 95)
+            national_team = nat if random.random() > 0.3 else None
+            is_moroccan = 1 if nat == "Morocco" else 0
+            
+            c.execute("""INSERT INTO tm_players 
+                (player_id, first_name, last_name, date_of_birth, nationality, position, 
+                 current_club, current_league, market_value, contract_until, agent, foot, 
+                 height_cm, weight_kg, national_team, is_moroccan, created_at)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (pid, first_name, last_name, dob, nat, pos, club, league, val*1e6, contract, 
+                 agent, foot, height, weight, national_team, is_moroccan, date.today().isoformat()))
+            
             # Value history
             for m in range(12):
                 hist_date = (date.today() - timedelta(days=m*30)).isoformat()
@@ -343,10 +357,12 @@ def generate_data():
             goals = random.randint(12,35) if pos in ["ST","CF"] else random.randint(8,20) if pos in ["LW","RW","CAM"] else random.randint(2,10) if pos in ["CM","CDM"] else random.randint(0,3)
             assists = random.randint(5,18) if pos in ["CAM","LW","RW","CM"] else random.randint(2,8)
             apps = random.randint(20,45)
-            league = CLUBS.get(club, {}).get("league", "Unknown")
             c.execute("INSERT INTO tm_statistics (player_id, season, competition, appearances, goals, assists, minutes) VALUES (?,?,?,?,?,?,?)",
                 (pid, "2024/25", league, apps, goals, assists, apps*random.randint(60,90)))
             # Transfer history
+            prev_clubs = ["Ajax", "Benfica", "Monaco", "Dortmund", "Salzburg", "Porto", "Sporting CP", "Lyon", "Lille"]
+            prev = random.choice(prev_clubs) if random.random() < 0.7 else None
+            fee = val * random.uniform(0.3, 0.8) if prev else None
             if prev:
                 t_date = (date.today() - timedelta(days=random.randint(365, 1500))).isoformat()
                 c.execute("INSERT INTO tm_transfers (player_id, date, from_club, to_club, fee, type) VALUES (?,?,?,?,?,?)",
