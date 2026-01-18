@@ -266,13 +266,13 @@ def render_ownership_control():
         
         with col2:
             # Zoek in Identity Shield
-            if not df_identities.empty:
-                identity_options = ["-- Select Identity --"] + df_identities['identity_id'].tolist()
+            if not df_identities.empty and 'id' in df_identities.columns:
+                identity_options = ["-- Select Identity --"] + df_identities['id'].tolist()
                 selected_identity = st.selectbox("Link to Identity Shield", identity_options)
                 
                 if selected_identity != "-- Select Identity --":
                     # Toon Identity Shield info
-                    identity_row = df_identities[df_identities['identity_id'] == selected_identity].iloc[0]
+                    identity_row = df_identities[df_identities['id'] == selected_identity].iloc[0]
                     st.info(f"**Identity:** {identity_row.get('name', 'N/A')}")
                     st.info(f"**Risk Level:** {identity_row.get('risk_level', 'N/A')}")
                     
@@ -324,7 +324,8 @@ def render_ownership_control():
         
         if not high_risk.empty:
             warning_box("High Risk Identities", f"{len(high_risk)} identities flagged as high risk in Identity Shield")
-            st.dataframe(high_risk[['identity_id', 'name', 'risk_level']] if 'name' in high_risk.columns else high_risk, 
+            cols_to_show = [c for c in ['id', 'name', 'risk_level'] if c in high_risk.columns]
+            st.dataframe(high_risk[cols_to_show] if cols_to_show else high_risk, 
                         use_container_width=True, hide_index=True)
         else:
             st.success(" No high-risk identities detected")
