@@ -198,6 +198,59 @@ def render_landing_page(navigate_to: Callable):
         text-transform: uppercase;
         letter-spacing: 1px;
     }
+    .gold-container {
+        background: linear-gradient(135deg, #D4AF37 0%, #F5D67B 25%, #D4AF37 50%, #F5D67B 75%, #D4AF37 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 1rem 0;
+        box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .gold-title {
+        text-align: center;
+        color: #1F2937;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    .gold-subtitle {
+        text-align: center;
+        color: #374151;
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    .gold-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+    @media (max-width: 768px) {
+        .gold-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .gold-card {
+        background: rgba(255,255,255,0.25);
+        border-radius: 16px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255,255,255,0.4);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .gold-card-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    .gold-card-title {
+        color: #1F2937;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+    }
+    .gold-card-desc {
+        color: #374151;
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
     </style>
     """, unsafe_allow_html=True)
     
@@ -220,40 +273,37 @@ def render_landing_page(navigate_to: Callable):
 </div>
 </div>''', unsafe_allow_html=True)
     
-    st.divider()
+    st.markdown("<br>", unsafe_allow_html=True)
     
-    # Platform Capabilities
-    st.subheader(f" {t('landing_capabilities')}")
-    st.caption(t("landing_capabilities_desc"))
+    # Platform Capabilities - Gouden Vakjes
+    cap_title = t('landing_capabilities')
+    cap_desc = t('landing_capabilities_desc')
     
-    col1, col2, col3 = st.columns(3)
+    ntsp_title = t('landing_ntsp')
+    ntsp_desc = t('landing_ntsp_desc')
+    ticket_title = t('landing_ticketchain')
+    ticket_desc = t('landing_ticketchain_desc')
+    foundation_title = t('landing_foundation')
+    foundation_desc = t('landing_foundation_desc')
+    identity_title = t('landing_identity')
+    identity_desc = t('landing_identity_desc')
+    consulate_title = t('landing_consulate')
+    consulate_desc = t('landing_consulate_desc')
+    wallet_title = t('landing_wallet')
+    wallet_desc = t('landing_wallet_desc')
     
-    with col1:
-        with st.container(border=True):
-            st.markdown(f"###  {t('landing_ntsp')}")
-            st.write(t("landing_ntsp_desc"))
-        
-        with st.container(border=True):
-            st.markdown(f"###  {t('landing_ticketchain')}")
-            st.write(t("landing_ticketchain_desc"))
-    
-    with col2:
-        with st.container(border=True):
-            st.markdown(f"###  {t('landing_foundation')}")
-            st.write(t("landing_foundation_desc"))
-        
-        with st.container(border=True):
-            st.markdown(f"###  {t('landing_identity')}")
-            st.write(t("landing_identity_desc"))
-    
-    with col3:
-        with st.container(border=True):
-            st.markdown(f"###  {t('landing_consulate')}")
-            st.write(t("landing_consulate_desc"))
-        
-        with st.container(border=True):
-            st.markdown(f"###  {t('landing_wallet')}")
-            st.write(t("landing_wallet_desc"))
+    st.markdown(f'''<div class="gold-container">
+<div class="gold-title">🏆 {cap_title}</div>
+<div class="gold-subtitle">{cap_desc}</div>
+<div class="gold-grid">
+<div class="gold-card"><div class="gold-card-icon">🎯</div><div class="gold-card-title">{ntsp_title}</div><div class="gold-card-desc">{ntsp_desc}</div></div>
+<div class="gold-card"><div class="gold-card-icon">🎫</div><div class="gold-card-title">{ticket_title}</div><div class="gold-card-desc">{ticket_desc}</div></div>
+<div class="gold-card"><div class="gold-card-icon">🏦</div><div class="gold-card-title">{foundation_title}</div><div class="gold-card-desc">{foundation_desc}</div></div>
+<div class="gold-card"><div class="gold-card-icon">🛡️</div><div class="gold-card-title">{identity_title}</div><div class="gold-card-desc">{identity_desc}</div></div>
+<div class="gold-card"><div class="gold-card-icon">🏛️</div><div class="gold-card-title">{consulate_title}</div><div class="gold-card-desc">{consulate_desc}</div></div>
+<div class="gold-card"><div class="gold-card-icon">💳</div><div class="gold-card-title">{wallet_title}</div><div class="gold-card-desc">{wallet_desc}</div></div>
+</div>
+</div>''', unsafe_allow_html=True)
     
     st.divider()
     
