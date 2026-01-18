@@ -305,29 +305,42 @@ def render_landing_page(navigate_to: Callable):
 </div>
 </div>''', unsafe_allow_html=True)
     
-    st.divider()
+    st.markdown("<br>", unsafe_allow_html=True)
     
-    # CTA Section
-    st.subheader(f" {t('landing_join')}")
-    st.info(t("landing_join_desc"))
+    # CTA Section - Marokkaans Rood/Groen Thema
+    join_title = t('landing_join')
+    join_desc = t('landing_join_desc')
+    
+    st.markdown(f'''<div style="background: linear-gradient(135deg, #C1272D 0%, #E63946 30%, #C1272D 50%, #006233 70%, #004D26 100%); border-radius: 20px; padding: 2rem; margin: 1rem 0; box-shadow: 0 10px 40px rgba(193, 39, 45, 0.3); border: 2px solid rgba(255, 255, 255, 0.2); text-align: center;">
+<div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🇲🇦</div>
+<div style="color: white; font-size: 1.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3); margin-bottom: 0.5rem;">{join_title}</div>
+<div style="color: rgba(255,255,255,0.95); font-size: 1.1rem; font-style: italic; max-width: 700px; margin: 0 auto 1.5rem auto; line-height: 1.6;">"{join_desc}"</div>
+<div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+<div style="background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; border-radius: 50px; color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);">🌍 5.5M Diaspora</div>
+<div style="background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; border-radius: 50px; color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);">⚽ WK 2030</div>
+<div style="background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; border-radius: 50px; color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);">💎 Legacy</div>
+</div>
+</div>''', unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
     
     # CTA Buttons
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        if st.button(f" {t('landing_investor_portal')}", use_container_width=True, key="cta_investor"):
+        if st.button(f"📊 {t('landing_investor_portal')}", use_container_width=True, key="cta_investor"):
             navigate_to('investor_portal')
     
     with col2:
-        if st.button(f" {t('landing_masterplan')}", use_container_width=True, key="cta_masterplan"):
+        if st.button(f"📋 {t('landing_masterplan')}", use_container_width=True, key="cta_masterplan"):
             navigate_to('masterplan')
     
     with col3:
-        if st.button(f" {t('login')}", use_container_width=True, key="cta_login"):
+        if st.button(f"🔐 {t('login')}", use_container_width=True, key="cta_login"):
             navigate_to('login')
     
     with col4:
-        if st.button(f" {t('register')}", use_container_width=True, key="cta_register"):
+        if st.button(f"✨ {t('register')}", use_container_width=True, key="cta_register"):
             navigate_to('register')
     
     # Footer
