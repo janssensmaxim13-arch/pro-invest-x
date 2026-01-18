@@ -143,22 +143,107 @@ def render_landing_page(navigate_to: Callable):
         </div>
     """, unsafe_allow_html=True)
     
-    st.divider()
+    st.markdown("<br>", unsafe_allow_html=True)
     
-    # Platform Impact
-    st.subheader(f" {t('landing_impact')}")
-    st.caption(t("landing_impact_desc"))
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.metric(label=f" {t('landing_talents')}", value="80,000+")
-    with col2:
-        st.metric(label=f" {t('landing_diaspora')}", value="5,5M+")
-    with col3:
-        st.metric(label=f" {t('landing_investment')}", value="€2B+")
-    with col4:
-        st.metric(label=f"📁 {t('landing_dossiers')}", value="33")
+    # Platform Impact - Paars Metallic Kader
+    st.markdown(f"""
+        <div style='
+            background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem 0 2rem 0;
+            box-shadow: 
+                0 10px 40px rgba(139, 92, 246, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        '>
+            <!-- Metallic shine effect -->
+            <div style='
+                position: absolute;
+                top: 0;
+                left: -50%;
+                width: 200%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+                pointer-events: none;
+            '></div>
+            
+            <div style='text-align: center; margin-bottom: 1.5rem;'>
+                <span style='
+                    color: white;
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                '>📊 {t('landing_impact')}</span>
+                <p style='color: rgba(255,255,255,0.85); margin-top: 0.5rem; font-size: 0.95rem;'>{t("landing_impact_desc")}</p>
+            </div>
+            
+            <div style='display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem;'>
+                <div style='
+                    background: rgba(255,255,255,0.15);
+                    backdrop-filter: blur(10px);
+                    border-radius: 16px;
+                    padding: 1.5rem 2rem;
+                    text-align: center;
+                    min-width: 150px;
+                    border: 1px solid rgba(255,255,255,0.2);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                '>
+                    <div style='font-size: 2rem; margin-bottom: 0.3rem;'>⚽</div>
+                    <div style='color: white; font-size: 1.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>80,000+</div>
+                    <div style='color: rgba(255,255,255,0.9); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;'>{t('landing_talents')}</div>
+                </div>
+                
+                <div style='
+                    background: rgba(255,255,255,0.15);
+                    backdrop-filter: blur(10px);
+                    border-radius: 16px;
+                    padding: 1.5rem 2rem;
+                    text-align: center;
+                    min-width: 150px;
+                    border: 1px solid rgba(255,255,255,0.2);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                '>
+                    <div style='font-size: 2rem; margin-bottom: 0.3rem;'>🌍</div>
+                    <div style='color: white; font-size: 1.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>5.5M+</div>
+                    <div style='color: rgba(255,255,255,0.9); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;'>{t('landing_diaspora')}</div>
+                </div>
+                
+                <div style='
+                    background: rgba(255,255,255,0.15);
+                    backdrop-filter: blur(10px);
+                    border-radius: 16px;
+                    padding: 1.5rem 2rem;
+                    text-align: center;
+                    min-width: 150px;
+                    border: 1px solid rgba(255,255,255,0.2);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                '>
+                    <div style='font-size: 2rem; margin-bottom: 0.3rem;'>💰</div>
+                    <div style='color: white; font-size: 1.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>€2B+</div>
+                    <div style='color: rgba(255,255,255,0.9); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;'>{t('landing_investment')}</div>
+                </div>
+                
+                <div style='
+                    background: rgba(255,255,255,0.15);
+                    backdrop-filter: blur(10px);
+                    border-radius: 16px;
+                    padding: 1.5rem 2rem;
+                    text-align: center;
+                    min-width: 150px;
+                    border: 1px solid rgba(255,255,255,0.2);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                '>
+                    <div style='font-size: 2rem; margin-bottom: 0.3rem;'>📁</div>
+                    <div style='color: white; font-size: 1.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>33</div>
+                    <div style='color: rgba(255,255,255,0.9); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;'>{t('landing_dossiers')}</div>
+                </div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
     
     st.divider()
     
