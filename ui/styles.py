@@ -241,6 +241,29 @@ def apply_custom_css(dark_mode=False):
         }
         
         /* ===========================================
+           DASHBOARD CHART CONTAINERS - METALLIC MET GOUDEN HOVER
+           =========================================== */
+        [data-testid="stVerticalBlock"] > div > div > div > div {
+            transition: all 0.3s ease !important;
+        }
+        
+        .element-container:has(.stPlotlyChart),
+        .element-container:has(.stDataFrame) {
+            background: linear-gradient(135deg, #EDE9FE 0%, #F5F3FF 50%, #EDE9FE 100%) !important;
+            border-radius: 14px !important;
+            padding: 10px !important;
+            border: 1px solid #DDD6FE !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .element-container:has(.stPlotlyChart):hover,
+        .element-container:has(.stDataFrame):hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3) !important;
+            border: 1px solid #D4AF37 !important;
+            transform: translateY(-2px) !important;
+        }
+        
+        /* ===========================================
            DATAFRAMES & TABLES
            =========================================== */
         .stDataFrame {
@@ -365,25 +388,46 @@ def get_gold_gradient():
 
 
 def premium_header(title: str, subtitle: str = "", icon: str = ""):
-    """Render a premium styled header - FanDorpen style"""
+    """Render a premium styled header - Metallic Purple"""
     import streamlit as st
     
     icon_html = f"{icon} " if icon else ""
     subtitle_html = f"<p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0; font-size: 0.95rem;'>{subtitle}</p>" if subtitle else ""
     
     st.markdown(f"""
-    <div style='background: {GRADIENTS['header']};
+    <div style='background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
                 padding: 30px 35px; border-radius: 16px; margin-bottom: 25px;
-                box-shadow: 0 8px 30px rgba(139, 92, 246, 0.2);'>
-        <h1 style='color: white; margin: 0; font-size: 1.8rem; font-weight: 700;'>{icon_html}{title}</h1>
+                box-shadow: 0 10px 40px rgba(139, 92, 246, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+                border: 1px solid rgba(255,255,255,0.2);'>
+        <h1 style='color: white; margin: 0; font-size: 1.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>{icon_html}{title}</h1>
         {subtitle_html}
     </div>
     """, unsafe_allow_html=True)
 
 
 def render_kpi_row(metrics: list):
-    """Render a row of KPI metric cards - FanDorpen style"""
+    """Render a row of KPI metric cards - Metallic Purple met Gouden Hover"""
     import streamlit as st
+    
+    # CSS voor hover effect
+    st.markdown("""
+    <style>
+    .kpi-card {
+        background: linear-gradient(135deg, #EDE9FE 0%, #F5F3FF 50%, #EDE9FE 100%);
+        padding: 20px;
+        border-radius: 14px;
+        border: 1px solid #DDD6FE;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);
+        transition: all 0.3s ease;
+    }
+    .kpi-card:hover {
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3), 0 8px 25px rgba(139, 92, 246, 0.2);
+        border: 1px solid #D4AF37;
+        transform: translateY(-3px);
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
     cols = st.columns(len(metrics))
     
@@ -399,9 +443,7 @@ def render_kpi_row(metrics: list):
                 delta_html = f"<p style='color: {delta_color}; font-size: 0.8rem; margin: 5px 0 0 0;'>{delta}</p>"
             
             st.markdown(f"""
-            <div style='background: white; padding: 20px; border-radius: 14px;
-                        border: 1px solid #EDE9FE; text-align: center;
-                        box-shadow: 0 2px 10px rgba(139, 92, 246, 0.05);'>
+            <div class="kpi-card">
                 <p style='color: #6B7280; font-size: 0.8rem; margin: 0;'>{label}</p>
                 <p style='color: #4C1D95; font-size: 1.5rem; font-weight: 700; margin: 8px 0 0 0;'>{value}</p>
                 {delta_html}
@@ -410,30 +452,31 @@ def render_kpi_row(metrics: list):
 
 
 def section_header(title: str, subtitle: str = "", color: str = "purple"):
-    """Render a section header like FanDorpen module"""
+    """Render a section header - Metallic style"""
     import streamlit as st
     
     color_map = {
-        'purple': ('#8B5CF6', '#EDE9FE', '#DDD6FE'),
-        'gold': ('#F59E0B', '#FEF3C7', '#FDE68A'),
-        'green': ('#10B981', '#D1FAE5', '#A7F3D0'),
-        'blue': ('#3B82F6', '#DBEAFE', '#BFDBFE'),
+        'purple': ('linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%)', 'white', 'rgba(255,255,255,0.9)'),
+        'gold': ('linear-gradient(135deg, #D4AF37 0%, #F5D67B 30%, #D4AF37 50%, #F5D67B 70%, #D4AF37 100%)', '#1F2937', '#374151'),
+        'green': ('linear-gradient(135deg, #10B981 0%, #34D399 50%, #10B981 100%)', 'white', 'rgba(255,255,255,0.9)'),
+        'blue': ('linear-gradient(135deg, #3B82F6 0%, #60A5FA 50%, #3B82F6 100%)', 'white', 'rgba(255,255,255,0.9)'),
     }
     
-    main_color, bg_start, border_color = color_map.get(color, color_map['purple'])
+    gradient, title_color, subtitle_color = color_map.get(color, color_map['purple'])
     
     st.markdown(f"""
-    <div style='background: linear-gradient(135deg, {bg_start} 0%, #FAF9FF 100%);
+    <div style='background: {gradient};
                 padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;
-                border: 1px solid {border_color};'>
-        <h3 style='color: {main_color}; margin: 0; font-weight: 600;'>{title}</h3>
-        <p style='color: #6B7280; margin: 0.5rem 0 0 0; font-size: 0.9rem;'>{subtitle}</p>
+                border: 1px solid rgba(255,255,255,0.2);
+                box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2), inset 0 1px 0 rgba(255,255,255,0.3);'>
+        <h3 style='color: {title_color}; margin: 0; font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,0.1);'>{title}</h3>
+        <p style='color: {subtitle_color}; margin: 0.5rem 0 0 0; font-size: 0.9rem;'>{subtitle}</p>
     </div>
     """, unsafe_allow_html=True)
 
 
 def card(content: str, title: str = ""):
-    """Render a card like FanDorpen module"""
+    """Render a card - Metallic Purple met Gouden Hover"""
     import streamlit as st
     
     title_html = f"<h4 style='color: #4C1D95; margin: 0 0 10px 0;'>{title}</h4>" if title else ""
