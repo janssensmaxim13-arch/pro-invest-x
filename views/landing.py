@@ -324,24 +324,71 @@ def render_landing_page(navigate_to: Callable):
     
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # CTA Buttons
+    # CTA Buttons - Metallic Paars met Gouden Hover
+    investor_text = t('landing_investor_portal')
+    masterplan_text = t('landing_masterplan')
+    login_text = t('login')
+    register_text = t('register')
+    
+    st.markdown("""
+    <style>
+    .cta-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin: 1rem 0;
+    }
+    .cta-btn {
+        background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        display: inline-block;
+        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-width: 180px;
+        text-align: center;
+    }
+    .cta-btn:hover {
+        background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 30%, #DDD6FE 50%, #C4B5FD 70%, #A78BFA 100%);
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), 0 0 60px rgba(212, 175, 55, 0.4), 0 8px 25px rgba(139, 92, 246, 0.4);
+        border: 1px solid #D4AF37;
+        transform: translateY(-2px);
+        color: #1F2937;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Gebruik session state voor navigatie
+    st.markdown(f'''<div class="cta-container">
+<div class="cta-btn" onclick="window.location.reload();">📊 {investor_text}</div>
+<div class="cta-btn" onclick="window.location.reload();">📋 {masterplan_text}</div>
+<div class="cta-btn" onclick="window.location.reload();">🔐 {login_text}</div>
+<div class="cta-btn" onclick="window.location.reload();">✨ {register_text}</div>
+</div>''', unsafe_allow_html=True)
+    
+    # Echte Streamlit buttons (verborgen maar functioneel)
+    st.markdown("<div style='height: 1px; overflow: hidden;'>", unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
-    
     with col1:
-        if st.button(f"📊 {t('landing_investor_portal')}", use_container_width=True, key="cta_investor"):
+        if st.button("Investor", key="hidden_investor"):
             navigate_to('investor_portal')
-    
     with col2:
-        if st.button(f"📋 {t('landing_masterplan')}", use_container_width=True, key="cta_masterplan"):
+        if st.button("Masterplan", key="hidden_masterplan"):
             navigate_to('masterplan')
-    
     with col3:
-        if st.button(f"🔐 {t('login')}", use_container_width=True, key="cta_login"):
+        if st.button("Login", key="hidden_login"):
             navigate_to('login')
-    
     with col4:
-        if st.button(f"✨ {t('register')}", use_container_width=True, key="cta_register"):
+        if st.button("Register", key="hidden_register"):
             navigate_to('register')
+    st.markdown("</div>", unsafe_allow_html=True)
     
     # Footer
     st.divider()
