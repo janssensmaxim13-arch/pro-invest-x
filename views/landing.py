@@ -21,7 +21,7 @@ def t(key):
 
 
 def get_wk2030_countdown():
-    """Calculate days until WK 2030 opening match."""
+    """Calculate days untilWK 2030 opening match."""
     wk_date = datetime(2030, 6, 13)
     today = datetime.now()
     delta = wk_date - today
@@ -95,7 +95,7 @@ def render_landing_page(navigate_to: Callable):
         </style>
     """, unsafe_allow_html=True)
     
-    # WK 2030 Badge
+    #WK 2030 Badge
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown(f'<div style="text-align: center;"><span class="landing-badge"> {t("landing_badge")}</span></div>', unsafe_allow_html=True)
@@ -263,13 +263,13 @@ def render_landing_page(navigate_to: Callable):
     impact_desc = t('landing_impact_desc')
     
     st.markdown(f'''<div class="impact-container">
-<div class="impact-title">📊 {impact_title}</div>
+<div class="impact-title">{impact_title}</div>
 <div class="impact-subtitle">{impact_desc}</div>
 <div class="impact-grid">
-<div class="impact-card"><div class="impact-icon">⚽</div><div class="impact-value">80,000+</div><div class="impact-label">{talents_label}</div></div>
-<div class="impact-card"><div class="impact-icon">🌍</div><div class="impact-value">5.5M+</div><div class="impact-label">{diaspora_label}</div></div>
-<div class="impact-card"><div class="impact-icon">💰</div><div class="impact-value">€2B+</div><div class="impact-label">{investment_label}</div></div>
-<div class="impact-card"><div class="impact-icon">📁</div><div class="impact-value">33</div><div class="impact-label">{dossiers_label}</div></div>
+<div class="impact-card"><div class="impact-value">80,000+</div><div class="impact-label">{talents_label}</div></div>
+<div class="impact-card"><div class="impact-value">5.5M+</div><div class="impact-label">{diaspora_label}</div></div>
+<div class="impact-card"><div class="impact-value">€2B+</div><div class="impact-label">{investment_label}</div></div>
+<div class="impact-card"><div class="impact-value">33</div><div class="impact-label">{dossiers_label}</div></div>
 </div>
 </div>''', unsafe_allow_html=True)
     
@@ -293,15 +293,15 @@ def render_landing_page(navigate_to: Callable):
     wallet_desc = t('landing_wallet_desc')
     
     st.markdown(f'''<div class="gold-container">
-<div class="gold-title">🏆 {cap_title}</div>
+<div class="gold-title">{cap_title}</div>
 <div class="gold-subtitle">{cap_desc}</div>
 <div class="gold-grid">
-<div class="gold-card"><div class="gold-card-icon">🎯</div><div class="gold-card-title">{ntsp_title}</div><div class="gold-card-desc">{ntsp_desc}</div></div>
-<div class="gold-card"><div class="gold-card-icon">🎫</div><div class="gold-card-title">{ticket_title}</div><div class="gold-card-desc">{ticket_desc}</div></div>
-<div class="gold-card"><div class="gold-card-icon">🏦</div><div class="gold-card-title">{foundation_title}</div><div class="gold-card-desc">{foundation_desc}</div></div>
-<div class="gold-card"><div class="gold-card-icon">🛡️</div><div class="gold-card-title">{identity_title}</div><div class="gold-card-desc">{identity_desc}</div></div>
-<div class="gold-card"><div class="gold-card-icon">🏛️</div><div class="gold-card-title">{consulate_title}</div><div class="gold-card-desc">{consulate_desc}</div></div>
-<div class="gold-card"><div class="gold-card-icon">💳</div><div class="gold-card-title">{wallet_title}</div><div class="gold-card-desc">{wallet_desc}</div></div>
+<div class="gold-card"><div class="gold-card-title">{ntsp_title}</div><div class="gold-card-desc">{ntsp_desc}</div></div>
+<div class="gold-card"><div class="gold-card-title">{ticket_title}</div><div class="gold-card-desc">{ticket_desc}</div></div>
+<div class="gold-card"><div class="gold-card-title">{foundation_title}</div><div class="gold-card-desc">{foundation_desc}</div></div>
+<div class="gold-card"><div class="gold-card-title">{identity_title}</div><div class="gold-card-desc">{identity_desc}</div></div>
+<div class="gold-card"><div class="gold-card-title">{consulate_title}</div><div class="gold-card-desc">{consulate_desc}</div></div>
+<div class="gold-card"><div class="gold-card-title">{wallet_title}</div><div class="gold-card-desc">{wallet_desc}</div></div>
 </div>
 </div>''', unsafe_allow_html=True)
     
@@ -312,12 +312,12 @@ def render_landing_page(navigate_to: Callable):
     join_desc = t('landing_join_desc')
     
     st.markdown(f'''<div style="background: linear-gradient(135deg, #C1272D 0%, #E63946 30%, #C1272D 50%, #006233 70%, #004D26 100%); border-radius: 20px; padding: 2rem; margin: 1rem 0; box-shadow: 0 10px 40px rgba(193, 39, 45, 0.3); border: 2px solid rgba(255, 255, 255, 0.2); text-align: center;">
-<div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🇲🇦</div>
+<div style="font-size: 2.5rem; margin-bottom: 0.5rem;"></div>
 <div style="color: white; font-size: 1.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3); margin-bottom: 0.5rem;">{join_title}</div>
 <div style="color: rgba(255,255,255,0.95); font-size: 1.1rem; font-style: italic; max-width: 700px; margin: 0 auto 1.5rem auto; line-height: 1.6;">"{join_desc}"</div>
 <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-<div style="background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; border-radius: 50px; color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);">🌍 5.5M Diaspora</div>
-<div style="background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; border-radius: 50px; color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);">⚽ WK 2030</div>
+<div style="background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; border-radius: 50px; color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);">5.5M Diaspora</div>
+<div style="background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; border-radius: 50px; color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);">WK 2030</div>
 <div style="background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; border-radius: 50px; color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.3);">💎 Legacy</div>
 </div>
 </div>''', unsafe_allow_html=True)
@@ -363,13 +363,13 @@ def render_landing_page(navigate_to: Callable):
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        clicked_investor = st.button(f"📊 {investor_text}", key="cta_investor", use_container_width=True)
+        clicked_investor = st.button(f"{investor_text}", key="cta_investor", use_container_width=True)
     with col2:
-        clicked_masterplan = st.button(f"📋 {masterplan_text}", key="cta_masterplan", use_container_width=True)
+        clicked_masterplan = st.button(f"{masterplan_text}", key="cta_masterplan", use_container_width=True)
     with col3:
-        clicked_login = st.button(f"🔐 {login_text}", key="cta_login", use_container_width=True)
+        clicked_login = st.button(f"{login_text}", key="cta_login", use_container_width=True)
     with col4:
-        clicked_register = st.button(f"✨ {register_text}", key="cta_register", use_container_width=True)
+        clicked_register = st.button(f"{register_text}", key="cta_register", use_container_width=True)
     
     # Handle navigatie
     if clicked_investor:

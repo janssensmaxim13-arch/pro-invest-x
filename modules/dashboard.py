@@ -327,11 +327,11 @@ def render_top_kpis():
     ticket_revenue = safe_aggregate("fiscal_ledger", "gross_amount")
     
     kpis = [
-        ("⚽", "Talenten", f"{total_talents:,}", "NTSP Database"),
-        ("🔄", "Transfers", f"{total_transfers:,}", f"€{transfer_volume/1000000:.1f}M volume"),
-        ("🎫", "Tickets", f"{total_tickets:,}", f"€{ticket_revenue/1000:.0f}K omzet"),
-        ("💳", "Wallets", f"{total_wallets:,}", "Diaspora actief"),
-        ("🏦", "Foundation", f"€{foundation_total:,.0f}", "Sadaka Jaaria"),
+        ("", "Talenten", f"{total_talents:,}", "NTSP Database"),
+        ("", "Transfers", f"{total_transfers:,}", f"€{transfer_volume/1000000:.1f}M volume"),
+        ("", "Tickets", f"{total_tickets:,}", f"€{ticket_revenue/1000:.0f}K omzet"),
+        ("", "Wallets", f"{total_wallets:,}", "Diaspora actief"),
+        ("", "Foundation", f"€{foundation_total:,.0f}", "Sadaka Jaaria"),
     ]
     
     cols = st.columns(len(kpis))
@@ -340,7 +340,7 @@ def render_top_kpis():
         with col:
             st.markdown(f"""
                 <div class="dashboard-kpi">
-                    <div class="dashboard-kpi-icon">{icon}</div>
+                    <div class="dashboard-kpi-icon"></div>
                     <div class="dashboard-kpi-value">{value}</div>
                     <div class="dashboard-kpi-label">{label}</div>
                     <div class="dashboard-kpi-subtitle">{subtitle}</div>
@@ -355,7 +355,7 @@ def render_top_kpis():
 def render_transfer_volume_chart():
     """Transfer volume over tijd."""
     st.markdown('<div class="chart-container-metallic">', unsafe_allow_html=True)
-    st.markdown(f'<div class="chart-title">📊 {t("transfer_volume")}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="chart-title">{t("transfer_volume")}</div>', unsafe_allow_html=True)
     
     try:
         with get_connection() as conn:
@@ -684,7 +684,7 @@ def render_recent_activity():
                         margin-bottom: 0.5rem;
                         border-radius: 0 8px 8px 0;
                     '>
-                        <span style='margin-right: 0.5rem;'>{icon}</span>
+                        <span style='margin-right: 0.5rem;'></span>
                         <span style='color: {COLORS['text_primary']};'>{row['action']}</span>
                         <span style='color: {COLORS['text_muted']}; font-size: 0.8rem; margin-left: 0.5rem;'>
                             {row['module']} • {row['username']}
@@ -727,7 +727,7 @@ def render_quick_stats():
                 align-items: center;
             '>
                 <span>
-                    <span style='margin-right: 0.5rem;'>{icon}</span>
+                    <span style='margin-right: 0.5rem;'></span>
                     <span style='color: {COLORS['text_secondary']};'>{label}</span>
                 </span>
                 <span style='color: {COLORS['gold']}; font-weight: 600;'>{value}</span>

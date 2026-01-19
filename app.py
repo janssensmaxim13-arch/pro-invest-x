@@ -245,7 +245,7 @@ def render_login_page():
         
         st.markdown(f'''<div class="login-container">
 <div class="login-logo"><span class="login-logo-dark">PROINVESTI</span><span class="login-logo-light">X</span></div>
-<div class="login-title">🔐 {secure_text}</div>
+<div class="login-title">{secure_text}</div>
 <div class="login-subtitle">{credentials_text}</div>
 </div>''', unsafe_allow_html=True)
         
@@ -259,7 +259,7 @@ def render_login_page():
             col_btn1, col_btn2 = st.columns(2)
             
             with col_btn1:
-                submit = st.form_submit_button(f"🔐 {t('auth_login_button')}", use_container_width=True)
+                submit = st.form_submit_button(f"{t('auth_login_button')}", use_container_width=True)
             with col_btn2:
                 if st.form_submit_button(f"← {t('auth_back')}", use_container_width=True):
                     navigate_to('landing')
@@ -281,7 +281,7 @@ def render_login_page():
             <div style='text-align: center; margin-top: 1rem; padding: 1rem; max-width: 500px; margin-left: auto; margin-right: auto;
                         background: rgba(139, 92, 246, 0.15); border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);'>
                 <p style='color: #6B7280; font-size: 0.85rem; margin: 0;'>
-                    🔑 {t("auth_demo_hint")}
+                    {t("auth_demo_hint")}
                 </p>
             </div>
         """, unsafe_allow_html=True)
@@ -347,7 +347,7 @@ def render_register_page():
         
         st.markdown(f'''<div class="register-container">
 <div class="register-logo"><span class="register-logo-dark">PROINVESTI</span><span class="register-logo-light">X</span></div>
-<div class="register-title">✨ {create_text}</div>
+<div class="register-title">{create_text}</div>
 <div class="register-subtitle">{join_text}</div>
 </div>''', unsafe_allow_html=True)
         
@@ -363,7 +363,7 @@ def render_register_page():
             col_btn1, col_btn2 = st.columns(2)
             
             with col_btn1:
-                submit = st.form_submit_button(f"✨ {t('auth_register_button')}", use_container_width=True)
+                submit = st.form_submit_button(f"{t('auth_register_button')}", use_container_width=True)
             with col_btn2:
                 if st.form_submit_button(f"← {t('auth_back')}", use_container_width=True):
                     navigate_to('landing')
@@ -640,7 +640,7 @@ def render_interactive_dashboard(set_module):
                     border: 1px solid rgba(255, 255, 255, 0.3);
                     box-shadow: 0 10px 40px rgba(139, 92, 246, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);'>
             <h1 style='color: white; font-family: Rajdhani, sans-serif; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>
-                📊 EXECUTIVE DASHBOARD
+                EXECUTIVE DASHBOARD
             </h1>
             <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;'>
                 Welcome back, <strong style='color: #FDE68A;'>{st.session_state['username']}</strong> | 
@@ -694,7 +694,7 @@ def render_interactive_dashboard(set_module):
             <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
                       letter-spacing: 2px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
                       font-size: 1rem; margin: 0;'>
-                💰 FINANCIAL ECOSYSTEM
+                FINANCIAL ECOSYSTEM
             </p>
         </div>
     """, unsafe_allow_html=True)
@@ -734,7 +734,7 @@ def render_interactive_dashboard(set_module):
             <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
                       letter-spacing: 2px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
                       font-size: 1rem; margin: 0;'>
-                ⚽ SPORT DIVISION
+                SPORT DIVISION
             </p>
         </div>
     """, unsafe_allow_html=True)
@@ -781,7 +781,7 @@ def render_interactive_dashboard(set_module):
             <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
                       letter-spacing: 2px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
                       font-size: 1rem; margin: 0;'>
-                🌍 WK2030 & DIASPORA
+                WK2030 & DIASPORA
             </p>
         </div>
     """, unsafe_allow_html=True)
@@ -815,7 +815,7 @@ def render_interactive_dashboard(set_module):
             <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
                       letter-spacing: 2px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
                       font-size: 1rem; margin: 0;'>
-                💜 SOCIAL IMPACT
+                SOCIAL IMPACT
             </p>
         </div>
     """, unsafe_allow_html=True)
