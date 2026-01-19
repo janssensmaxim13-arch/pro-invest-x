@@ -121,22 +121,24 @@ def apply_custom_css(dark_mode=False):
         }
         
         /* ===========================================
-           MAIN BUTTONS
+           MAIN BUTTONS - GOUDEN METALLIC MET PAARSE GLOW
            =========================================== */
         .stButton > button {
-            background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%) !important;
-            color: white !important;
-            border: none !important;
+            background: linear-gradient(135deg, #D4AF37 0%, #F5D67B 30%, #D4AF37 50%, #F5D67B 70%, #D4AF37 100%) !important;
+            color: #1F2937 !important;
+            border: 1px solid rgba(255,255,255,0.4) !important;
             border-radius: 10px !important;
-            font-weight: 500 !important;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2) !important;
+            font-weight: 600 !important;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255,255,255,0.4) !important;
             transition: all 0.3s ease !important;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.3) !important;
         }
         
         .stButton > button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3), 0 6px 20px rgba(139, 92, 246, 0.3) !important;
-            border: 1px solid #D4AF37 !important;
+            background: linear-gradient(135deg, #F5D67B 0%, #FDE68A 30%, #F5D67B 50%, #FDE68A 70%, #F5D67B 100%) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.6), 0 0 50px rgba(139, 92, 246, 0.4), 0 0 75px rgba(139, 92, 246, 0.2), 0 8px 20px rgba(212, 175, 55, 0.3) !important;
+            border: 1px solid #8B5CF6 !important;
         }
         
         /* ===========================================
