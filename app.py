@@ -180,11 +180,14 @@ def render_login_page():
     with col2:
         st.markdown("<br><br>", unsafe_allow_html=True)
         
-        # Logo
-        if os.path.exists(LOGO_SHIELD):
-            col_img1, col_img2, col_img3 = st.columns([1, 2, 1])
-            with col_img2:
-                st.image(LOGO_SHIELD, width=200)
+        # PROINVESTIX Logo Text (zelfde stijl als landing page)
+        st.markdown("""
+            <div style='text-align: center; margin-bottom: 1.5rem;'>
+                <div style='font-size: 3rem; font-weight: 700; font-family: Rajdhani, sans-serif;'>
+                    <span style='color: #4C1D95;'>PROINVESTI</span><span style='color: #8B5CF6;'>X</span>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
         
         st.markdown(f"""
             <div style='text-align: center; margin-bottom: 2rem;'>
@@ -213,7 +216,7 @@ def render_login_page():
             col_btn1, col_btn2 = st.columns(2)
             
             with col_btn1:
-                submit = st.form_submit_button(f" {t('auth_login_button')}", use_container_width=True)
+                submit = st.form_submit_button(f"🔐 {t('auth_login_button')}", use_container_width=True)
             with col_btn2:
                 if st.form_submit_button(f"← {t('auth_back')}", use_container_width=True):
                     navigate_to('landing')
@@ -237,7 +240,7 @@ def render_login_page():
             <div style='text-align: center; margin-top: 1rem; padding: 1rem; 
                         background: rgba(139, 92, 246, 0.1); border-radius: 8px;'>
                 <p style='color: {COLORS['text_muted']}; font-size: 0.85rem; margin: 0;'>
-                     {t("auth_demo_hint")}
+                    🔑 {t("auth_demo_hint")}
                 </p>
             </div>
         """, unsafe_allow_html=True)
@@ -250,6 +253,15 @@ def render_register_page():
     
     with col2:
         st.markdown("<br><br>", unsafe_allow_html=True)
+        
+        # PROINVESTIX Logo Text (zelfde stijl als landing page)
+        st.markdown("""
+            <div style='text-align: center; margin-bottom: 1.5rem;'>
+                <div style='font-size: 3rem; font-weight: 700; font-family: Rajdhani, sans-serif;'>
+                    <span style='color: #4C1D95;'>PROINVESTI</span><span style='color: #8B5CF6;'>X</span>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
         
         st.markdown(f"""
             <div style='text-align: center; margin-bottom: 2rem;'>
@@ -269,7 +281,7 @@ def render_register_page():
             col_btn1, col_btn2 = st.columns(2)
             
             with col_btn1:
-                submit = st.form_submit_button(f" {t('auth_register_button')}", use_container_width=True)
+                submit = st.form_submit_button(f"✨ {t('auth_register_button')}", use_container_width=True)
             with col_btn2:
                 if st.form_submit_button(f"← {t('auth_back')}", use_container_width=True):
                     navigate_to('landing')
