@@ -332,53 +332,29 @@ def render_landing_page(navigate_to: Callable):
     
     st.markdown("""
     <style>
-    .cta-container {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-        margin: 1rem 0;
-    }
-    .cta-btn {
-        background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
-        color: white;
-        padding: 1rem 2rem;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 1rem;
-        text-decoration: none;
-        display: inline-block;
-        border: 1px solid rgba(255,255,255,0.2);
-        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-width: 180px;
-        text-align: center;
-    }
-    .cta-btn:hover {
-        background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 30%, #DDD6FE 50%, #C4B5FD 70%, #A78BFA 100%);
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), 0 0 60px rgba(212, 175, 55, 0.4), 0 8px 25px rgba(139, 92, 246, 0.4);
-        border: 1px solid #D4AF37;
-        transform: translateY(-2px);
-        color: #1F2937;
-    }
-    /* Streamlit button override voor CTA */
-    div[data-testid="column"] button {
+    /* Streamlit CTA button styling - metallic paars met gouden hover */
+    .stButton > button {
         background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%) !important;
         color: white !important;
-        border: 1px solid rgba(255,255,255,0.2) !important;
+        border: 2px solid rgba(255,255,255,0.3) !important;
         border-radius: 12px !important;
         padding: 0.8rem 1.5rem !important;
         font-weight: 700 !important;
-        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3) !important;
+        font-size: 1rem !important;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255,255,255,0.3) !important;
         transition: all 0.3s ease !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
     }
-    div[data-testid="column"] button:hover {
-        background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 30%, #DDD6FE 50%, #C4B5FD 70%, #A78BFA 100%) !important;
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), 0 0 60px rgba(212, 175, 55, 0.4), 0 8px 25px rgba(139, 92, 246, 0.4) !important;
-        border: 1px solid #D4AF37 !important;
-        transform: translateY(-2px) !important;
+    .stButton > button:hover {
+        background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 30%, #EDE9FE 50%, #C4B5FD 70%, #A78BFA 100%) !important;
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.7), 0 0 50px rgba(212, 175, 55, 0.5), 0 0 75px rgba(212, 175, 55, 0.3), 0 8px 25px rgba(139, 92, 246, 0.4) !important;
+        border: 2px solid #D4AF37 !important;
+        transform: translateY(-3px) scale(1.02) !important;
         color: #1F2937 !important;
+        text-shadow: none !important;
+    }
+    .stButton > button:active {
+        transform: translateY(-1px) scale(1.01) !important;
     }
     </style>
     """, unsafe_allow_html=True)
