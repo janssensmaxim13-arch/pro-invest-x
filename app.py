@@ -633,16 +633,17 @@ def render_interactive_dashboard(set_module):
     
     from database.connection import count_records, aggregate_sum, get_data
     
-    # Header
+    # Header - Metallic Paars
     st.markdown(f"""
-        <div style='background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+        <div style='background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
                     padding: 2rem; border-radius: 16px; margin-bottom: 2rem;
-                    border: 1px solid rgba(212, 175, 55, 0.3);'>
-            <h1 style='color: {COLORS['gold']}; font-family: Rajdhani, sans-serif; margin: 0;'>
-                 EXECUTIVE DASHBOARD
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    box-shadow: 0 10px 40px rgba(139, 92, 246, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);'>
+            <h1 style='color: white; font-family: Rajdhani, sans-serif; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>
+                📊 EXECUTIVE DASHBOARD
             </h1>
-            <p style='color: white; margin: 0.5rem 0 0 0;'>
-                Welcome back, <strong style='color: #FBBF24;'>{st.session_state['username']}</strong> | 
+            <p style='color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;'>
+                Welcome back, <strong style='color: #FDE68A;'>{st.session_state['username']}</strong> | 
                 Click any card to navigate to that module
             </p>
         </div>
