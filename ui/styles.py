@@ -409,22 +409,35 @@ def render_kpi_row(metrics: list):
     """Render a row of KPI metric cards - Metallic Purple met Gouden Hover"""
     import streamlit as st
     
-    # CSS voor hover effect
+    # CSS voor metallic effect en hover
     st.markdown("""
     <style>
-    .kpi-card {
-        background: linear-gradient(135deg, #EDE9FE 0%, #F5F3FF 50%, #EDE9FE 100%);
+    .kpi-card-metallic {
+        background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
         padding: 20px;
         border-radius: 14px;
-        border: 1px solid #DDD6FE;
+        border: 1px solid rgba(255,255,255,0.3);
         text-align: center;
-        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
         transition: all 0.3s ease;
     }
-    .kpi-card:hover {
-        box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3), 0 8px 25px rgba(139, 92, 246, 0.2);
+    .kpi-card-metallic:hover {
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), 0 0 50px rgba(212, 175, 55, 0.4), 0 10px 30px rgba(139, 92, 246, 0.3);
         border: 1px solid #D4AF37;
-        transform: translateY(-3px);
+        transform: translateY(-4px);
+    }
+    .kpi-label {
+        color: rgba(255,255,255,0.85);
+        font-size: 0.85rem;
+        margin: 0;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .kpi-value {
+        color: white;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 8px 0 0 0;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     </style>
     """, unsafe_allow_html=True)
@@ -439,13 +452,13 @@ def render_kpi_row(metrics: list):
             
             delta_html = ""
             if delta:
-                delta_color = '#10B981' if str(delta).startswith('+') or (isinstance(delta, (int, float)) and delta > 0) else '#EF4444'
-                delta_html = f"<p style='color: {delta_color}; font-size: 0.8rem; margin: 5px 0 0 0;'>{delta}</p>"
+                delta_color = '#A7F3D0' if str(delta).startswith('+') or (isinstance(delta, (int, float)) and delta > 0) else '#FCA5A5'
+                delta_html = f"<p style='color: {delta_color}; font-size: 0.8rem; margin: 5px 0 0 0; text-shadow: 0 1px 2px rgba(0,0,0,0.2);'>{delta}</p>"
             
             st.markdown(f"""
-            <div class="kpi-card">
-                <p style='color: #6B7280; font-size: 0.8rem; margin: 0;'>{label}</p>
-                <p style='color: #4C1D95; font-size: 1.5rem; font-weight: 700; margin: 8px 0 0 0;'>{value}</p>
+            <div class="kpi-card-metallic">
+                <p class="kpi-label">{label}</p>
+                <p class="kpi-value">{value}</p>
                 {delta_html}
             </div>
             """, unsafe_allow_html=True)

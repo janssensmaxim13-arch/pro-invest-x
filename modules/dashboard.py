@@ -135,6 +135,34 @@ def get_monthly_data(table: str, date_column: str, value_column: str = None) -> 
 def render():
     """Render het premium executive dashboard."""
     
+    # CSS voor metallic chart containers
+    st.markdown("""
+    <style>
+    .chart-container-metallic {
+        background: linear-gradient(135deg, #EDE9FE 0%, #F5F3FF 30%, #FFFFFF 50%, #F5F3FF 70%, #EDE9FE 100%);
+        border: 1px solid #DDD6FE;
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1), inset 0 1px 0 rgba(255,255,255,0.8);
+        transition: all 0.3s ease;
+    }
+    .chart-container-metallic:hover {
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.5), 0 0 50px rgba(212, 175, 55, 0.3), 0 8px 25px rgba(139, 92, 246, 0.2);
+        border: 1px solid #D4AF37;
+        transform: translateY(-3px);
+    }
+    .chart-title {
+        color: #4C1D95;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #EDE9FE;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     # Premium header
     premium_header(
         "Executive Dashboard",
@@ -243,6 +271,46 @@ def render_wk_countdown_mini():
 def render_top_kpis():
     """Render de top KPI rij met echte database data."""
     
+    # CSS voor metallic KPI cards
+    st.markdown("""
+    <style>
+    .dashboard-kpi {
+        background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
+        border: 1px solid rgba(255,255,255,0.3);
+        border-radius: 14px;
+        padding: 1.25rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+    .dashboard-kpi:hover {
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.6), 0 0 50px rgba(212, 175, 55, 0.4), 0 10px 30px rgba(139, 92, 246, 0.3);
+        border: 1px solid #D4AF37;
+        transform: translateY(-4px);
+    }
+    .dashboard-kpi-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    .dashboard-kpi-value {
+        color: white;
+        font-size: 1.75rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .dashboard-kpi-label {
+        color: rgba(255,255,255,0.95);
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    .dashboard-kpi-subtitle {
+        color: rgba(255,255,255,0.8);
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     # Haal ECHTE data op
     total_talents = safe_count("ntsp_talent_profiles")
     total_transfers = safe_count("transfers")
@@ -259,11 +327,11 @@ def render_top_kpis():
     ticket_revenue = safe_aggregate("fiscal_ledger", "gross_amount")
     
     kpis = [
-        ("", "Talenten", f"{total_talents:,}", "NTSP Database"),
-        ("", "Transfers", f"{total_transfers:,}", f"€{transfer_volume/1000000:.1f}M volume"),
-        ("", "Tickets", f"{total_tickets:,}", f"€{ticket_revenue/1000:.0f}K omzet"),
-        ("", "Wallets", f"{total_wallets:,}", "Diaspora actief"),
-        ("", "Foundation", f"€{foundation_total:,.0f}", "Sadaka Jaaria"),
+        ("⚽", "Talenten", f"{total_talents:,}", "NTSP Database"),
+        ("🔄", "Transfers", f"{total_transfers:,}", f"€{transfer_volume/1000000:.1f}M volume"),
+        ("🎫", "Tickets", f"{total_tickets:,}", f"€{ticket_revenue/1000:.0f}K omzet"),
+        ("💳", "Wallets", f"{total_wallets:,}", "Diaspora actief"),
+        ("🏦", "Foundation", f"€{foundation_total:,.0f}", "Sadaka Jaaria"),
     ]
     
     cols = st.columns(len(kpis))
@@ -271,19 +339,11 @@ def render_top_kpis():
     for col, (icon, label, value, subtitle) in zip(cols, kpis):
         with col:
             st.markdown(f"""
-                <div style='
-                    background: #FFFFFF;
-                    border: 1px solid #EDE9FE;
-                    border-radius: 14px;
-                    padding: 1.25rem;
-                    text-align: center;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.05);
-                '>
-                    <div style='font-size: 2rem; margin-bottom: 0.5rem;'>{icon}</div>
-                    <div style='color: #7C3AED; font-size: 1.75rem; font-weight: 700;'>{value}</div>
-                    <div style='color: #4C1D95; font-size: 0.9rem; font-weight: 500;'>{label}</div>
-                    <div style='color: #6B7280; font-size: 0.75rem; margin-top: 0.25rem;'>{subtitle}</div>
+                <div class="dashboard-kpi">
+                    <div class="dashboard-kpi-icon">{icon}</div>
+                    <div class="dashboard-kpi-value">{value}</div>
+                    <div class="dashboard-kpi-label">{label}</div>
+                    <div class="dashboard-kpi-subtitle">{subtitle}</div>
                 </div>
             """, unsafe_allow_html=True)
 
@@ -294,7 +354,8 @@ def render_top_kpis():
 
 def render_transfer_volume_chart():
     """Transfer volume over tijd."""
-    st.markdown(f"### {t("transfer_volume")}")
+    st.markdown('<div class="chart-container-metallic">', unsafe_allow_html=True)
+    st.markdown(f'<div class="chart-title">📊 {t("transfer_volume")}</div>', unsafe_allow_html=True)
     
     try:
         with get_connection() as conn:
@@ -339,6 +400,8 @@ def render_transfer_volume_chart():
             st.info(t("no_transfer_data"))
     except Exception as e:
         st.info(t("data_loading"))
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ============================================================================
