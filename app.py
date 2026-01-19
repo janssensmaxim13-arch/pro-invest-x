@@ -175,39 +175,82 @@ def render_top_navbar():
 def render_login_page():
     """Render dedicated login page."""
     
+    # CSS voor login pagina
+    st.markdown("""
+    <style>
+    .login-container {
+        background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
+        border-radius: 24px;
+        padding: 3rem 2rem;
+        margin: 2rem auto;
+        max-width: 500px;
+        box-shadow: 0 15px 50px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .login-logo {
+        text-align: center;
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    .login-logo-dark {
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .login-logo-light {
+        color: #DDD6FE;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .login-title {
+        text-align: center;
+        color: white;
+        font-size: 1.3rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .login-subtitle {
+        text-align: center;
+        color: rgba(255,255,255,0.85);
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    .login-form-container {
+        background: rgba(255,255,255,0.15);
+        border-radius: 16px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .login-hint {
+        text-align: center;
+        margin-top: 1rem;
+        padding: 0.8rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        color: rgba(255,255,255,0.9);
+        font-size: 0.85rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
-        st.markdown("<br><br>", unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
         
-        # PROINVESTIX Logo Text (zelfde stijl als landing page)
-        st.markdown("""
-            <div style='text-align: center; margin-bottom: 1.5rem;'>
-                <div style='font-size: 3rem; font-weight: 700; font-family: Rajdhani, sans-serif;'>
-                    <span style='color: #4C1D95;'>PROINVESTI</span><span style='color: #8B5CF6;'>X</span>
-                </div>
-            </div>
-        """, unsafe_allow_html=True)
+        # Start paars metallic container
+        secure_text = t("auth_secure_access").upper()
+        credentials_text = t("auth_enter_credentials")
         
-        st.markdown(f"""
-            <div style='text-align: center; margin-bottom: 2rem;'>
-                <h2 style='color: {COLORS['purple_light']}; font-family: Rajdhani, sans-serif;'>
-                    {t("auth_secure_access").upper()}
-                </h2>
-                <p style='color: {COLORS['text_muted']};'>{t("auth_enter_credentials")}</p>
-            </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f'''<div class="login-container">
+<div class="login-logo"><span class="login-logo-dark">PROINVESTI</span><span class="login-logo-light">X</span></div>
+<div class="login-title">🔐 {secure_text}</div>
+<div class="login-subtitle">{credentials_text}</div>
+</div>''', unsafe_allow_html=True)
         
-        # Login Card
-        st.markdown(f"""
-            <div style='
-                background: linear-gradient(135deg, #EDE9FE 0%, #F5F3FF 100%);
-                backdrop-filter: blur(20px);
-                padding: 2rem;
-                border-radius: 12px;
-                border: 1px solid rgba(139, 92, 246, 0.3);
-            '>
-        """, unsafe_allow_html=True)
+        # Formulier apart (Streamlit form werkt niet goed in HTML)
+        st.markdown("<div style='max-width: 500px; margin: -2rem auto 0 auto;'>", unsafe_allow_html=True)
         
         with st.form("login_form"):
             username = st.text_input(t("username"), placeholder=t("auth_username_placeholder"))
@@ -233,44 +276,83 @@ def render_login_page():
                 else:
                     st.error(t("error_invalid_credentials"))
         
-        st.markdown("</div>", unsafe_allow_html=True)
-        
         # Demo credentials hint
         st.markdown(f"""
-            <div style='text-align: center; margin-top: 1rem; padding: 1rem; 
-                        background: rgba(139, 92, 246, 0.1); border-radius: 8px;'>
-                <p style='color: {COLORS['text_muted']}; font-size: 0.85rem; margin: 0;'>
+            <div style='text-align: center; margin-top: 1rem; padding: 1rem; max-width: 500px; margin-left: auto; margin-right: auto;
+                        background: rgba(139, 92, 246, 0.15); border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);'>
+                <p style='color: #6B7280; font-size: 0.85rem; margin: 0;'>
                     🔑 {t("auth_demo_hint")}
                 </p>
             </div>
         """, unsafe_allow_html=True)
+        
+        st.markdown("</div>", unsafe_allow_html=True)
 
 
 def render_register_page():
     """Render dedicated registration page."""
     
+    # CSS voor register pagina (zelfde als login)
+    st.markdown("""
+    <style>
+    .register-container {
+        background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
+        border-radius: 24px;
+        padding: 3rem 2rem;
+        margin: 2rem auto;
+        max-width: 500px;
+        box-shadow: 0 15px 50px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .register-logo {
+        text-align: center;
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    .register-logo-dark {
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .register-logo-light {
+        color: #DDD6FE;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .register-title {
+        text-align: center;
+        color: white;
+        font-size: 1.3rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .register-subtitle {
+        text-align: center;
+        color: rgba(255,255,255,0.85);
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
-        st.markdown("<br><br>", unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
         
-        # PROINVESTIX Logo Text (zelfde stijl als landing page)
-        st.markdown("""
-            <div style='text-align: center; margin-bottom: 1.5rem;'>
-                <div style='font-size: 3rem; font-weight: 700; font-family: Rajdhani, sans-serif;'>
-                    <span style='color: #4C1D95;'>PROINVESTI</span><span style='color: #8B5CF6;'>X</span>
-                </div>
-            </div>
-        """, unsafe_allow_html=True)
+        # Start paars metallic container
+        create_text = t("auth_create_account").upper()
+        join_text = t("auth_join_platform")
         
-        st.markdown(f"""
-            <div style='text-align: center; margin-bottom: 2rem;'>
-                <h2 style='color: {COLORS['purple_light']}; font-family: Rajdhani, sans-serif;'>
-                    {t("auth_create_account").upper()}
-                </h2>
-                <p style='color: {COLORS['text_muted']};'>{t("auth_join_platform")}</p>
-            </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f'''<div class="register-container">
+<div class="register-logo"><span class="register-logo-dark">PROINVESTI</span><span class="register-logo-light">X</span></div>
+<div class="register-title">✨ {create_text}</div>
+<div class="register-subtitle">{join_text}</div>
+</div>''', unsafe_allow_html=True)
+        
+        # Formulier apart
+        st.markdown("<div style='max-width: 500px; margin: -2rem auto 0 auto;'>", unsafe_allow_html=True)
         
         with st.form("register_form"):
             new_username = st.text_input(t("username"), placeholder=t("auth_min_chars"))
@@ -302,6 +384,8 @@ def render_register_page():
                         navigate_to('login')
                     else:
                         st.error(t("error_username_exists"))
+        
+        st.markdown("</div>", unsafe_allow_html=True)
 
 
 # ============================================================================
