@@ -686,12 +686,17 @@ def render_interactive_dashboard(set_module):
         ticket_revenue = foundation_total = wallet_balance = transfer_value = 0
     
     # === CLICKABLE MODULE CARDS ===
-    st.markdown(f"""
-        <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
-                  letter-spacing: 2px; color: {COLORS['gold']}; 
-                  font-size: 1rem; margin: 1.5rem 0 1rem 0;'>
-             FINANCIAL ECOSYSTEM
-        </p>
+    st.markdown("""
+        <div style='background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
+                    padding: 1rem 1.5rem; border-radius: 12px; margin: 1.5rem 0 1rem 0;
+                    border: 1px solid rgba(255,255,255,0.3);
+                    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255,255,255,0.3);'>
+            <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
+                      letter-spacing: 2px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+                      font-size: 1rem; margin: 0;'>
+                💰 FINANCIAL ECOSYSTEM
+            </p>
+        </div>
     """, unsafe_allow_html=True)
     
     col1, col2, col3, col4 = st.columns(4)
@@ -721,12 +726,17 @@ def render_interactive_dashboard(set_module):
             st.rerun()
     
     # === SPORT DIVISION ===
-    st.markdown(f"""
-        <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
-                  letter-spacing: 2px; color: {COLORS['gold']}; 
-                  font-size: 1rem; margin: 1.5rem 0 1rem 0;'>
-             SPORT DIVISION
-        </p>
+    st.markdown("""
+        <div style='background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
+                    padding: 1rem 1.5rem; border-radius: 12px; margin: 1.5rem 0 1rem 0;
+                    border: 1px solid rgba(255,255,255,0.3);
+                    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255,255,255,0.3);'>
+            <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
+                      letter-spacing: 2px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+                      font-size: 1rem; margin: 0;'>
+                ⚽ SPORT DIVISION
+            </p>
+        </div>
     """, unsafe_allow_html=True)
     
     col1, col2, col3, col4 = st.columns(4)
@@ -763,12 +773,17 @@ def render_interactive_dashboard(set_module):
             st.rerun()
     
     # === WK2030 & DIASPORA ===
-    st.markdown(f"""
-        <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
-                  letter-spacing: 2px; color: {COLORS['gold']}; 
-                  font-size: 1rem; margin: 1.5rem 0 1rem 0;'>
-             WK2030 & DIASPORA
-        </p>
+    st.markdown("""
+        <div style='background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
+                    padding: 1rem 1.5rem; border-radius: 12px; margin: 1.5rem 0 1rem 0;
+                    border: 1px solid rgba(255,255,255,0.3);
+                    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255,255,255,0.3);'>
+            <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
+                      letter-spacing: 2px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+                      font-size: 1rem; margin: 0;'>
+                🌍 WK2030 & DIASPORA
+            </p>
+        </div>
     """, unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
@@ -792,12 +807,17 @@ def render_interactive_dashboard(set_module):
             st.rerun()
     
     # === SOCIAL IMPACT ===
-    st.markdown(f"""
-        <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
-                  letter-spacing: 2px; color: {COLORS['gold']}; 
-                  font-size: 1rem; margin: 1.5rem 0 1rem 0;'>
-             SOCIAL IMPACT
-        </p>
+    st.markdown("""
+        <div style='background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%);
+                    padding: 1rem 1.5rem; border-radius: 12px; margin: 1.5rem 0 1rem 0;
+                    border: 1px solid rgba(255,255,255,0.3);
+                    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255,255,255,0.3);'>
+            <p style='font-family: Rajdhani, sans-serif; font-weight: 600; 
+                      letter-spacing: 2px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+                      font-size: 1rem; margin: 0;'>
+                💜 SOCIAL IMPACT
+            </p>
+        </div>
     """, unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
