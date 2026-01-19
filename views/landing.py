@@ -362,33 +362,48 @@ def render_landing_page(navigate_to: Callable):
         transform: translateY(-2px);
         color: #1F2937;
     }
+    /* Streamlit button override voor CTA */
+    div[data-testid="column"] button {
+        background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 30%, #C4B5FD 50%, #A78BFA 70%, #8B5CF6 100%) !important;
+        color: white !important;
+        border: 1px solid rgba(255,255,255,0.2) !important;
+        border-radius: 12px !important;
+        padding: 0.8rem 1.5rem !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3) !important;
+        transition: all 0.3s ease !important;
+    }
+    div[data-testid="column"] button:hover {
+        background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 30%, #DDD6FE 50%, #C4B5FD 70%, #A78BFA 100%) !important;
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), 0 0 60px rgba(212, 175, 55, 0.4), 0 8px 25px rgba(139, 92, 246, 0.4) !important;
+        border: 1px solid #D4AF37 !important;
+        transform: translateY(-2px) !important;
+        color: #1F2937 !important;
+    }
     </style>
     """, unsafe_allow_html=True)
     
-    # Gebruik session state voor navigatie
-    st.markdown(f'''<div class="cta-container">
-<div class="cta-btn" onclick="window.location.reload();">📊 {investor_text}</div>
-<div class="cta-btn" onclick="window.location.reload();">📋 {masterplan_text}</div>
-<div class="cta-btn" onclick="window.location.reload();">🔐 {login_text}</div>
-<div class="cta-btn" onclick="window.location.reload();">✨ {register_text}</div>
-</div>''', unsafe_allow_html=True)
-    
-    # Echte Streamlit buttons (verborgen maar functioneel)
-    st.markdown("<div style='height: 1px; overflow: hidden;'>", unsafe_allow_html=True)
+    # CTA Buttons met navigatie via session state
     col1, col2, col3, col4 = st.columns(4)
+    
     with col1:
-        if st.button("Investor", key="hidden_investor"):
-            navigate_to('investor_portal')
+        clicked_investor = st.button(f"📊 {investor_text}", key="cta_investor", use_container_width=True)
     with col2:
-        if st.button("Masterplan", key="hidden_masterplan"):
-            navigate_to('masterplan')
+        clicked_masterplan = st.button(f"📋 {masterplan_text}", key="cta_masterplan", use_container_width=True)
     with col3:
-        if st.button("Login", key="hidden_login"):
-            navigate_to('login')
+        clicked_login = st.button(f"🔐 {login_text}", key="cta_login", use_container_width=True)
     with col4:
-        if st.button("Register", key="hidden_register"):
-            navigate_to('register')
-    st.markdown("</div>", unsafe_allow_html=True)
+        clicked_register = st.button(f"✨ {register_text}", key="cta_register", use_container_width=True)
+    
+    # Handle navigatie
+    if clicked_investor:
+        navigate_to('investor_portal')
+    if clicked_masterplan:
+        navigate_to('masterplan')
+    if clicked_login:
+        navigate_to('login')
+    if clicked_register:
+        navigate_to('register')
     
     # Footer
     st.divider()
