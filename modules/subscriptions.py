@@ -657,7 +657,7 @@ def render_new_subscription(username: str):
     user_email = st.text_input("Email voor bevestiging", value=f"{username}@example.com")
     
     # Submit
-    if st.button(" ABONNEMENT AFSLUITEN", use_container_width=True, type="primary"):
+    if st.button(" ABONNEMENT AFSLUITEN", width='stretch', type="primary"):
         subscription_id = generate_uuid("SUB")
         payment_ref = generate_uuid("PAY")
         
@@ -767,7 +767,7 @@ def render_gift_cards(username: str):
             
             st.markdown(f"###  Totaal: € {amount:.2f}")
             
-            if st.form_submit_button(" VERSTUUR CADEAU", use_container_width=True):
+            if st.form_submit_button(" VERSTUUR CADEAU", width='stretch'):
                 if not recipient_name or not recipient_email:
                     st.error("Vul ontvanger gegevens in.")
                 else:
@@ -802,7 +802,7 @@ def render_gift_cards(username: str):
             if not user_gifts.empty:
                 st.dataframe(
                     user_gifts[['recipient_name', 'plan_id', 'redemption_code', 'redeemed', 'created_at']],
-                    use_container_width=True, hide_index=True
+                    width='stretch', hide_index=True
                 )
             else:
                 st.info("Je hebt nog geen cadeaus verstuurd.")

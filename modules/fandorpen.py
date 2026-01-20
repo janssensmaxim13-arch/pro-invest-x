@@ -434,7 +434,7 @@ def render_fandorpen_management(username: str):
             # Capaciteit
             capacity = st.number_input("Capaciteit", min_value=100, max_value=5000, value=500, step=100)
             
-            if st.form_submit_button(" Aanmaken", use_container_width=True):
+            if st.form_submit_button(" Aanmaken", width='stretch'):
                 # Find country details
                 idx = country_options.index(selected_country)
                 country = WK2030_COUNTRIES[idx]
@@ -632,7 +632,7 @@ def render_volunteer_registration(username: str):
         
         agree = st.checkbox("Ik bevestig dat ik de Marokkaanse nationaliteit heb EN de geselecteerde tweede nationaliteit")
         
-        if st.form_submit_button(" Registreren", use_container_width=True):
+        if st.form_submit_button(" Registreren", width='stretch'):
             if not first_name or not last_name or not email or not nationality_2:
                 st.error(t("error_fill_required"))
             elif len(languages) < 2:
@@ -753,7 +753,7 @@ def render_shifts(username: str):
             
             notes = st.text_area("Notities")
             
-            if st.form_submit_button(" Plannen", use_container_width=True):
+            if st.form_submit_button(" Plannen", width='stretch'):
                 shift_id = generate_uuid("SHF")
                 
                 success = run_query("""
@@ -891,7 +891,7 @@ def render_incidents(username: str):
                 severity = st.selectbox("Ernst", ["LOW", "MEDIUM", "HIGH", "CRITICAL"])
                 description = st.text_area("Beschrijving *")
             
-            if st.form_submit_button(" Melden", use_container_width=True):
+            if st.form_submit_button(" Melden", width='stretch'):
                 if not description:
                     st.error("Beschrijving is verplicht")
                 elif not fandorp:
@@ -1084,7 +1084,7 @@ def render_qr_checkin(username: str):
         with col1:
             qr_input = st.text_input("QR Code of Vrijwilliger ID", placeholder="VOL-... of QR code")
             
-            if st.button(" Check IN", use_container_width=True, type="primary"):
+            if st.button(" Check IN", width='stretch', type="primary"):
                 if qr_input:
                     # Find volunteer by ID or QR
                     volunteers_df = get_data("fandorp_volunteers")
@@ -1125,7 +1125,7 @@ def render_qr_checkin(username: str):
         with col2:
             qr_out = st.text_input("QR Code of ID (check-out)", placeholder="VOL-... of QR code", key="qr_out")
             
-            if st.button(" Check OUT", use_container_width=True):
+            if st.button(" Check OUT", width='stretch'):
                 if qr_out:
                     volunteers_df = get_data("fandorp_volunteers")
                     match = volunteers_df[
@@ -1227,11 +1227,16 @@ def render_qr_checkin(username: str):
                 col3.metric(" Voltooid", completed)
             
             st.markdown("---")
-            st.markdown("####  Recente Check-ins")
+            st.markdown("#### Recente Shifts")
             
-            recent = shifts_df[shifts_df['check_in'].notna()].tail(10)
-            for _, shift in recent.iterrows():
-                st.write(f" **{shift['shift_date']}** - {shift['shift_type']} - Check-in: {shift.get('check_in', 'N/A')[:16] if shift.get('check_in') else 'N/A'}")
+            # Filter op IN_PROGRESS of COMPLETED status (in plaats van check_in kolom)
+            active_shifts = shifts_df[shifts_df['status'].isin(['IN_PROGRESS', 'COMPLETED'])].tail(10)
+            if not active_shifts.empty:
+                for _, shift in active_shifts.iterrows():
+                    status_icon = "" if shift['status'] == 'COMPLETED' else ""
+                    st.write(f"{status_icon} **{shift['shift_date']}** - {shift['shift_type']} - Status: {shift['status']}")
+            else:
+                st.info("Nog geen actieve of voltooide shifts.")
         else:
             st.info("Nog geen shift data beschikbaar.")
 
@@ -1320,7 +1325,7 @@ def render_chat(username: str):
                 with col2:
                     priority = st.selectbox("", ["NORMAL", "HIGH", "URGENT"], label_visibility="collapsed")
                 
-                if st.form_submit_button(" Verstuur", use_container_width=True):
+                if st.form_submit_button(" Verstuur", width='stretch'):
                     if new_message:
                         message_id = generate_uuid("MSG")
                         run_query("""
@@ -1379,7 +1384,7 @@ def render_chat(username: str):
                     priority = st.selectbox("Prioriteit", ["NORMAL", "HIGH", "URGENT"])
                     content = st.text_area("Bericht *", placeholder="Typ je broadcast bericht...")
                     
-                    if st.form_submit_button(" Broadcast Versturen", use_container_width=True):
+                    if st.form_submit_button(" Broadcast Versturen", width='stretch'):
                         if content:
                             fandorp_id = fandorp_options[target]
                             

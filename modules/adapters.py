@@ -55,7 +55,7 @@ def render_sport(username: str):
             
             contract_end = st.date_input("Contract End Date")
             
-            if st.form_submit_button(" UPDATE RECORD", use_container_width=True):
+            if st.form_submit_button(" UPDATE RECORD", width='stretch'):
                 if not athlete_id:
                     st.error(" Please select an identity.")
                 elif not discipline:
@@ -93,7 +93,7 @@ def render_sport(username: str):
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        st.dataframe(df_sport, use_container_width=True, hide_index=True)
+        st.dataframe(df_sport, width='stretch', hide_index=True)
         
         st.write("###  Athletes by Status")
         status_dist = df_sport['status'].value_counts()
@@ -138,7 +138,7 @@ def render_fleet_management(username: str):
                 region = st.text_input("Region", placeholder="e.g., Casablanca")
                 status = st.selectbox(t("status"), Options.ASSET_STATUSES)
             
-            if st.form_submit_button(" DEPLOY", use_container_width=True):
+            if st.form_submit_button(" DEPLOY", width='stretch'):
                 if not asset or not region:
                     st.error(" Asset Name and Region required.")
                 else:
@@ -174,7 +174,7 @@ def render_fleet_management(username: str):
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        st.dataframe(df_mobility, use_container_width=True, hide_index=True)
+        st.dataframe(df_mobility, width='stretch', hide_index=True)
         
         st.write("###  Assets by Type")
         type_dist = df_mobility['type'].value_counts()
@@ -204,7 +204,7 @@ def render_mobility_bookings():
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        st.dataframe(df_bookings, use_container_width=True, hide_index=True)
+        st.dataframe(df_bookings, width='stretch', hide_index=True)
         
         st.write("###  Bookings by Transport Type")
         transport_dist = df_bookings['transport_type'].value_counts()
@@ -248,7 +248,7 @@ def render_health(username: str):
                 medical_status = st.selectbox("Medical Clearance", Options.MEDICAL_STATUSES)
                 expiry_date = st.date_input("Expiry Date")
             
-            if st.form_submit_button(" COMMIT RECORD", use_container_width=True):
+            if st.form_submit_button(" COMMIT RECORD", width='stretch'):
                 if not patient_id:
                     st.error(" Identity required.")
                 else:
@@ -284,7 +284,7 @@ def render_health(username: str):
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        st.dataframe(df_health, use_container_width=True, hide_index=True)
+        st.dataframe(df_health, width='stretch', hide_index=True)
         
         st.write("###  Records by Status")
         status_dist = df_health['medical_status'].value_counts()

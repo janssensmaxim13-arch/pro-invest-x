@@ -118,7 +118,7 @@ def render_identity_registry(username: str):
                 role = st.selectbox("Role", Options.ROLES)
                 monitoring = st.checkbox("Enable 24/7 Monitoring", value=True)
             
-            if st.form_submit_button(" VERIFY & STORE", use_container_width=True):
+            if st.form_submit_button(" VERIFY & STORE", width='stretch'):
                 sid = sanitize_id(raw_id)
                 
                 if not sid:
@@ -158,7 +158,7 @@ def render_identity_registry(username: str):
         )
         
         cols_to_show = ['id', 'name', 'role', 'country', 'risk_indicator', 'timestamp']
-        st.dataframe(display_df[cols_to_show], use_container_width=True, hide_index=True)
+        st.dataframe(display_df[cols_to_show], width='stretch', hide_index=True)
     else:
         st.info(" No verified identities yet. Register the first identity above.")
 
@@ -270,7 +270,7 @@ def render_manual_alert_form(username: str):
             severity = st.selectbox("Severity", Options.URGENCY_LEVELS)
             description = st.text_area("Description", placeholder="Describe the fraud incident...")
         
-        submitted = st.form_submit_button(" CREATE ALERT", use_container_width=True)
+        submitted = st.form_submit_button(" CREATE ALERT", width='stretch')
         
         if submitted:
             if not alert_identity:
@@ -320,7 +320,7 @@ def render_analytics():
             st.warning(" **High-Risk Identities Requiring Attention:**")
             st.dataframe(
                 high_risk[['id', 'name', 'fraud_score', 'risk_level']], 
-                use_container_width=True, 
+                width='stretch', 
                 hide_index=True
             )
         else:

@@ -129,7 +129,7 @@ def render_ticketchain_analytics():
                 ))
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=350, xaxis_tickangle=-45)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
         
         with col2:
             st.markdown("####  Revenue Distribution")
@@ -148,7 +148,7 @@ def render_ticketchain_analytics():
                 ))
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=350)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
         
         # Event fill rate
         st.markdown("####  Stadium Fill Rate")
@@ -169,7 +169,7 @@ def render_ticketchain_analytics():
             ))
             fig = apply_plotly_theme(fig)
             fig.update_layout(height=300, yaxis_title="Fill Rate (%)", xaxis_tickangle=-45)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
 
 # ============================================================================
@@ -228,7 +228,7 @@ def render_financial_analytics():
                 ))
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=350, xaxis_tickangle=-45)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
         
         with col2:
             st.markdown("####  Foundation Sources")
@@ -243,7 +243,7 @@ def render_financial_analytics():
                 ))
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=350, showlegend=False)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
         
         # Wallet transactions
         st.markdown("####  Wallet Transaction Volume")
@@ -258,7 +258,7 @@ def render_financial_analytics():
             fig.update_layout(height=300, legend=dict(orientation='h', y=-0.2))
             fig.update_yaxes(title_text="Volume (€)", secondary_y=False)
             fig.update_yaxes(title_text="Count", secondary_y=True)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
 
 # ============================================================================
@@ -319,7 +319,7 @@ def render_talent_analytics():
                 ))
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=300, xaxis_title="Score", yaxis_title="Count")
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
         
         with col2:
             st.markdown("####  Status Breakdown")
@@ -335,7 +335,7 @@ def render_talent_analytics():
                 ))
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=300)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
         
         # Position analysis
         col1, col2 = st.columns(2)
@@ -356,7 +356,7 @@ def render_talent_analytics():
                 ))
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=350, yaxis=dict(autorange="reversed"))
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
         
         with col2:
             st.markdown("####  Local vs Diaspora")
@@ -374,7 +374,7 @@ def render_talent_analytics():
                 fig.add_annotation(text=f"<b>{total_talents}</b><br>Total", showarrow=False, font=dict(size=16, color=COLORS['gold']))
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=350, showlegend=False)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
 
 # ============================================================================
@@ -440,7 +440,7 @@ def render_security_analytics():
             ))
             fig = apply_plotly_theme(fig)
             fig.update_layout(height=300)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         
         with col2:
             st.markdown("####  Activity by Module")
@@ -455,7 +455,7 @@ def render_security_analytics():
             ))
             fig = apply_plotly_theme(fig)
             fig.update_layout(height=300)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         
         # Risk distribution
         if not df_identity.empty and 'risk_level' in df_identity.columns:
@@ -475,4 +475,4 @@ def render_security_analytics():
             ))
             fig = apply_plotly_theme(fig)
             fig.update_layout(height=250, xaxis_title="Risk Level", yaxis_title="Count")
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')

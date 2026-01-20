@@ -959,7 +959,7 @@ def render_referee_registry(username: str):
     if status_filter != "All" and 'status' in df.columns:
         filtered_df = filtered_df[filtered_df['status'] == status_filter]
     
-    st.dataframe(filtered_df, use_container_width=True, hide_index=True)
+    st.dataframe(filtered_df, width='stretch', hide_index=True)
     
     # Add referee
     with st.expander("Add New Referee", expanded=False):
@@ -974,7 +974,7 @@ def render_referee_registry(username: str):
                 experience = st.number_input("Years Experience", 0, 40, 5)
                 region = st.text_input("Region")
             
-            if st.form_submit_button("Register Referee", type="primary", use_container_width=True):
+            if st.form_submit_button("Register Referee", type="primary", width='stretch'):
                 if first_name and last_name:
                     referee_id = generate_uuid("REF")
                     level_code = next((l[0] for l in REFEREE_LEVELS if l[1] == level), "FRMF_B")
@@ -1129,7 +1129,7 @@ def render_refereechain(username: str):
             
             issued_by = st.text_input("Issued By", "FRMF")
             
-            if st.form_submit_button("Add Certification", type="primary", use_container_width=True):
+            if st.form_submit_button("Add Certification", type="primary", width='stretch'):
                 if cert_referee and cert_referee != "Select Referee":
                     ref_row = df_referees[df_referees['name'] == cert_referee]
                     if not ref_row.empty:
@@ -1223,7 +1223,7 @@ def render_match_assignments(username: str):
                 referee = st.selectbox("Main Referee", ref_options)
                 var_referee = st.selectbox("VAR Referee", ref_options)
             
-            if st.form_submit_button("Create Assignment", type="primary", use_container_width=True):
+            if st.form_submit_button("Create Assignment", type="primary", width='stretch'):
                 if home_team and away_team:
                     assignment_id = generate_uuid("ASSIGN")
                     match_id = generate_uuid("MATCH")
@@ -1423,7 +1423,7 @@ def render_var_vault(username: str):
         # Export option
         st.divider()
         st.markdown("**Export Data**")
-        if st.button("Export VAR Report (CSV)", use_container_width=True):
+        if st.button("Export VAR Report (CSV)", width='stretch'):
             st.info("Export functionality ready - CSV data prepared")
     
     st.divider()
@@ -1451,7 +1451,7 @@ def render_var_vault(username: str):
             video_url = st.text_input("Video Evidence URL (optional)")
             notes = st.text_area("Notes")
             
-            if st.form_submit_button("Log VAR Decision", type="primary", use_container_width=True):
+            if st.form_submit_button("Log VAR Decision", type="primary", width='stretch'):
                 if match_id:
                     var_id = generate_uuid("VAR")
                     decision_code = next((d[0] for d in VAR_DECISIONS if d[1] == decision_type), "GOAL")
@@ -1536,7 +1536,7 @@ def render_referee_performance(username: str):
             
             notes = st.text_area("Performance Notes")
             
-            if st.form_submit_button("Submit Rating", type="primary", use_container_width=True):
+            if st.form_submit_button("Submit Rating", type="primary", width='stretch'):
                 if match_id:
                     rating_id = generate_uuid("RATE")
                     
@@ -1724,13 +1724,13 @@ def render_player_profiles(username: str):
                 (df['first_name'].str.contains(search_name, case=False, na=False)) |
                 (df['last_name'].str.contains(search_name, case=False, na=False))
             ]
-            st.dataframe(search_df, use_container_width=True, hide_index=True)
+            st.dataframe(search_df, width='stretch', hide_index=True)
         else:
             if 'market_value' in df.columns:
                 value_df = df[(df['market_value'] >= min_value) & (df['market_value'] <= max_value)]
-                st.dataframe(value_df, use_container_width=True, hide_index=True)
+                st.dataframe(value_df, width='stretch', hide_index=True)
             else:
-                st.dataframe(df, use_container_width=True, hide_index=True)
+                st.dataframe(df, width='stretch', hide_index=True)
     
     with player_tab3:
         st.markdown("#### Register New Player")
@@ -1756,7 +1756,7 @@ def render_player_profiles(username: str):
                 market_value = st.number_input("Market Value (MAD)", 0, 100000000, 500000, step=50000)
                 national_team = st.selectbox("National Team", ["None"] + [t[1] for t in NATIONAL_TEAMS])
             
-            if st.form_submit_button("Register Player", type="primary", use_container_width=True):
+            if st.form_submit_button("Register Player", type="primary", width='stretch'):
                 if first_name and last_name:
                     player_id = generate_uuid("PLR")
                     pos_code = next((p[0] for p in PLAYER_POSITIONS if p[1] == position), "CM")
@@ -1992,7 +1992,7 @@ def render_contract_management(username: str):
             
             notes = st.text_area("Contract Notes")
             
-            if st.form_submit_button("Register Contract", type="primary", use_container_width=True):
+            if st.form_submit_button("Register Contract", type="primary", width='stretch'):
                 if player and club:
                     contract_id = generate_uuid("CTR")
                     type_code = next((t[0] for t in CONTRACT_TYPES if t[1] == contract_type), "PROFESSIONAL")
@@ -2083,7 +2083,7 @@ def render_contract_management(username: str):
                     clause_value = st.number_input("Clause Value (MAD)", 0, 100000000, 1000000, step=100000)
                     trigger = st.text_input("Trigger Condition")
                 
-                if st.form_submit_button("Add Clause", use_container_width=True):
+                if st.form_submit_button("Add Clause", width='stretch'):
                     if contract_select:
                         clause_id = generate_uuid("CLS")
                         clause_code = next((c[0] for c in CLAUSE_TYPES if c[1] == clause_type), "RELEASE")
@@ -2382,7 +2382,7 @@ def render_medical_records(username: str):
             
             notes = st.text_area("Medical Notes")
             
-            if st.form_submit_button("Log Injury", type="primary", use_container_width=True):
+            if st.form_submit_button("Log Injury", type="primary", width='stretch'):
                 if player:
                     medical_id = generate_uuid("MED")
                     injury_code = next((t[0] for t in INJURY_TYPES if t[1] == injury_type), "OTHER")
@@ -2422,7 +2422,7 @@ def render_medical_records(username: str):
                 sprint_speed = st.number_input("Sprint Speed (km/h)", 20.0, 40.0, 32.0, step=0.5)
                 assessed_by = st.text_input("Assessed By")
             
-            if st.form_submit_button("Log Assessment", use_container_width=True):
+            if st.form_submit_button("Log Assessment", width='stretch'):
                 if fit_player:
                     fitness_id = generate_uuid("FIT")
                     level_code = next((f[0] for f in FITNESS_LEVELS if f[1] == fitness_level), "C")
@@ -2746,7 +2746,7 @@ def render_performance_analytics(username: str):
                 yellow_cards = st.number_input("Yellow Cards", 0, 2, 0)
                 red_cards = st.number_input("Red Cards", 0, 1, 0)
             
-            if st.form_submit_button("Log Performance", type="primary", use_container_width=True):
+            if st.form_submit_button("Log Performance", type="primary", width='stretch'):
                 if player and opponent:
                     perf_id = generate_uuid("PERF")
                     
@@ -2808,7 +2808,7 @@ def render_match_incidents(username: str):
         st.metric("Penalties", penalties)
     
     st.divider()
-    st.dataframe(df, use_container_width=True, hide_index=True)
+    st.dataframe(df, width='stretch', hide_index=True)
     
     # Log incident
     with st.expander("Log Match Incident", expanded=False):
@@ -2825,7 +2825,7 @@ def render_match_incidents(username: str):
             
             description = st.text_area("Description")
             
-            if st.form_submit_button("Log Incident", type="primary", use_container_width=True):
+            if st.form_submit_button("Log Incident", type="primary", width='stretch'):
                 if match_id:
                     incident_id = generate_uuid("INC")
                     

@@ -187,7 +187,7 @@ def paginated_dataframe(df: pd.DataFrame, per_page: int = 20, key_prefix: str = 
     end_idx = min(start_idx + per_page, total_rows)
     
     # Display current page
-    st.dataframe(df.iloc[start_idx:end_idx], use_container_width=True, hide_index=True)
+    st.dataframe(df.iloc[start_idx:end_idx], width='stretch', hide_index=True)
     
     # Pagination controls
     col1, col2, col3, col4, col5 = st.columns([1, 1, 2, 1, 1])
@@ -612,12 +612,12 @@ def action_button_row(buttons: List[Tuple]):
         label, key, btn_type = button
         with col:
             if btn_type == 'primary':
-                results[key] = st.button(label, key=key, type="primary", use_container_width=True)
+                results[key] = st.button(label, key=key, type="primary", width='stretch')
             elif btn_type == 'danger':
                 # Custom red button via markdown + button
-                results[key] = st.button(f"🗑 {label}", key=key, use_container_width=True)
+                results[key] = st.button(f"🗑 {label}", key=key, width='stretch')
             else:
-                results[key] = st.button(label, key=key, use_container_width=True)
+                results[key] = st.button(label, key=key, width='stretch')
     
     return results
 

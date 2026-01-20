@@ -553,7 +553,7 @@ def render_monitoring(username: str):
                 instagram = st.text_input("Instagram Handle", placeholder="username (zonder @)")
                 tiktok = st.text_input("TikTok Handle", placeholder="username (zonder @)")
             
-            if st.form_submit_button(" START MONITORING", use_container_width=True):
+            if st.form_submit_button(" START MONITORING", width='stretch'):
                 if not athlete_name:
                     st.error("Vul atleet naam in.")
                 else:
@@ -694,7 +694,7 @@ def render_incidents(username: str):
             
             trigger_wellness = st.checkbox(" Trigger Wellness Check", value=severity in ["HIGH", "CRITICAL"])
             
-            if st.form_submit_button(" RAPPORTEER INCIDENT", use_container_width=True):
+            if st.form_submit_button(" RAPPORTEER INCIDENT", width='stretch'):
                 if not athlete_name or not platform or not category:
                     st.error("Vul verplichte velden in.")
                 else:
@@ -767,7 +767,7 @@ def render_legal(username: str):
             ])
             
             st.dataframe(df[['case_id', 'athlete_name', 'case_type', 'status', 'legal_costs']], 
-                        use_container_width=True, hide_index=True)
+                        width='stretch', hide_index=True)
         else:
             st.info("Geen legal cases.")
     
@@ -795,7 +795,7 @@ def render_legal(username: str):
             
             description = st.text_area("Beschrijving")
             
-            if st.form_submit_button(" OPEN CASE", use_container_width=True):
+            if st.form_submit_button(" OPEN CASE", width='stretch'):
                 case_id = generate_uuid("LGL")
                 
                 run_query("""
@@ -872,7 +872,7 @@ def render_wellness(username: str):
         st.markdown("---")
         st.write("###  Check History")
         st.dataframe(df[['athlete_name', 'urgency', 'status', 'hayat_referral', 'created_at']], 
-                    use_container_width=True, hide_index=True)
+                    width='stretch', hide_index=True)
     else:
         st.success(" Geen openstaande wellness checks.")
 

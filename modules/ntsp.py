@@ -271,7 +271,7 @@ def render_talent_database(username: str):
                 )
             
             st.write(f"### Resultaten ({len(filtered)} talenten)")
-            st.dataframe(display_df, use_container_width=True, hide_index=True)
+            st.dataframe(display_df, width='stretch', hide_index=True)
             
             # Talent detail viewer
             st.markdown("<br>", unsafe_allow_html=True)
@@ -494,7 +494,7 @@ def render_new_talent(username: str):
         
         st.markdown("---")
         
-        submitted = st.form_submit_button(" TALENT REGISTREREN", use_container_width=True)
+        submitted = st.form_submit_button(" TALENT REGISTREREN", width='stretch')
         
         if submitted:
             # Validatie
@@ -687,7 +687,7 @@ def render_new_evaluation(username: str, talents: Dict, scouts: Dict):
         development_areas = st.text_area("Ontwikkelgebieden", placeholder="Waar moet aan gewerkt worden...")
         general_notes = st.text_area("Algemene Notities", placeholder="Overige observaties...")
         
-        submitted = st.form_submit_button(" EVALUATIE OPSLAAN", use_container_width=True)
+        submitted = st.form_submit_button(" EVALUATIE OPSLAAN", width='stretch')
         
         if submitted:
             # Bereken totaalscores
@@ -812,7 +812,7 @@ def render_evaluation_overview(talents: Dict):
     ]
     display_cols = [c for c in display_cols if c in df.columns]
     
-    st.dataframe(df[display_cols], use_container_width=True, hide_index=True)
+    st.dataframe(df[display_cols], width='stretch', hide_index=True)
 
 
 # ============================================================================
@@ -914,7 +914,7 @@ def render_medical(username: str):
             injury_history = st.text_area("Blessure Geschiedenis", placeholder="Eerdere blessures...")
             doctor_notes = st.text_area("Notities Arts", placeholder="Medische notities...")
             
-            submitted = st.form_submit_button(" OPSLAAN", use_container_width=True)
+            submitted = st.form_submit_button(" OPSLAAN", width='stretch')
             
             if submitted:
                 medical_id = generate_uuid("MED")
@@ -1065,7 +1065,7 @@ def render_mental(username: str):
         follow_up_needed = st.checkbox("Follow-up sessies nodig")
         referral_needed = st.checkbox("Doorverwijzing nodig")
         
-        submitted = st.form_submit_button(" OPSLAAN", use_container_width=True)
+        submitted = st.form_submit_button(" OPSLAAN", width='stretch')
         
         if submitted:
             mental_id = generate_uuid("MENT")
@@ -1172,7 +1172,7 @@ def render_watchlist(username: str):
             display_cols = ['talent_name', 'priority', 'reason', 'target_action', 'follow_up_date']
             display_cols = [c for c in display_cols if c in df.columns]
             
-            st.dataframe(df[display_cols], use_container_width=True, hide_index=True)
+            st.dataframe(df[display_cols], width='stretch', hide_index=True)
         else:
             st.info("Watchlist is leeg.")
 
@@ -1209,7 +1209,7 @@ def render_scouts(username: str):
             
             frmf_certified = st.checkbox("FRMF Gecertificeerd")
             
-            if st.form_submit_button(" SCOUT REGISTREREN", use_container_width=True):
+            if st.form_submit_button(" SCOUT REGISTREREN", width='stretch'):
                 if not first_name or not last_name:
                     st.error("Naam is verplicht.")
                 else:
@@ -1256,7 +1256,7 @@ def render_scouts(username: str):
                           'license_level', 'frmf_certified', 'status']
             display_cols = [c for c in display_cols if c in df.columns]
             
-            st.dataframe(df[display_cols], use_container_width=True, hide_index=True)
+            st.dataframe(df[display_cols], width='stretch', hide_index=True)
         else:
             st.info("Nog geen scouts geregistreerd.")
 
@@ -1338,6 +1338,6 @@ def render_analytics():
             ['first_name', 'last_name', 'primary_position', 'current_club', 'overall_score', 'potential_score']
         ]
         if not top_talents.empty:
-            st.dataframe(top_talents, use_container_width=True, hide_index=True)
+            st.dataframe(top_talents, width='stretch', hide_index=True)
         else:
             st.info("Geen talenten met scores.")

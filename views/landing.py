@@ -363,13 +363,13 @@ def render_landing_page(navigate_to: Callable):
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        clicked_investor = st.button(f"{investor_text}", key="cta_investor", use_container_width=True)
+        clicked_investor = st.button(f"{investor_text}", key="cta_investor", width='stretch')
     with col2:
-        clicked_masterplan = st.button(f"{masterplan_text}", key="cta_masterplan", use_container_width=True)
+        clicked_masterplan = st.button(f"{masterplan_text}", key="cta_masterplan", width='stretch')
     with col3:
-        clicked_login = st.button(f"{login_text}", key="cta_login", use_container_width=True)
+        clicked_login = st.button(f"{login_text}", key="cta_login", width='stretch')
     with col4:
-        clicked_register = st.button(f"{register_text}", key="cta_register", use_container_width=True)
+        clicked_register = st.button(f"{register_text}", key="cta_register", width='stretch')
     
     # Handle navigatie
     if clicked_investor:

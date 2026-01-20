@@ -184,7 +184,7 @@ def render_transfer_overview(username: str):
             if 'transfer_fee' in display_df.columns:
                 display_df['transfer_fee'] = display_df['transfer_fee'].apply(lambda x: f"€ {x:,.0f}" if x else "Free")
             
-            st.dataframe(display_df, use_container_width=True, hide_index=True)
+            st.dataframe(display_df, width='stretch', hide_index=True)
     else:
         st.info(" Nog geen transfers.")
 
@@ -240,7 +240,7 @@ def render_new_transfer(username: str):
         notes = st.text_area("Notities")
         generate_contract = st.checkbox(" Smart Contract Hash", value=True)
         
-        if st.form_submit_button(" REGISTREREN", use_container_width=True):
+        if st.form_submit_button(" REGISTREREN", width='stretch'):
             if not from_club or not to_club:
                 st.error("Club info verplicht.")
             else:

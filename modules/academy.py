@@ -63,7 +63,7 @@ def render_overview():
         
         display_cols = ['name', 'city', 'region', 'academy_type', 'certification_level', 'status']
         display_cols = [c for c in display_cols if c in df.columns]
-        st.dataframe(df[display_cols], use_container_width=True, hide_index=True)
+        st.dataframe(df[display_cols], width='stretch', hide_index=True)
     else:
         st.info(" Nog geen academies.")
 
@@ -90,7 +90,7 @@ def render_new_academy(username: str):
             num_pitches = st.number_input("Velden", 0, 20, 2)
             email = st.text_input("E-mail")
         
-        if st.form_submit_button(" REGISTREREN", use_container_width=True):
+        if st.form_submit_button(" REGISTREREN", width='stretch'):
             if not name or not city:
                 st.error(t("error_fill_required"))
             else:
@@ -135,7 +135,7 @@ def render_teams(username: str):
     with col2:
         df = get_data("academy_teams")
         if not df.empty:
-            st.dataframe(df[['team_name', 'age_group', 'head_coach', 'status']], use_container_width=True, hide_index=True)
+            st.dataframe(df[['team_name', 'age_group', 'head_coach', 'status']], width='stretch', hide_index=True)
 
 
 def render_enrollments(username: str):
@@ -166,7 +166,7 @@ def render_enrollments(username: str):
     with col2:
         df = get_data("academy_enrollments")
         if not df.empty:
-            st.dataframe(df[['talent_id', 'academy_id', 'enrollment_type', 'status']], use_container_width=True, hide_index=True)
+            st.dataframe(df[['talent_id', 'academy_id', 'enrollment_type', 'status']], width='stretch', hide_index=True)
 
 
 def render_staff(username: str):
@@ -197,4 +197,4 @@ def render_staff(username: str):
     with col2:
         df = get_data("academy_staff")
         if not df.empty:
-            st.dataframe(df[['first_name', 'last_name', 'role', 'coaching_license']], use_container_width=True, hide_index=True)
+            st.dataframe(df[['first_name', 'last_name', 'role', 'coaching_license']], width='stretch', hide_index=True)

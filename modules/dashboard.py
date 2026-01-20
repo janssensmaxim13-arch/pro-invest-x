@@ -388,7 +388,7 @@ def render_transfer_volume_chart():
                 yaxis_title="Transfer Volume (€)"
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
             
             # Stats onder chart
             total = df['total_fee'].sum()
@@ -452,7 +452,7 @@ def render_revenue_distribution():
         legend=dict(orientation='h', y=-0.1, font=dict(size=10))
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 
 # ============================================================================
@@ -493,7 +493,7 @@ def render_talent_by_position():
                 yaxis=dict(autorange="reversed")
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         else:
             st.info(t("no_talent_data"))
     except Exception as e:
@@ -553,7 +553,7 @@ def render_ticket_sales_chart():
                 xaxis_tickangle=-45
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         else:
             st.info(t("no_ticket_data"))
     except Exception as e:
@@ -600,7 +600,7 @@ def render_diaspora_distribution():
                 xaxis_tickangle=-45
             )
             
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         else:
             st.info(t("no_diaspora_data"))
     except Exception as e:
@@ -647,7 +647,7 @@ def render_foundation_growth():
             fig = apply_plotly_theme(fig)
             fig.update_layout(height=350, showlegend=False)
             
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         else:
             st.info(t("no_foundation_data"))
     except Exception as e:

@@ -341,15 +341,15 @@ def render_masterplan_page(navigate_to: Callable):
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        if st.button(" Investor Portal", use_container_width=True, key="mp_investor"):
+        if st.button(" Investor Portal", width='stretch', key="mp_investor"):
             navigate_to('investor_portal')
     
     with col2:
-        if st.button(" Login to Platform", use_container_width=True, key="mp_login"):
+        if st.button(" Login to Platform", width='stretch', key="mp_login"):
             navigate_to('login')
     
     with col3:
-        if st.button(" Back to Home", use_container_width=True, key="mp_home"):
+        if st.button(" Back to Home", width='stretch', key="mp_home"):
             navigate_to('landing')
     
     # Footer

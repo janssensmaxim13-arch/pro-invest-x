@@ -133,7 +133,7 @@ def render_wallet_overview(username: str):
         display_df['balance_mad'] = display_df['balance_mad'].apply(lambda x: f"{x:,.2f} MAD")
         display_df['balance_eur'] = display_df['balance_eur'].apply(lambda x: f"{x:,.2f} EUR")
         
-        st.dataframe(display_df, use_container_width=True, hide_index=True)
+        st.dataframe(display_df, width='stretch', hide_index=True)
         
         # Wallet detail
         wallets = get_wallets_dropdown()
@@ -197,7 +197,7 @@ def render_new_wallet(username: str):
         
         st.info("**KYC Verificatie:** Na aanmaken moet je identiteitsdocumenten uploaden voor verificatie.")
         
-        if st.form_submit_button(" WALLET AANMAKEN", use_container_width=True):
+        if st.form_submit_button(" WALLET AANMAKEN", width='stretch'):
             wallet_id = generate_uuid("WLT")
             wallet_address = generate_wallet_address(identity_id)
             
@@ -291,7 +291,7 @@ def render_transactions(username: str):
             display_df = df[display_cols].head(20).copy()
             display_df['amount'] = display_df['amount'].apply(lambda x: f"{x:,.2f} MAD")
             
-            st.dataframe(display_df, use_container_width=True, hide_index=True)
+            st.dataframe(display_df, width='stretch', hide_index=True)
         else:
             st.info("Nog geen transacties.")
 
@@ -373,7 +373,7 @@ def render_investments(username: str):
             ])
             
             st.dataframe(df[['investment_id', 'project_name', 'project_type', 'amount', 'expected_return_percentage', 'investment_status']], 
-                        use_container_width=True, hide_index=True)
+                        width='stretch', hide_index=True)
         else:
             st.info("Nog geen investeringen.")
 
@@ -445,7 +445,7 @@ def render_diaspora_card(username: str):
         
         if not df.empty:
             st.dataframe(df[['card_number', 'card_type', 'discount_percentage', 'expiry_date', 'status']], 
-                        use_container_width=True, hide_index=True)
+                        width='stretch', hide_index=True)
         else:
             st.info("Nog geen cards uitgegeven.")
 

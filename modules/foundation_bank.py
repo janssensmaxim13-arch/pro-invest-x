@@ -172,7 +172,7 @@ def render_overview():
                 
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=350, showlegend=True, legend=dict(orientation='h', y=-0.1))
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
             else:
                 st.info("No contribution data yet.")
         
@@ -195,7 +195,7 @@ def render_overview():
                 
                 fig = apply_plotly_theme(fig)
                 fig.update_layout(height=350, xaxis_tickangle=-45)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
             else:
                 st.info("No monthly data available.")
     
@@ -207,7 +207,7 @@ def render_overview():
         df_recent = df_recent.sort_values('timestamp', ascending=False).head(10)
         display_df = df_recent[['contribution_id', 'source_type', 'amount', 'timestamp']].copy()
         display_df['amount'] = display_df['amount'].apply(lambda x: f"€ {x:,.2f}")
-        st.dataframe(display_df, use_container_width=True, hide_index=True)
+        st.dataframe(display_df, width='stretch', hide_index=True)
     else:
         st.info("No contributions yet.")
 
@@ -256,7 +256,7 @@ def render_transactions(username: str):
                 </div>
             """, unsafe_allow_html=True)
         
-        if st.form_submit_button(" LOG TRANSACTION", use_container_width=True, type="primary"):
+        if st.form_submit_button(" LOG TRANSACTION", width='stretch', type="primary"):
             if not entity_id:
                 st.error(" Entity required.")
             elif amount <= 0:
@@ -310,7 +310,7 @@ def render_transactions(username: str):
         if not filtered.empty:
             display_df = filtered.copy()
             display_df['amount'] = display_df['amount'].apply(lambda x: f"€ {x:,.2f}")
-            st.dataframe(display_df, use_container_width=True, hide_index=True)
+            st.dataframe(display_df, width='stretch', hide_index=True)
             
             # Summary
             col1, col2, col3 = st.columns(3)
@@ -391,7 +391,7 @@ def render_donations(username: str):
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        if st.form_submit_button(" DONATE NOW", use_container_width=True, type="primary"):
+        if st.form_submit_button(" DONATE NOW", width='stretch', type="primary"):
             if donation_amt <= 0:
                 st.error(t("error_amount_positive"))
             else:
@@ -437,7 +437,7 @@ def render_donations(username: str):
         df_display['amount'] = df_display['amount'].apply(lambda x: f"€ {x:,.2f}")
         
         display_cols = ['donation_id', 'donor', 'amount', 'donation_type', 'created_at']
-        st.dataframe(df_display[display_cols], use_container_width=True, hide_index=True)
+        st.dataframe(df_display[display_cols], width='stretch', hide_index=True)
         
         # Total donated
         total = df['amount'].sum()
@@ -503,7 +503,7 @@ def render_analytics():
             ))
             fig = apply_plotly_theme(fig)
             fig.update_layout(height=350, xaxis_tickangle=-45)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
     
     with col2:
         st.markdown("####  Donation Types")
@@ -518,7 +518,7 @@ def render_analytics():
             ))
             fig = apply_plotly_theme(fig)
             fig.update_layout(height=350)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
     
     # Impact statement
     total_foundation = (df_contrib['amount'].sum() if not df_contrib.empty else 0) + \

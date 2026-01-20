@@ -63,7 +63,7 @@ def render_document_vault(username: str):
                 status = st.selectbox(t("status"), Options.DOCUMENT_STATUSES)
                 file = st.file_uploader("Select File", type=['pdf', 'jpg', 'png', 'jpeg'])
             
-            if st.form_submit_button(" SECURE DOCUMENT", use_container_width=True):
+            if st.form_submit_button(" SECURE DOCUMENT", width='stretch'):
                 sid = sanitize_id(doc_id)
                 
                 if not file:
@@ -185,7 +185,7 @@ def render_scholarships(username: str):
         
         amount = st.number_input("Requested Amount (€)", min_value=0.0, step=500.0, value=5000.0)
         
-        if st.form_submit_button(" SUBMIT APPLICATION", use_container_width=True):
+        if st.form_submit_button(" SUBMIT APPLICATION", width='stretch'):
             if not applicant_id or not university or not field:
                 st.error(" All fields required.")
             elif amount <= 0:
@@ -225,7 +225,7 @@ def render_scholarships(username: str):
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        st.dataframe(df_scholarships, use_container_width=True, hide_index=True)
+        st.dataframe(df_scholarships, width='stretch', hide_index=True)
     else:
         st.info("No scholarship applications yet.")
 
@@ -256,7 +256,7 @@ def render_investments():
         
         display_inv = investment_data.copy()
         display_inv['amount'] = display_inv['amount'].apply(lambda x: f"€ {x:,.2f}")
-        st.dataframe(display_inv, use_container_width=True, hide_index=True)
+        st.dataframe(display_inv, width='stretch', hide_index=True)
         
         st.write("###  Investments by Sector")
         sector_inv = investment_data.groupby("sector")["amount"].sum()
@@ -296,7 +296,7 @@ def render_assistance(username: str):
             placeholder="Please provide details about your assistance request..."
         )
         
-        if st.form_submit_button("🆘 SUBMIT REQUEST", use_container_width=True):
+        if st.form_submit_button("🆘 SUBMIT REQUEST", width='stretch'):
             if not requester_id or not description.strip():
                 st.error(" Identity and description required.")
             else:
@@ -355,6 +355,6 @@ def render_assistance(username: str):
         resolved = df_assistance[df_assistance['status'] != 'OPEN']
         if not resolved.empty:
             with st.expander(f" Resolved Tickets ({len(resolved)})"):
-                st.dataframe(resolved, use_container_width=True, hide_index=True)
+                st.dataframe(resolved, width='stretch', hide_index=True)
     else:
         st.info("No assistance requests yet.")
