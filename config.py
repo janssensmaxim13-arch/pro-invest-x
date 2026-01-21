@@ -279,6 +279,10 @@ class Options:
                      "Training Center", "Regional Academy", "National Academy", "Elite Academy"]
     ACADEMY_STATUSES = ["Active", "Inactive", "Under Review", "Certified", "Suspended"]
     CERTIFICATION_LEVELS = ["Basic", "Bronze", "Silver", "Gold", "Elite", "FIFA Certified"]
+    ENROLLMENT_TYPES = ["Full-time", "Part-time", "Trial", "Scholarship", "Exchange", "Summer Camp"]
+    ACADEMY_STAFF_ROLES = ["Head Coach", "Assistant Coach", "Goalkeeper Coach", "Fitness Coach", 
+                          "Physiotherapist", "Scout", "Technical Director", "Academy Director", 
+                          "Youth Coordinator", "Video Analyst", "Team Manager"]
 
 
 # ============================================================================
