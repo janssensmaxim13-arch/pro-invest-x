@@ -407,8 +407,8 @@ def render_main_app():
     with st.sidebar:
         st.markdown("<br>", unsafe_allow_html=True)
         
-        if os.path.exists(LOGO_SHIELD):
-            st.image(LOGO_SHIELD, width='stretch')
+        if os.path.exists(LOGO_TEXT):
+            st.image(LOGO_TEXT, width='stretch')
         
         # === SETTINGS ROW: Language + Theme ===
         col_lang, col_theme = st.columns([3, 1])
