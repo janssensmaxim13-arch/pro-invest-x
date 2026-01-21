@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 # --- Page Config MUST be first ---
 st.set_page_config(
     page_title="ProInvestiX | National Investment Platform",
+    page_icon="assets/logo_text.png",
     layout="wide",
     initial_sidebar_state="expanded"
 )
