@@ -1003,33 +1003,35 @@ def render_role_certificates(username: str):
     st.markdown("---")
     
     # Existing certificates
-    st.markdown("###  Uitgegeven Certificaten")
+    st.markdown("### Uitgegeven Certificaten")
     
     df = get_data("maroc_role_certificates")
     if not df.empty:
         for _, cert in df.iterrows():
-            status_color = COLORS['success'] if cert.get('status') == 'ACTIVE' else COLORS['error']
+            is_active = cert.get('is_active', 1) == 1
+            status_color = COLORS['success'] if is_active else COLORS['error']
+            status_text = 'ACTIVE' if is_active else 'REVOKED'
             
-            with st.expander(f" {cert.get('role_name', cert['role_type'])} - {cert.get('status', 'ACTIVE')}"):
+            with st.expander(f" {cert.get('role', 'Unknown')} - {status_text}"):
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.write(f"**Certificaat ID:** `{cert['cert_id']}`")
-                    st.write(f"**Rol:** {cert['role_type']}")
+                    st.write(f"**Certificaat ID:** `{cert.get('certificate_id', 'N/A')}`")
+                    st.write(f"**Rol:** {cert.get('role', 'N/A')}")
                     st.write(f"**Uitgegeven:** {cert.get('issued_at', 'N/A')[:10] if cert.get('issued_at') else 'N/A'}")
                 
                 with col2:
-                    st.write(f"**Geldig tot:** {cert.get('valid_until', 'N/A')[:10] if cert.get('valid_until') else 'Onbeperkt'}")
-                    st.markdown(f"**Status:** <span style='color: {status_color};'>{cert.get('status', 'ACTIVE')}</span>", unsafe_allow_html=True)
+                    st.write(f"**Geldig tot:** {cert.get('expires_at', 'N/A')[:10] if cert.get('expires_at') else 'Onbeperkt'}")
+                    st.markdown(f"**Status:** <span style='color: {status_color};'>{status_text}</span>", unsafe_allow_html=True)
                     
-                if cert.get('status') == 'ACTIVE' and check_permission(["SuperAdmin", "Official"], silent=True):
-                    if st.button(" Intrekken", key=f"revoke_{cert['cert_id']}"):
+                if is_active and check_permission(["SuperAdmin", "Official"], silent=True):
+                    if st.button(" Intrekken", key=f"revoke_{cert.get('certificate_id', '')}"):
                         run_query("""
                             UPDATE maroc_role_certificates 
-                            SET status = 'REVOKED', revoked_at = ?, revoked_by = ?
-                            WHERE cert_id = ?
-                        """, (datetime.now().isoformat(), username, cert['cert_id']))
-                        log_audit(username, "CERTIFICATE_REVOKED", cert['cert_id'])
+                            SET is_active = 0
+                            WHERE certificate_id = ?
+                        """, (cert.get('certificate_id'),))
+                        log_audit(username, "CERTIFICATE_REVOKED", cert.get('certificate_id', ''))
                         st.rerun()
     else:
         st.info("Nog geen certificaten uitgegeven.")
