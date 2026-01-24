@@ -1,0 +1,136 @@
+{
+  "$schema": "https://schema.tauri.app/config/2.0.0",
+  "productName": "ProInvestiX Enterprise",
+  "version": "1.0.0",
+  "identifier": "com.proinvestix.enterprise",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:3000",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../out"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "ProInvestiX Enterprise",
+        "width": 1400,
+        "height": 900,
+        "minWidth": 1024,
+        "minHeight": 768,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true,
+        "decorations": true,
+        "transparent": false,
+        "maximized": false,
+        "visible": true,
+        "focus": true,
+        "contentProtected": false,
+        "skipTaskbar": false,
+        "shadow": true
+      }
+    ],
+    "trayIcon": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true,
+      "menuOnLeftClick": false,
+      "title": "ProInvestiX"
+    },
+    "security": {
+      "csp": null,
+      "dangerousDisableAssetCspModification": false,
+      "freezePrototype": false,
+      "dangerousRemoteUrlPattern": []
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [],
+    "copyright": "© 2024 ProInvestiX. All rights reserved.",
+    "category": "Business",
+    "shortDescription": "Enterprise Platform voor Marokkaans Voetbal",
+    "longDescription": "ProInvestiX Enterprise - Complete platform voor talent scouting, transfers, ticketing, en meer voor het Marokkaanse voetbal ecosysteem.",
+    "publisher": "ProInvestiX",
+    "licenseFile": "../LICENSE",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "",
+      "wix": null,
+      "nsis": {
+        "template": null,
+        "license": null,
+        "headerImage": null,
+        "sidebarImage": null,
+        "installerIcon": null,
+        "installMode": "currentUser",
+        "languages": ["Dutch", "French", "English", "Arabic"],
+        "displayLanguageSelector": true
+      }
+    },
+    "linux": {
+      "desktop": {
+        "StartupNotify": true,
+        "Categories": "Office;Business;Finance;"
+      },
+      "appimage": {
+        "bundleMediaFramework": true
+      },
+      "deb": {
+        "depends": [],
+        "section": "utils",
+        "priority": "optional"
+      },
+      "rpm": {
+        "depends": [],
+        "release": "1"
+      }
+    },
+    "macOS": {
+      "entitlements": null,
+      "exceptionDomain": "",
+      "minimumSystemVersion": "10.15",
+      "signingIdentity": null
+    }
+  },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "pubkey": "",
+      "endpoints": [
+        "https://releases.proinvestix.com/{{target}}/{{arch}}/{{current_version}}"
+      ]
+    },
+    "notification": {
+      "all": true
+    },
+    "dialog": {
+      "all": true
+    },
+    "fs": {
+      "all": true,
+      "scope": ["$APPDATA/*", "$DOCUMENT/*", "$DOWNLOAD/*"]
+    },
+    "http": {
+      "all": true,
+      "scope": ["https://api.proinvestix.com/*", "http://localhost:8000/*"]
+    },
+    "shell": {
+      "open": true
+    },
+    "os": {
+      "all": true
+    },
+    "process": {
+      "all": true
+    }
+  }
+}
