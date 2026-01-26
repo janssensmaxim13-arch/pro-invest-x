@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'
+const API_URL = 'https://pro-invest-x-production.up.railway.app/api/v1'
 
 // Create axios instance
 export const api: AxiosInstance = axios.create({
@@ -66,10 +66,10 @@ api.interceptors.response.use(
 // =============================================================================
 
 export const authApi = {
-  login: (data: { username: string; password: string }) =>
+  login: (data: { email: string; password: string }) =>
     api.post('/auth/login', data),
   
-  register: (data: { username: string; email: string; password: string }) =>
+  register: (data: { username: string; email: string; password: string; first_name?: string; last_name?: string }) =>
     api.post('/auth/register', data),
   
   me: () => api.get('/auth/me'),

@@ -5,11 +5,8 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import {
   LayoutDashboard,
-  Users,
-  UserSearch,
   ArrowLeftRight,
   Ticket,
-  Calendar,
   Wallet,
   Heart,
   GraduationCap,
@@ -17,14 +14,14 @@ import {
   Flag,
   Shield,
   Fingerprint,
-  IdCard,
+  BadgeCheck,
   Brain,
   Ban,
   Newspaper,
   Building,
   Settings,
   ChevronDown,
-  Trophy,
+  Award,
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -44,7 +41,7 @@ const navigation: NavItem[] = [
   {
     title: 'NTSP',
     href: '/talents',
-    icon: Trophy,
+    icon: Award,
     children: [
       { title: 'Talenten', href: '/talents' },
       { title: 'Scouts', href: '/scouts' },
@@ -115,7 +112,7 @@ const navigation: NavItem[] = [
   {
     title: 'Maroc ID',
     href: '/maroc-id',
-    icon: IdCard,
+    icon: BadgeCheck,
     children: [
       { title: 'Mijn ID', href: '/maroc-id' },
       { title: 'Certificaten', href: '/maroc-id/certificates' },
@@ -178,6 +175,7 @@ function NavItemComponent({ item }: { item: NavItem }) {
   const [isOpen, setIsOpen] = useState(false)
   const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
   const hasChildren = item.children && item.children.length > 0
+  const Icon = item.icon
 
   if (hasChildren) {
     return (
@@ -192,14 +190,14 @@ function NavItemComponent({ item }: { item: NavItem }) {
           )}
         >
           <div className="flex items-center gap-3">
-            <item.icon className="h-4 w-4" />
+            <Icon className="h-4 w-4" />
             <span>{item.title}</span>
           </div>
           <ChevronDown
             className={cn('h-4 w-4 transition-transform', isOpen && 'rotate-180')}
           />
         </button>
-        {isOpen && (
+        {isOpen && item.children && (
           <div className="ml-7 mt-1 space-y-1">
             {item.children.map((child) => (
               <Link
@@ -231,7 +229,7 @@ function NavItemComponent({ item }: { item: NavItem }) {
           : 'text-muted-foreground hover:bg-muted hover:text-foreground'
       )}
     >
-      <item.icon className="h-4 w-4" />
+      <Icon className="h-4 w-4" />
       <span>{item.title}</span>
     </Link>
   )

@@ -7,9 +7,12 @@ export interface User {
   username: string
   email: string
   role: string
+  first_name?: string
+  last_name?: string
   is_active: boolean
   is_verified: boolean
   created_at: string
+  last_login?: string
 }
 
 interface AuthState {
@@ -19,8 +22,8 @@ interface AuthState {
   error: string | null
   
   // Actions
-  login: (username: string, password: string) => Promise<void>
-  register: (username: string, email: string, password: string) => Promise<void>
+  login: (email: string, password: string) => Promise<void>
+  register: (username: string, email: string, password: string, firstName?: string, lastName?: string) => Promise<void>
   logout: () => void
   fetchUser: () => Promise<void>
   clearError: () => void
@@ -34,31 +37,47 @@ export const useAuthStore = create<AuthState>()(
       isLoading: false,
       error: null,
       
-      login: async (username: string, password: string) => {
+      login: async (email: string, password: string) => {
         set({ isLoading: true, error: null })
         try {
-          const response = await authApi.login({ username, password })
-          const { access_token, refresh_token } = response.data
+          const response = await authApi.login({ email, password })
+          const { access_token, refresh_token, user } = response.data
           
           localStorage.setItem('access_token', access_token)
           localStorage.setItem('refresh_token', refresh_token)
           
-          // Fetch user data
-          await get().fetchUser()
-          
-          set({ isAuthenticated: true, isLoading: false })
+          set({ 
+            user: user,
+            isAuthenticated: true, 
+            isLoading: false 
+          })
         } catch (error: any) {
-          const message = error.response?.data?.detail || 'Inloggen mislukt'
+          const message = error.response?.data?.detail || 'Inloggen mislukt. Controleer je email en wachtwoord.'
           set({ error: message, isLoading: false })
           throw error
         }
       },
       
-      register: async (username: string, email: string, password: string) => {
+      register: async (username: string, email: string, password: string, firstName?: string, lastName?: string) => {
         set({ isLoading: true, error: null })
         try {
-          await authApi.register({ username, email, password })
-          set({ isLoading: false })
+          const response = await authApi.register({ 
+            username, 
+            email, 
+            password,
+            first_name: firstName,
+            last_name: lastName
+          })
+          const { access_token, refresh_token, user } = response.data
+          
+          localStorage.setItem('access_token', access_token)
+          localStorage.setItem('refresh_token', refresh_token)
+          
+          set({ 
+            user: user,
+            isAuthenticated: true, 
+            isLoading: false 
+          })
         } catch (error: any) {
           const message = error.response?.data?.detail || 'Registratie mislukt'
           set({ error: message, isLoading: false })
@@ -77,6 +96,8 @@ export const useAuthStore = create<AuthState>()(
           const response = await authApi.me()
           set({ user: response.data, isAuthenticated: true })
         } catch (error) {
+          localStorage.removeItem('access_token')
+          localStorage.removeItem('refresh_token')
           set({ user: null, isAuthenticated: false })
         }
       },
@@ -86,6 +107,7 @@ export const useAuthStore = create<AuthState>()(
     {
       name: 'auth-storage',
       partialize: (state) => ({ 
+        user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),
     }
